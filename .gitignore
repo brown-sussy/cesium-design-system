@@ -1,0 +1,22 @@
+# dependencies
+node_modules
+
+# build output
+dist
+site
+
+# local env / editor
+.env
+.env.*
+!.env.example
+*.local
+.DS_Store
+.vite
+*.timestamp-*.mjs
+
+# scratch scripts (verification harnesses are run from /tmp)
+.tmp-*.mjs
+tmp/
+
+# agent workspace data — project notes, not source
+.workbuddy-ai

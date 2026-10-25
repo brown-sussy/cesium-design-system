@@ -1,0 +1,361 @@
+/* ------------------------------------------------------------------
+ * Data — Table, Stat, KeyValue, Sparkline, CoordinateReadout, Legend
+ * ------------------------------------------------------------------ */
+
+.cs-table-wrap {
+  width: 100%;
+  overflow: auto;
+  background: var(--cs-bg-surface);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-md);
+}
+
+.cs-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--cs-fs-base);
+}
+
+.cs-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 8px 12px;
+  background: var(--cs-bg-surface);
+  border-bottom: 1px solid var(--cs-border);
+  color: var(--cs-text-tertiary);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-widest);
+  text-transform: uppercase;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.cs-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--cs-border-subtle);
+  color: var(--cs-text-secondary);
+  vertical-align: middle;
+}
+
+.cs-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.cs-table tbody tr {
+  transition: background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-table tbody tr:hover {
+  background: var(--cs-bg-hover);
+}
+
+.cs-table tbody tr[data-selected='true'] {
+  background: var(--cs-bg-selected);
+}
+
+.cs-table tbody tr[data-selected='true'] td {
+  color: var(--cs-text-primary);
+}
+
+.cs-table--compact th {
+  padding: 6px 10px;
+}
+
+.cs-table--compact td {
+  padding: 6px 10px;
+  font-size: var(--cs-fs-sm);
+}
+
+.cs-table .cs-table__num,
+.cs-table th.cs-table__num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-table .cs-table__mono {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-sm);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-primary);
+}
+
+.cs-table .cs-table__primary {
+  color: var(--cs-text-primary);
+  font-weight: var(--cs-fw-medium);
+}
+
+.cs-table__sort {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+}
+
+.cs-table__sort:hover {
+  color: var(--cs-text-secondary);
+}
+
+.cs-table__sort svg {
+  width: 9px;
+  height: 9px;
+  opacity: 0.6;
+}
+
+.cs-table__empty {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--cs-text-tertiary);
+  font-size: var(--cs-fs-sm);
+}
+
+/* --- stat ----------------------------------------------------------- */
+
+.cs-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.cs-stat__label {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  line-height: 1.3;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-widest);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-stat__value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cs-space-4);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-3xl);
+  line-height: 1.05;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: -0.03em;
+  color: var(--cs-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-stat--sm .cs-stat__value {
+  font-size: var(--cs-fs-xl);
+}
+
+.cs-stat__unit {
+  font-size: var(--cs-fs-sm);
+  font-weight: var(--cs-fw-regular);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-tertiary);
+}
+
+.cs-stat__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-xs);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-stat__delta--up {
+  color: var(--cs-success);
+}
+.cs-stat__delta--down {
+  color: var(--cs-danger);
+}
+
+.cs-stat__arrow {
+  font-size: 8px;
+  line-height: 1;
+}
+
+.cs-stat__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  margin-top: 2px;
+}
+
+/* --- key / value ---------------------------------------------------- */
+
+.cs-kv {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cs-kv__row {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cs-space-8);
+  padding: 4px 0;
+}
+
+.cs-kv__key {
+  flex: none;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-wider);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+  white-space: nowrap;
+}
+
+.cs-kv__leader {
+  flex: 1 1 auto;
+  min-width: 8px;
+  border-bottom: 1px dotted var(--cs-border);
+  transform: translateY(-3px);
+}
+
+.cs-kv__value {
+  flex: none;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-sm);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cs-kv__value--dim {
+  color: var(--cs-text-secondary);
+}
+
+/* --- sparkline ------------------------------------------------------ */
+
+.cs-spark {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.cs-spark__line {
+  fill: none;
+  stroke: var(--cs-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  animation: cs-draw var(--cs-anim-dur, 900ms) var(--cs-ease-out)
+    var(--cs-anim-delay, 0ms) both;
+}
+
+.cs-spark__area {
+  stroke: none;
+  opacity: 0.9;
+  animation: cs-fade-in var(--cs-dur-slower) var(--cs-ease-out) both;
+}
+
+.cs-spark__dot {
+  fill: var(--cs-accent);
+  stroke: var(--cs-bg-surface);
+  stroke-width: 1.5;
+}
+
+/* --- coordinate readout --------------------------------------------- */
+
+.cs-coords {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 0;
+  background: color-mix(in srgb, var(--cs-bg-inset) 80%, transparent);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-sm);
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+
+.cs-coords__item {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 5px 10px 6px;
+  min-width: 78px;
+}
+
+.cs-coords__item + .cs-coords__item {
+  border-left: 1px solid var(--cs-border-subtle);
+}
+
+.cs-coords__key {
+  font-family: var(--cs-font-mono);
+  font-size: 8px;
+  line-height: 1;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-widest);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-coords__value {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-xs);
+  line-height: 1.3;
+  letter-spacing: 0.04em;
+  color: var(--cs-text-primary);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cs-coords__value--accent {
+  color: var(--cs-accent);
+}
+
+/* --- legend --------------------------------------------------------- */
+
+.cs-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-8) var(--cs-space-16);
+}
+
+.cs-legend--column {
+  flex-direction: column;
+  gap: var(--cs-space-6);
+}
+
+.cs-legend__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  font-size: var(--cs-fs-sm);
+  color: var(--cs-text-secondary);
+  white-space: nowrap;
+}
+
+.cs-legend__swatch {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: var(--cs-accent);
+}
+
+.cs-legend__swatch--line {
+  height: 2px;
+  border-radius: 1px;
+}
+
+.cs-legend__value {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-xs);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}

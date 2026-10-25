@@ -1,0 +1,75 @@
+{
+  "name": "@cesium-ds/core",
+  "version": "1.0.0",
+  "description": "Cesium Design System — precision interfaces for planetary-scale data. React components, design tokens, and documentation.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brown-sussy/cesium-design-system.git"
+  },
+  "homepage": "https://brown-sussy.github.io/cesium-design-system/",
+  "bugs": {
+    "url": "https://github.com/brown-sussy/cesium-design-system/issues"
+  },
+  "keywords": [
+    "design-system",
+    "react",
+    "design-tokens",
+    "geospatial",
+    "cesium",
+    "dark-theme",
+    "components",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/cesium-ds.css",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./styles.css": "./dist/cesium-ds.css",
+    "./tokens.json": "./dist/tokens.json"
+  },
+  "scripts": {
+    "tokens": "node scripts/build-tokens.mjs",
+    "docs:nav": "node scripts/build-docs-nav.mjs",
+    "dev": "node scripts/build-docs-nav.mjs && vite --config vite.docs.config.ts",
+    "build": "npm run tokens && npm run build:lib && npm run build:docs",
+    "build:lib": "vite build && tsc -p tsconfig.build.json && node scripts/build-css.mjs && node scripts/build-tokens.mjs",
+    "build:docs": "node scripts/build-docs-nav.mjs && vite build --config vite.docs.config.ts",
+    "preview": "vite preview --config vite.docs.config.ts --port 4173",
+    "audit": "node scripts/audit.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^5.2.0",
+    "esbuild": "^0.28.2",
+    "playwright": "^1.64.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.6.3",
+    "vite": "^7.3.7"
+  }
+}

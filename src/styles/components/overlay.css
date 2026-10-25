@@ -1,0 +1,798 @@
+/* ------------------------------------------------------------------
+ * Overlay — Modal, Drawer, Alert
+ * ------------------------------------------------------------------ */
+
+@keyframes cs-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes cs-drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.cs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--cs-z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--cs-space-24);
+  background: var(--cs-overlay);
+  backdrop-filter: blur(8px) saturate(115%);
+  -webkit-backdrop-filter: blur(8px) saturate(115%);
+  animation: cs-fade-in var(--cs-dur-base) var(--cs-ease-out);
+}
+
+.cs-modal {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--cs-modal-w, 480px);
+  max-height: calc(100vh - 48px);
+  background: var(--cs-bg-raised);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-xl);
+  box-shadow: var(--cs-shadow-lg);
+  overflow: hidden;
+  animation: cs-modal-in var(--cs-dur-slow) var(--cs-ease-out);
+}
+
+.cs-modal__header {
+  position: relative;
+  padding: 18px 20px 0;
+}
+
+.cs-modal__title {
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-lg);
+  line-height: 1.35;
+  font-weight: var(--cs-fw-semibold);
+  letter-spacing: var(--cs-tracking-snug);
+  color: var(--cs-text-primary);
+  padding-right: 28px;
+}
+
+.cs-modal__desc {
+  margin-top: 4px;
+  font-size: var(--cs-fs-base);
+  line-height: 1.5;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--cs-radius-sm);
+  color: var(--cs-text-tertiary);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: background-color var(--cs-dur-fast), color var(--cs-dur-fast);
+}
+
+.cs-modal__close:hover {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-modal__close svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cs-modal__body {
+  padding: 16px 20px 20px;
+  overflow: auto;
+  font-size: var(--cs-fs-base);
+  line-height: 1.55;
+  color: var(--cs-text-secondary);
+}
+
+.cs-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--cs-space-8);
+  padding: 13px 20px;
+  border-top: 1px solid var(--cs-border-subtle);
+  background: color-mix(in srgb, var(--cs-bg-inset) 45%, transparent);
+}
+
+/* --- drawer ---------------------------------------------------------- */
+
+.cs-overlay--drawer {
+  align-items: stretch;
+  justify-content: flex-end;
+  padding: 0;
+}
+
+.cs-drawer {
+  display: flex;
+  flex-direction: column;
+  width: min(var(--cs-drawer-w, 420px), 100vw);
+  height: 100%;
+  background: var(--cs-bg-surface);
+  border-left: 1px solid var(--cs-border);
+  box-shadow: var(--cs-shadow-lg);
+  animation: cs-drawer-in var(--cs-dur-slow) var(--cs-ease-out);
+}
+
+.cs-drawer__header {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-12);
+  height: 52px;
+  padding: 0 14px 0 18px;
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.cs-drawer__title {
+  flex: 1 1 auto;
+  font-size: var(--cs-fs-md);
+  font-weight: var(--cs-fw-semibold);
+  letter-spacing: var(--cs-tracking-snug);
+  color: var(--cs-text-primary);
+}
+
+.cs-drawer__body {
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 18px;
+}
+
+.cs-drawer__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--cs-space-8);
+  padding: 13px 18px;
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+/* --- alert ----------------------------------------------------------- */
+
+.cs-alert {
+  --_c: var(--cs-text-tertiary);
+  --_bg: var(--cs-bg-surface);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--cs-space-10);
+  padding: 11px 13px;
+  background: var(--_bg);
+  border: 1px solid var(--cs-border-subtle);
+  border-left: 2px solid var(--_c);
+  border-radius: var(--cs-radius-sm);
+}
+
+.cs-alert__icon {
+  flex: none;
+  margin-top: 1px;
+  color: var(--_c);
+}
+
+.cs-alert__icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.cs-alert__content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cs-alert__title {
+  font-size: var(--cs-fs-base);
+  font-weight: var(--cs-fw-semibold);
+  line-height: 1.4;
+  letter-spacing: var(--cs-tracking-snug);
+  color: var(--cs-text-primary);
+}
+
+.cs-alert__desc {
+  margin-top: 2px;
+  font-size: var(--cs-fs-sm);
+  line-height: 1.5;
+  color: var(--cs-text-secondary);
+}
+
+.cs-alert__close {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin: -1px -3px 0 0;
+  border: 0;
+  background: none;
+  border-radius: var(--cs-radius-xs);
+  color: var(--cs-text-tertiary);
+  cursor: pointer;
+}
+
+.cs-alert__close:hover {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-alert__close svg {
+  width: 12px;
+  height: 12px;
+}
+
+.cs-alert--accent {
+  --_c: var(--cs-accent);
+  --_bg: var(--cs-accent-soft);
+  border-color: var(--cs-accent-line);
+  border-left-color: var(--cs-accent);
+}
+
+.cs-alert--success {
+  --_c: var(--cs-success);
+  --_bg: var(--cs-success-soft);
+  border-color: color-mix(in srgb, var(--cs-success) 26%, transparent);
+  border-left-color: var(--cs-success);
+}
+
+.cs-alert--warning {
+  --_c: var(--cs-warning);
+  --_bg: var(--cs-warning-soft);
+  border-color: color-mix(in srgb, var(--cs-warning) 26%, transparent);
+  border-left-color: var(--cs-warning);
+}
+
+.cs-alert--danger {
+  --_c: var(--cs-danger);
+  --_bg: var(--cs-danger-soft);
+  border-color: color-mix(in srgb, var(--cs-danger) 26%, transparent);
+  border-left-color: var(--cs-danger);
+}
+
+/* --- toast ----------------------------------------------------------- */
+
+.cs-toast-region {
+  position: fixed;
+  right: var(--cs-space-20);
+  bottom: var(--cs-space-20);
+  z-index: var(--cs-z-toast);
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-8);
+  pointer-events: none;
+}
+
+.cs-toast {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-10);
+  min-width: 240px;
+  max-width: 360px;
+  padding: 10px 12px;
+  background: var(--cs-bg-raised);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-md);
+  box-shadow: var(--cs-shadow-lg);
+  font-size: var(--cs-fs-base);
+  color: var(--cs-text-primary);
+  pointer-events: auto;
+  animation: cs-modal-in var(--cs-dur-base) var(--cs-ease-out);
+}
+
+/* --- menu ------------------------------------------------------------
+ * A dropdown: trigger button + portalled list. Items are 30px, the icon
+ * column is fixed so labels align whether or not an item has an icon.
+ * ------------------------------------------------------------------ */
+
+@keyframes cs-menu-in {
+  from {
+    opacity: 0;
+    scale: 0.97;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.cs-menu__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: var(--cs-control-sm);
+  padding: 0 9px;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-control);
+  background: var(--cs-bg-surface);
+  color: var(--cs-text-secondary);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--cs-dur-fast) var(--cs-ease-out),
+    border-color var(--cs-dur-fast) var(--cs-ease-out),
+    color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-menu__trigger:hover:not(:disabled) {
+  background: var(--cs-bg-hover);
+  border-color: var(--cs-border-strong);
+  color: var(--cs-text-primary);
+}
+
+.cs-menu__trigger[data-open] {
+  background: var(--cs-bg-hover);
+  border-color: var(--cs-border-strong);
+  color: var(--cs-text-primary);
+}
+
+.cs-menu__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cs-menu__caret {
+  margin-left: 1px;
+  color: var(--cs-text-tertiary);
+  transition: transform var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-menu__trigger[data-open] .cs-menu__caret {
+  transform: rotate(180deg);
+}
+
+.cs-menu__list {
+  position: fixed;
+  z-index: var(--cs-z-tooltip);
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  background: var(--cs-bg-raised);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--cs-shadow-md);
+  transform-origin: top left;
+  animation: cs-menu-in var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-menu__list[data-align='end'] {
+  transform-origin: top right;
+}
+
+.cs-menu__list[data-up] {
+  transform-origin: bottom left;
+}
+
+.cs-menu__list[data-up][data-align='end'] {
+  transform-origin: bottom right;
+}
+
+.cs-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: var(--cs-radius-sm);
+  background: none;
+  border: 0;
+  color: var(--cs-text-secondary);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  line-height: 1;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cs-menu__item[data-active],
+.cs-menu__item:hover:not(:disabled) {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-menu__item:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.cs-menu__item[data-danger] {
+  color: var(--cs-danger);
+}
+
+.cs-menu__item[data-danger][data-active],
+.cs-menu__item[data-danger]:hover:not(:disabled) {
+  background: var(--cs-danger-soft);
+  color: var(--cs-danger);
+}
+
+.cs-menu__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  flex: none;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-menu__item[data-danger] .cs-menu__icon {
+  color: currentColor;
+}
+
+.cs-menu__label {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-menu__shortcut {
+  flex: none;
+  margin-left: 12px;
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-menu__sep {
+  height: 1px;
+  margin: 4px 6px;
+  background: var(--cs-border-subtle);
+}
+
+.cs-menu__header {
+  padding: 6px 8px 4px;
+  font-family: var(--cs-font-sans);
+  font-size: 9.5px;
+  font-weight: var(--cs-fw-semibold);
+  letter-spacing: 0.085em;
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+}
+
+/* ------------------------------------------------------------------
+ * Dropdown — a trigger with a floating panel of arbitrary content.
+ * Menu is for verbs; Dropdown is for surfaces.
+ * ------------------------------------------------------------------ */
+
+.cs-dropdown__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--cs-radius-control);
+  background: none;
+  color: var(--cs-text-secondary);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--cs-dur-fast) var(--cs-ease-out),
+    border-color var(--cs-dur-fast) var(--cs-ease-out),
+    color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-dropdown__trigger:hover:not(:disabled) {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-dropdown__trigger[data-open] {
+  background: var(--cs-bg-hover);
+  border-color: var(--cs-border);
+  color: var(--cs-text-primary);
+}
+
+.cs-dropdown__trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cs-dropdown__panel {
+  position: fixed;
+  z-index: var(--cs-z-tooltip);
+  width: max-content;
+  max-width: min(380px, calc(100vw - 16px));
+  padding: 12px;
+  background: var(--cs-bg-raised);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--cs-shadow-md);
+  overflow: auto;
+  transform-origin: top left;
+  animation: cs-menu-in var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-dropdown__panel[data-align='end'] {
+  transform-origin: top right;
+}
+
+.cs-dropdown__panel[data-side='top'] {
+  transform-origin: bottom left;
+}
+
+.cs-dropdown__panel[data-side='top'][data-align='end'] {
+  transform-origin: bottom right;
+}
+
+.cs-dropdown__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: -12px -12px 12px;
+  padding: 9px 12px;
+  background: var(--cs-bg-raised);
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.cs-dropdown__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.cs-dropdown__title {
+  font-size: var(--cs-fs-sm);
+  font-weight: var(--cs-fw-semibold);
+  color: var(--cs-text-primary);
+}
+
+.cs-dropdown__hint {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-tertiary);
+}
+
+.cs-dropdown__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.cs-dropdown__footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  margin: 12px -12px -12px;
+  padding: 8px 12px;
+  background: var(--cs-bg-raised);
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+/* ------------------------------------------------------------------
+ * Select — listbox drawn by the system, not by the OS.
+ * ------------------------------------------------------------------ */
+
+.cs-selectbox {
+  position: relative;
+  width: 100%;
+}
+
+.cs-selectbox__trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: var(--cs-control-md);
+  padding: 0 10px;
+  background: var(--cs-bg-inset);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-md);
+  color: var(--cs-text-primary);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition:
+    border-color var(--cs-dur-fast) var(--cs-ease-out),
+    box-shadow var(--cs-dur-fast) var(--cs-ease-out),
+    background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-selectbox[data-size='sm'] .cs-selectbox__trigger {
+  height: var(--cs-control-sm);
+  padding: 0 8px;
+  font-size: var(--cs-fs-sm);
+}
+
+.cs-selectbox[data-size='lg'] .cs-selectbox__trigger {
+  height: var(--cs-control-lg);
+  padding: 0 12px;
+  font-size: var(--cs-fs-md);
+}
+
+.cs-selectbox__trigger:hover:not(:disabled) {
+  border-color: var(--cs-border-strong);
+}
+
+.cs-selectbox__trigger:focus-visible,
+.cs-selectbox[data-open] .cs-selectbox__trigger {
+  background: var(--cs-bg-surface);
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+}
+
+.cs-selectbox[data-invalid] .cs-selectbox__trigger {
+  border-color: var(--cs-danger);
+}
+
+.cs-selectbox[data-invalid] .cs-selectbox__trigger:focus-visible {
+  box-shadow: 0 0 0 3px var(--cs-danger-soft);
+}
+
+.cs-selectbox[data-disabled] .cs-selectbox__trigger {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cs-selectbox__value {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-selectbox__value[data-placeholder] {
+  color: var(--cs-text-tertiary);
+}
+
+.cs-selectbox__hint {
+  flex: none;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-tertiary);
+}
+
+.cs-selectbox__caret {
+  flex: none;
+  color: var(--cs-text-tertiary);
+  transition: transform var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-selectbox[data-open] .cs-selectbox__caret {
+  transform: rotate(180deg);
+}
+
+.cs-selectbox__panel {
+  position: fixed;
+  z-index: var(--cs-z-tooltip);
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  background: var(--cs-bg-raised);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-lg);
+  box-shadow: var(--cs-shadow-md);
+  overflow: hidden;
+  transform-origin: top left;
+  animation: cs-menu-in var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-selectbox__search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  margin: -4px -4px 4px;
+  padding: 6px 9px;
+  border-bottom: 1px solid var(--cs-border-subtle);
+  color: var(--cs-text-tertiary);
+}
+
+.cs-selectbox__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  color: var(--cs-text-primary);
+}
+
+.cs-selectbox__input::placeholder {
+  color: var(--cs-text-tertiary);
+}
+
+.cs-selectbox__list {
+  min-height: 0;
+  max-height: 264px;
+  overflow-y: auto;
+  outline: none;
+}
+
+.cs-selectbox__option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 8px;
+  border-radius: var(--cs-radius-sm);
+  color: var(--cs-text-secondary);
+  font-size: var(--cs-fs-base);
+  cursor: pointer;
+  user-select: none;
+}
+
+.cs-selectbox__option[data-active] {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-selectbox__option[data-selected] {
+  color: var(--cs-text-primary);
+  font-weight: var(--cs-fw-medium);
+}
+
+.cs-selectbox__option[aria-disabled='true'] {
+  color: var(--cs-text-disabled);
+  cursor: not-allowed;
+}
+
+.cs-selectbox__check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  flex: none;
+  color: var(--cs-accent);
+}
+
+.cs-selectbox__option-label {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-selectbox__option-hint {
+  flex: none;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-tertiary);
+}
+
+.cs-selectbox__empty {
+  padding: 12px 10px;
+  font-size: var(--cs-fs-sm);
+  color: var(--cs-text-tertiary);
+  text-align: center;
+}

@@ -1,0 +1,105 @@
+import type { SVGProps } from 'react';
+import { cx } from '../lib/cx';
+
+/**
+ * Icon set — 24px grid, 1.5px stroke, round caps.
+ * Deliberately geometric: these read as instrumentation, not decoration.
+ */
+const paths = {
+  close: ['M6 6l12 12', 'M18 6L6 18'],
+  check: ['M4.5 12.5l5 5L20 6.5'],
+  'chevron-down': ['M6 9.5l6 6 6-6'],
+  'chevron-up': ['M6 14.5l6-6 6 6'],
+  'chevron-left': ['M15 6l-6 6 6 6'],
+  'chevron-right': ['M9 6l6 6-6 6'],
+  'arrow-right': ['M4 12h15', 'M13 6l6 6-6 6'],
+  'arrow-up-right': ['M7 17L17 7', 'M8 7h9v9'],
+  'arrow-down': ['M12 4v15', 'M6 13l6 6 6-6'],
+  search: ['M17.5 11a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0', 'M16 16l4.5 4.5'],
+  sun: [
+    'M16 12a4 4 0 11-8 0 4 4 0 018 0',
+    'M12 2v2',
+    'M12 20v2',
+    'M4.9 4.9l1.4 1.4',
+    'M17.7 17.7l1.4 1.4',
+    'M2 12h2',
+    'M20 12h2',
+    'M4.9 19.1l1.4-1.4',
+    'M17.7 6.3l1.4-1.4',
+  ],
+  moon: ['M20.5 14.8A8.6 8.6 0 019.2 3.5a8.6 8.6 0 1011.3 11.3z'],
+  menu: ['M4 7h16', 'M4 12h16', 'M4 17h16'],
+  copy: ['M9 9h9a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1v-9a1 1 0 011-1z', 'M15 5H6a1 1 0 00-1 1v9'],
+  info: ['M21 12a9 9 0 11-18 0 9 9 0 0118 0', 'M12 11v5', 'M12 7.8v.2'],
+  warning: ['M12 3.5l9.2 15.7H2.8L12 3.5z', 'M12 9v4.5', 'M12 16.4v.2'],
+  success: ['M21 12a9 9 0 11-18 0 9 9 0 0118 0', 'M8 12.3l2.8 2.8L16.4 9'],
+  error: ['M21 12a9 9 0 11-18 0 9 9 0 0118 0', 'M9.2 9.2l5.6 5.6', 'M14.8 9.2l-5.6 5.6'],
+  globe: [
+    'M21 12a9 9 0 11-18 0 9 9 0 0118 0',
+    'M3 12h18',
+    'M12 3a14 14 0 010 18',
+    'M12 3a14 14 0 000 18',
+  ],
+  layers: ['M12 3l9 4.8-9 4.8-9-4.8L12 3z', 'M3 12.4l9 4.8 9-4.8', 'M3 16.8l9 4.8 9-4.8'],
+  box: ['M21 8.2l-9-5-9 5v7.6l9 5 9-5V8.2z', 'M3 8.2l9 5 9-5', 'M12 13.2v9.6'],
+  code: ['M8.5 7.5L3.5 12l5 4.5', 'M15.5 7.5l5 4.5-5 4.5'],
+  palette: [
+    'M12 3a9 9 0 000 18h1.4a2.4 2.4 0 001.7-4.1 2.4 2.4 0 011.7-4.1H19a2.6 2.6 0 002.5-2.6C21.2 6.3 17 3 12 3z',
+    'M7.5 9.2v.2',
+    'M11 7.2v.2',
+    'M7 13.4v.2',
+  ],
+  type: ['M4 6.5V4h16v2.5', 'M12 4v16', 'M9 20h6'],
+  ruler: ['M3 15.5L15.5 3l5.5 5.5L8.5 21 3 15.5z', 'M7.5 11l2 2', 'M10.5 8l2 2', 'M13.5 5l2 2'],
+  zap: ['M13.2 2.5L4.5 14h6l-1 7.5L19 10h-6l.2-7.5z'],
+  sliders: ['M4 7h7', 'M15 7h5', 'M4 12h3', 'M11 12h9', 'M4 17h7', 'M15 17h5', 'M13 5v4', 'M9 10v4', 'M13 15v4'],
+  table: ['M4 5h16v14H4z', 'M4 10h16', 'M10 10v9'],
+  activity: ['M3 12.5h4l3-8 4 15 3-7h4'],
+  compass: ['M21 12a9 9 0 11-18 0 9 9 0 0118 0', 'M15.6 8.4l-2 5.2-5.2 2 2-5.2 5.2-2z'],
+  'map-pin': ['M12 21.5s7-6.5 7-11.2a7 7 0 10-14 0C5 15 12 21.5 12 21.5z', 'M14.6 10.2a2.6 2.6 0 11-5.2 0 2.6 2.6 0 015.2 0'],
+  download: ['M12 3.5v11.5', 'M7 10.5l5 5 5-5', 'M4 20.5h16'],
+  command: ['M9 6.5a2.5 2.5 0 10-2.5 2.5H17a2.5 2.5 0 10-2.5-2.5v11a2.5 2.5 0 102.5-2.5H6.5A2.5 2.5 0 109 17.5v-11z'],
+  external: ['M14 4.5h5.5V10', 'M19.5 4.5L11 13', 'M18 14.5v4a1.5 1.5 0 01-1.5 1.5H5.5A1.5 1.5 0 014 18.5V7.5A1.5 1.5 0 015.5 6h4'],
+  grid: ['M4 4h7v7H4z', 'M13 4h7v7h-7z', 'M4 13h7v7H4z', 'M13 13h7v7h-7z'],
+  book: ['M5 4.5A1.5 1.5 0 016.5 3H19v18H6.5A1.5 1.5 0 015 19.5v-15z', 'M8.5 3v18'],
+  sparkles: ['M12 3l1.7 4.8L18.5 9.5l-4.8 1.7L12 16l-1.7-4.8L5.5 9.5l4.8-1.7L12 3z', 'M18.5 15.5l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7.7-2z'],
+  play: ['M8 4.8l11 7.2-11 7.2V4.8z'],
+  plus: ['M12 5v14', 'M5 12h14'],
+  minus: ['M5 12h14'],
+  crosshair: ['M21 12a9 9 0 11-18 0 9 9 0 0118 0', 'M12 2v4', 'M12 18v4', 'M2 12h4', 'M18 12h4'],
+  gauge: ['M4.5 18a9 9 0 1115 0', 'M12 12l4-3.5', 'M12 18.2v.2'],
+  'panel-left': ['M4 4h16v16H4z', 'M9.5 4v16'],
+  terminal: ['M4 5h16v14H4z', 'M7.5 9.5l2.5 2.5-2.5 2.5', 'M12.5 15h4'],
+} as const;
+
+export type IconName = keyof typeof paths;
+
+export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
+  name: IconName;
+  size?: number;
+  strokeWidth?: number;
+}
+
+export function Icon({ name, size = 16, strokeWidth = 1.5, className, style, ...rest }: IconProps) {
+  return (
+    <svg
+      className={cx('cs-icon', className)}
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      style={{ width: size, height: size, flex: 'none', ...style }}
+      {...rest}
+    >
+      {paths[name].map((d, i) => (
+        <path key={i} d={d} />
+      ))}
+    </svg>
+  );
+}

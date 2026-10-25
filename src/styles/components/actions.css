@@ -1,0 +1,252 @@
+/* ------------------------------------------------------------------
+ * Actions — Button, IconButton, ButtonGroup
+ * ------------------------------------------------------------------ */
+
+.cs-btn {
+  --_h: var(--cs-control-md);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cs-space-8);
+  height: var(--_h);
+  padding: 0 14px;
+  border: 1px solid transparent;
+  border-radius: var(--cs-radius-control);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  line-height: 1;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: -0.004em;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--cs-dur-fast) var(--cs-ease-out),
+    border-color var(--cs-dur-fast) var(--cs-ease-out),
+    color var(--cs-dur-fast) var(--cs-ease-out),
+    box-shadow var(--cs-dur-fast) var(--cs-ease-out),
+    transform var(--cs-dur-instant) var(--cs-ease-out);
+}
+
+.cs-btn:hover {
+  text-decoration: none;
+}
+
+.cs-btn:active:not(:disabled):not([aria-disabled='true']) {
+  transform: translateY(0.5px);
+}
+
+.cs-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--cs-bg-canvas), 0 0 0 4px var(--cs-accent);
+}
+
+.cs-btn:disabled,
+.cs-btn[aria-disabled='true'] {
+  opacity: 0.42;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cs-btn__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  margin-inline: -2px;
+}
+
+.cs-btn__icon svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* --- variants ------------------------------------------------------ */
+
+/* Primary is the *solid* action, not the accent one: white in dark, near-black
+ * in light. A page full of accent-filled buttons is a page with no signal left
+ * for state — the accent stays for links, selection and focus. */
+.cs-btn--primary {
+  background: var(--cs-solid);
+  color: var(--cs-solid-contrast);
+  /* A 1px inner ring in the contrast colour: a dark seam inside the white key,
+     a light seam inside the black one. Same rule, right on both themes. */
+  box-shadow: var(--cs-shadow-xs),
+    inset 0 0 0 1px color-mix(in srgb, var(--cs-solid-contrast) 8%, transparent);
+}
+
+.cs-btn--primary:hover {
+  background: var(--cs-solid-hover);
+}
+
+.cs-btn--primary:active:not(:disabled) {
+  background: var(--cs-solid-active);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cs-solid-contrast) 12%, transparent);
+}
+
+.cs-btn--secondary {
+  background: var(--cs-bg-surface);
+  border-color: var(--cs-border);
+  color: var(--cs-text-primary);
+  box-shadow: var(--cs-shadow-xs);
+}
+
+.cs-btn--secondary:hover {
+  background: var(--cs-bg-raised);
+  border-color: var(--cs-border-strong);
+}
+
+.cs-btn--ghost {
+  background: transparent;
+  color: var(--cs-text-secondary);
+}
+
+.cs-btn--ghost:hover {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-btn--subtle {
+  background: var(--cs-accent-soft);
+  border-color: var(--cs-accent-line);
+  color: var(--cs-accent);
+}
+
+.cs-btn--subtle:hover {
+  background: color-mix(in srgb, var(--cs-accent) 18%, transparent);
+  border-color: var(--cs-accent);
+}
+
+.cs-btn--danger {
+  background: var(--cs-danger);
+  color: var(--cs-danger-contrast);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.cs-btn--danger:hover {
+  background: color-mix(in srgb, var(--cs-danger) 86%, var(--cs-bg-base));
+}
+
+.cs-btn--danger-ghost {
+  background: var(--cs-danger-soft);
+  border-color: color-mix(in srgb, var(--cs-danger) 30%, transparent);
+  color: var(--cs-danger);
+}
+
+.cs-btn--danger-ghost:hover {
+  background: color-mix(in srgb, var(--cs-danger) 18%, transparent);
+  border-color: color-mix(in srgb, var(--cs-danger) 50%, transparent);
+}
+
+/* --- sizes --------------------------------------------------------- */
+
+.cs-btn--sm {
+  --_h: var(--cs-control-sm);
+  padding: 0 10px;
+  font-size: var(--cs-fs-sm);
+  gap: var(--cs-space-6);
+  border-radius: var(--cs-radius-control);
+}
+
+.cs-btn--sm .cs-btn__icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+.cs-btn--lg {
+  --_h: var(--cs-control-lg);
+  padding: 0 20px;
+  font-size: var(--cs-fs-md);
+  gap: var(--cs-space-8);
+  border-radius: var(--cs-radius-control);
+}
+
+.cs-btn--lg .cs-btn__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.cs-btn--block {
+  width: 100%;
+}
+
+/* --- icon button --------------------------------------------------- */
+
+.cs-btn--icon {
+  width: var(--_h);
+  padding: 0;
+  flex: none;
+}
+
+.cs-btn--icon.cs-btn--sm {
+  width: var(--cs-control-sm);
+}
+.cs-btn--icon.cs-btn--lg {
+  width: var(--cs-control-lg);
+}
+
+.cs-btn--icon .cs-btn__icon {
+  margin: 0;
+}
+
+/* --- loading ------------------------------------------------------- */
+
+.cs-btn[data-loading='true'] {
+  pointer-events: none;
+  cursor: progress;
+}
+
+.cs-btn[data-loading='true'] > :not(.cs-btn__spinner) {
+  opacity: 0;
+}
+
+.cs-btn__spinner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-btn__spinner::after {
+  content: '';
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  border-top-color: transparent;
+  opacity: 0.85;
+  animation: cs-spin 0.65s linear infinite;
+}
+
+/* --- group --------------------------------------------------------- */
+
+.cs-btn-group {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cs-btn-group > .cs-btn {
+  border-radius: 0;
+}
+
+.cs-btn-group > .cs-btn + .cs-btn {
+  margin-left: -1px;
+}
+
+.cs-btn-group > .cs-btn:first-child {
+  border-top-left-radius: var(--cs-radius-md);
+  border-bottom-left-radius: var(--cs-radius-md);
+}
+
+.cs-btn-group > .cs-btn:last-child {
+  border-top-right-radius: var(--cs-radius-md);
+  border-bottom-right-radius: var(--cs-radius-md);
+}
+
+.cs-btn-group > .cs-btn:hover {
+  position: relative;
+  z-index: 1;
+}

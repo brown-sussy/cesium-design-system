@@ -1,0 +1,623 @@
+/* ------------------------------------------------------------------
+ * Forms — Input, Textarea, Checkbox, Radio, Switch, Slider, Field,
+ *         SegmentedControl. (Select lives in overlay.css — it is a
+ *         portalled listbox, not a form shell.)
+ * ------------------------------------------------------------------ */
+
+/* --- input shell --------------------------------------------------- */
+
+.cs-input-shell {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  width: 100%;
+  height: var(--cs-control-md);
+  padding: 0 10px;
+  background: var(--cs-bg-inset);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-md);
+  transition: border-color var(--cs-dur-fast) var(--cs-ease-out),
+    box-shadow var(--cs-dur-fast) var(--cs-ease-out),
+    background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-input-shell:hover:not([data-disabled='true']) {
+  border-color: var(--cs-border-strong);
+}
+
+.cs-input-shell:focus-within {
+  background: var(--cs-bg-surface);
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+}
+
+.cs-input-shell[data-invalid='true'] {
+  border-color: var(--cs-danger);
+}
+
+.cs-input-shell[data-invalid='true']:focus-within {
+  box-shadow: 0 0 0 3px var(--cs-danger-soft);
+}
+
+.cs-input-shell[data-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cs-input-shell--sm {
+  height: var(--cs-control-sm);
+  padding: 0 8px;
+}
+
+.cs-input-shell--lg {
+  height: var(--cs-control-lg);
+  padding: 0 12px;
+}
+
+.cs-input-shell__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: 0;
+  outline: none;
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  color: var(--cs-text-primary);
+}
+
+.cs-input-shell--lg .cs-input-shell__input {
+  font-size: var(--cs-fs-md);
+}
+
+.cs-input-shell__input::placeholder {
+  color: var(--cs-text-tertiary);
+}
+
+.cs-input-shell__affix {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  color: var(--cs-text-tertiary);
+  font-size: var(--cs-fs-sm);
+}
+
+.cs-input-shell__affix svg {
+  width: 14px;
+  height: 14px;
+}
+
+.cs-input-shell__affix--mono {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-xs);
+  letter-spacing: var(--cs-tracking-wide);
+}
+
+/* --- bare textarea -------------------------------------------------- */
+
+.cs-textarea {
+  display: block;
+  width: 100%;
+  min-height: 84px;
+  padding: 9px 10px;
+  background: var(--cs-bg-inset);
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-md);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  line-height: 1.55;
+  color: var(--cs-text-primary);
+  resize: vertical;
+  outline: none;
+  transition: border-color var(--cs-dur-fast) var(--cs-ease-out),
+    box-shadow var(--cs-dur-fast) var(--cs-ease-out),
+    background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-textarea:hover {
+  border-color: var(--cs-border-strong);
+}
+
+.cs-textarea:focus {
+  background: var(--cs-bg-surface);
+  border-color: var(--cs-accent);
+  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+}
+
+.cs-textarea[data-invalid='true'] {
+  border-color: var(--cs-danger);
+}
+
+.cs-textarea--mono {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-sm);
+  line-height: 1.7;
+}
+
+/* --- field ---------------------------------------------------------- */
+
+.cs-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--cs-space-6);
+  min-width: 0;
+}
+
+.cs-field__label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-4);
+  font-size: var(--cs-fs-sm);
+  line-height: var(--cs-lh-sm);
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-secondary);
+}
+
+.cs-field__required {
+  color: var(--cs-danger);
+  font-size: var(--cs-fs-sm);
+  line-height: 1;
+}
+
+.cs-field__hint {
+  font-size: var(--cs-fs-sm);
+  line-height: 1.45;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-field__error {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-4);
+  font-size: var(--cs-fs-sm);
+  line-height: 1.45;
+  color: var(--cs-danger);
+}
+
+/* --- checkbox / radio ----------------------------------------------- */
+
+.cs-check {
+  position: relative;
+  display: inline-flex;
+  align-items: flex-start;
+  gap: var(--cs-space-8);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--cs-fs-base);
+  line-height: 18px;
+  color: var(--cs-text-secondary);
+}
+
+.cs-check:hover {
+  color: var(--cs-text-primary);
+}
+
+.cs-check__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  margin: 0;
+  pointer-events: none;
+}
+
+.cs-check__box {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-top: 1px;
+  background: var(--cs-bg-inset);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius-sm);
+  transition: background-color var(--cs-dur-fast) var(--cs-ease-out),
+    border-color var(--cs-dur-fast) var(--cs-ease-out),
+    box-shadow var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-check__box::after {
+  content: '';
+  position: absolute;
+  left: 4.5px;
+  top: 1.5px;
+  width: 4px;
+  height: 8px;
+  border-right: 1.75px solid var(--cs-accent-contrast);
+  border-bottom: 1.75px solid var(--cs-accent-contrast);
+  transform: rotate(40deg) scale(0.6);
+  opacity: 0;
+  transition: opacity var(--cs-dur-fast) var(--cs-ease-out),
+    transform var(--cs-dur-fast) var(--cs-ease-spring);
+}
+
+.cs-check:hover .cs-check__box {
+  border-color: var(--cs-accent);
+}
+
+.cs-check__input:checked + .cs-check__box {
+  background: var(--cs-accent);
+  border-color: var(--cs-accent);
+}
+
+.cs-check__input:checked + .cs-check__box::after {
+  opacity: 1;
+  transform: rotate(40deg) scale(1);
+}
+
+.cs-check__input:indeterminate + .cs-check__box {
+  background: var(--cs-accent);
+  border-color: var(--cs-accent);
+}
+
+.cs-check__input:indeterminate + .cs-check__box::after {
+  opacity: 1;
+  left: 3.5px;
+  top: 6px;
+  width: 7px;
+  height: 0;
+  border-right: 0;
+  border-bottom: 1.75px solid var(--cs-accent-contrast);
+  transform: none;
+}
+
+.cs-check__input:focus-visible + .cs-check__box {
+  box-shadow: 0 0 0 2px var(--cs-bg-canvas), 0 0 0 4px var(--cs-accent);
+}
+
+.cs-check__input:disabled + .cs-check__box,
+.cs-check__input:disabled ~ .cs-check__label {
+  opacity: 0.45;
+}
+
+.cs-check:has(.cs-check__input:disabled) {
+  cursor: not-allowed;
+}
+
+/* radio */
+
+.cs-radio__box {
+  border-radius: 50%;
+}
+
+.cs-radio__box::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cs-accent-contrast);
+  transform: translate(-50%, -50%) scale(0.4);
+  opacity: 0;
+  transition: opacity var(--cs-dur-fast) var(--cs-ease-out),
+    transform var(--cs-dur-fast) var(--cs-ease-spring);
+}
+
+.cs-check__input:checked + .cs-radio__box::after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* --- switch --------------------------------------------------------- */
+
+.cs-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  cursor: pointer;
+  font-size: var(--cs-fs-base);
+  color: var(--cs-text-secondary);
+  user-select: none;
+}
+
+.cs-switch__track {
+  position: relative;
+  flex: none;
+  width: 34px;
+  height: 20px;
+  background: var(--cs-bg-inset);
+  border: 1px solid var(--cs-border-strong);
+  border-radius: var(--cs-radius-pill);
+  transition: background-color var(--cs-dur-base) var(--cs-ease-out),
+    border-color var(--cs-dur-base) var(--cs-ease-out);
+}
+
+.cs-switch__thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  background: var(--cs-text-tertiary);
+  border-radius: 50%;
+  transition: transform var(--cs-dur-base) var(--cs-ease-spring),
+    background-color var(--cs-dur-base) var(--cs-ease-out),
+    width var(--cs-dur-base) var(--cs-ease-out);
+}
+
+.cs-switch__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cs-switch__input:checked + .cs-switch__track {
+  background: var(--cs-accent);
+  border-color: var(--cs-accent);
+}
+
+.cs-switch__input:checked + .cs-switch__track .cs-switch__thumb {
+  background: var(--cs-accent-contrast);
+  transform: translateX(14px);
+}
+
+.cs-switch__input:focus-visible + .cs-switch__track {
+  box-shadow: 0 0 0 2px var(--cs-bg-canvas), 0 0 0 4px var(--cs-accent);
+}
+
+.cs-switch__input:disabled + .cs-switch__track {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.cs-switch--sm .cs-switch__track {
+  width: 28px;
+  height: 16px;
+}
+
+.cs-switch--sm .cs-switch__thumb {
+  width: 10px;
+  height: 10px;
+}
+
+.cs-switch--sm .cs-switch__input:checked + .cs-switch__track .cs-switch__thumb {
+  transform: translateX(12px);
+}
+
+/* --- slider ---------------------------------------------------------
+ * A track, a fill and a thumb, drawn here. No native range input, so
+ * ticks, the drag readout and the hit area are all ours.
+ * ------------------------------------------------------------------ */
+
+.cs-slider {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-12);
+  width: 100%;
+}
+
+.cs-slider[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cs-slider__rail {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 9px 0;
+}
+
+.cs-slider__track {
+  position: relative;
+  height: 4px;
+  border-radius: var(--cs-radius-pill);
+  background: var(--cs-border);
+  outline: none;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.cs-slider__track:focus-visible {
+  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+}
+
+.cs-slider__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background: var(--cs-accent);
+  transition: width var(--cs-dur-instant) linear;
+}
+
+.cs-slider__thumb {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--cs-bg-raised);
+  border: 2px solid var(--cs-accent);
+  box-shadow: var(--cs-shadow-xs);
+  pointer-events: none;
+  transition:
+    transform var(--cs-dur-fast) var(--cs-ease-spring),
+    box-shadow var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-slider:hover .cs-slider__thumb {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.cs-slider[data-dragging] .cs-slider__thumb {
+  transform: translateY(-50%) scale(1.16);
+  box-shadow: 0 0 0 4px var(--cs-accent-soft);
+}
+
+.cs-slider__bubble {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  padding: 2px 6px;
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-bg-raised);
+  border: 1px solid var(--cs-border);
+  box-shadow: var(--cs-shadow-sm);
+  font-family: var(--cs-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-primary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  pointer-events: none;
+  transition:
+    opacity var(--cs-dur-fast) var(--cs-ease-out),
+    transform var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-slider[data-dragging] .cs-slider__bubble {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.cs-slider__ticks {
+  position: relative;
+  height: 5px;
+  margin-top: 7px;
+}
+
+.cs-slider__tick {
+  position: absolute;
+  top: 0;
+  width: 1px;
+  height: 4px;
+  margin-left: -0.5px;
+  background: var(--cs-border-strong);
+}
+
+.cs-slider__tick[data-on] {
+  background: var(--cs-accent);
+}
+
+.cs-slider__value {
+  flex: none;
+  min-width: 34px;
+  text-align: right;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-xs);
+  letter-spacing: var(--cs-tracking-wide);
+  color: var(--cs-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+/* --- segmented control ---------------------------------------------- */
+
+.cs-segmented {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--cs-bg-inset);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-control);
+}
+
+/* Sliding selection. Geometry is measured in JS; CSS only moves it. */
+.cs-segmented__thumb {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 26px;
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: calc(var(--cs-radius-control) - 2px);
+  background: var(--cs-bg-raised);
+  box-shadow: var(--cs-shadow-xs), var(--cs-shadow-inset);
+  pointer-events: none;
+  transition:
+    transform var(--cs-dur-base) var(--cs-ease-out),
+    width var(--cs-dur-base) var(--cs-ease-out);
+}
+
+.cs-segmented--accent .cs-segmented__thumb {
+  background: var(--cs-accent-soft);
+  border-color: var(--cs-accent-line);
+  box-shadow: none;
+}
+
+.cs-segmented__item {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cs-space-6);
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: var(--cs-radius-sm);
+  font-size: var(--cs-fs-sm);
+  font-weight: var(--cs-fw-medium);
+  color: var(--cs-text-tertiary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color var(--cs-dur-fast) var(--cs-ease-out),
+    background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-segmented__item:hover {
+  color: var(--cs-text-primary);
+}
+
+.cs-segmented__item[data-active='true'] {
+  background: var(--cs-bg-raised);
+  border-color: var(--cs-border-subtle);
+  color: var(--cs-text-primary);
+  box-shadow: var(--cs-shadow-xs), var(--cs-shadow-inset);
+}
+
+.cs-segmented--accent .cs-segmented__item[data-active='true'] {
+  color: var(--cs-accent);
+  border-color: var(--cs-accent-line);
+  background: var(--cs-accent-soft);
+}
+
+.cs-segmented--block {
+  display: flex;
+  width: 100%;
+}
+
+.cs-segmented--block .cs-segmented__item {
+  flex: 1 1 0;
+}
+
+/* Once the thumb exists it owns the active surface. */
+.cs-segmented[data-indicator='on'] .cs-segmented__item[data-active='true'] {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.cs-segmented[data-indicator='on'].cs-segmented--accent .cs-segmented__item[data-active='true'] {
+  color: var(--cs-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-segmented__thumb {
+    transition: none;
+  }
+}
+
+/* --- form grid ------------------------------------------------------ */
+
+.cs-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--cs-space-16);
+}
+
+@media (max-width: 640px) {
+  .cs-form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

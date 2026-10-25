@@ -1,0 +1,254 @@
+/* ------------------------------------------------------------------
+ * Cesium Design System — base layer
+ * Reset, document typography, focus, selection, scrollbars, textures.
+ * ------------------------------------------------------------------ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--cs-bg-canvas);
+  color: var(--cs-text-primary);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-md);
+  line-height: var(--cs-lh-md);
+  font-weight: var(--cs-fw-regular);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-optical-sizing: auto;
+  font-synthesis: none;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  transition: background-color var(--cs-dur-base) var(--cs-ease-out),
+    color var(--cs-dur-base) var(--cs-ease-out);
+}
+
+/* --- document typography ------------------------------------------ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--cs-font-display);
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-snug);
+  line-height: 1.2;
+  color: var(--cs-text-primary);
+  text-wrap: balance;
+  font-optical-sizing: auto;
+  font-variant-numeric: lining-nums;
+}
+
+h1 {
+  font-size: var(--cs-fs-4xl);
+  font-weight: var(--cs-fw-regular);
+  letter-spacing: var(--cs-tracking-display);
+  line-height: 1.1;
+}
+h2 {
+  font-size: var(--cs-fs-2xl);
+}
+h3 {
+  font-size: var(--cs-fs-xl);
+}
+h4 {
+  font-size: var(--cs-fs-lg);
+}
+h5 {
+  font-size: var(--cs-fs-md);
+}
+h6 {
+  font-size: var(--cs-fs-sm);
+}
+
+p {
+  color: var(--cs-text-secondary);
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--cs-accent);
+  text-decoration: none;
+  text-underline-offset: 2px;
+  transition: color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+a:hover {
+  color: var(--cs-accent-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+strong,
+b {
+  font-weight: var(--cs-fw-semibold);
+  color: var(--cs-text-primary);
+}
+
+small {
+  font-size: var(--cs-fs-sm);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--cs-font-mono);
+  font-size: 0.92em;
+  font-variant-ligatures: none;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: var(--cs-border-subtle);
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* --- focus & selection -------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--cs-accent);
+  outline-offset: 2px;
+  border-radius: var(--cs-radius-xs);
+}
+
+::selection {
+  background: var(--cs-accent-soft);
+  color: var(--cs-text-primary);
+}
+
+/* --- scrollbars ---------------------------------------------------- */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--cs-border-strong) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cs-border-strong);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: var(--cs-radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cs-text-tertiary);
+  background-clip: content-box;
+}
+
+/* --- textures ------------------------------------------------------
+ * The graticule: Cesium's lat/long grid, reduced to a UI texture.
+ * ------------------------------------------------------------------ */
+
+.cs-graticule {
+  background-image: linear-gradient(to right, var(--cs-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cs-grid-line) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+}
+
+.cs-graticule--fine {
+  background-image: linear-gradient(to right, var(--cs-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cs-grid-line) 1px, transparent 1px);
+  background-size: 8px 8px;
+  background-position: -1px -1px;
+}
+
+.cs-graticule--coarse {
+  background-image: linear-gradient(to right, var(--cs-grid-line-strong) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cs-grid-line-strong) 1px, transparent 1px);
+  background-size: 96px 96px;
+  background-position: -1px -1px;
+}
+
+/* Atmospheric glow — the blue limb of the planet, as ambient light. */
+.cs-atmosphere {
+  position: relative;
+  isolation: isolate;
+}
+
+.cs-atmosphere::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    120% 60% at 50% -10%,
+    var(--cs-accent-soft) 0%,
+    transparent 62%
+  );
+  pointer-events: none;
+}
+
+/* --- misc ---------------------------------------------------------- */
+
+[hidden] {
+  display: none !important;
+}
+
+::placeholder {
+  color: var(--cs-text-tertiary);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

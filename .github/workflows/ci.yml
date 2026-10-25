@@ -1,0 +1,73 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build tokens, library and docs
+        run: npm run build
+
+      # tokens.css and nav.generated.ts are committed build artefacts. If a
+      # contributor edits tokens.json or the docs registry without re-running
+      # the generators, the repo is out of sync — catch that here rather than
+      # in a reviewer's browser.
+      - name: Generated files are up to date
+        run: |
+          files="src/styles/tokens.css docs/public/tokens.json docs/content/nav.generated.ts"
+          if ! git diff --quiet -- $files; then
+            echo "::error::Generated files are stale. Run 'npm run tokens' and 'npm run docs:nav', then commit the result."
+            git diff --stat -- $files
+            exit 1
+          fi
+
+  audit:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # The crawler drives a real browser, so it needs the browser binary and
+      # its system libraries. It also launches channel:'chrome', which the
+      # runner image provides.
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build docs
+        run: npm run build:docs
+
+      - name: Serve and crawl every route
+        run: |
+          # --host 127.0.0.1 is not optional: without it Vite binds "localhost",
+          # which resolves to ::1 on the runner, and the poll below never
+          # connects.
+          npx vite preview --config vite.docs.config.ts --port 4173 --host 127.0.0.1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:4173/; then break; fi
+            sleep 1
+          done
+          DOCS_URL=http://127.0.0.1:4173 npm run audit
