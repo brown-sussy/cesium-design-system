@@ -3,6 +3,7 @@ import { CodeBlock, PageHead } from '../components/DocsUI';
 import { TemplateThumb } from '../components/TemplateThumb';
 import { findTemplate, templates, type TemplateDoc } from '../templates';
 import { navigate } from '../lib/router';
+import { download } from '../lib/download';
 import { useCopy } from '../lib/useCopy';
 
 /* ------------------------------------------------------------------ */
@@ -154,6 +155,16 @@ export function TemplatePage({ slug }: { slug: string }) {
           onClick={() => copy(doc.source)}
         >
           {copied ? 'Copied' : 'Copy source'}
+        </Button>
+        {/* A template is one file, so hand over the file. Making people select
+            300 lines out of a <pre> is not "taking the template". */}
+        <Button
+          size="sm"
+          variant="secondary"
+          iconLeft={<Icon name="download" size={12} />}
+          onClick={() => download(`${doc.slug}.tsx`, doc.source)}
+        >
+          Download .tsx
         </Button>
         <Button
           size="sm"
