@@ -1,5 +1,6 @@
 import { Badge, Button, Divider, Icon, StatusDot } from '@cesium-ds/core';
 import { CodeBlock, PageHead, Section } from '../components/DocsUI';
+import { componentCount } from '../content/nav.generated';
 import { TOKEN_STATS } from '../lib/tokenStats';
 
 export function Resources() {
@@ -19,13 +20,43 @@ export function Resources() {
       />
 
       <Section id="install" title="Install">
+        <div className="prose">
+          <p>
+            The package is <strong>not on npm yet</strong>. Until it is, build it from this repository
+            and install it by path — one setup in the repo, one command in your app. The imports below
+            are already written against <code>@cesium-ds/core</code>, so nothing changes when the name
+            goes live.
+          </p>
+        </div>
+        <div style={{ height: 12 }} />
         <CodeBlock
           lang="bash"
-          code={`npm i @cesium-ds/core
+          code={`git clone https://github.com/brown-sussy/cesium-design-system.git
+cd cesium-design-system
+npm install
+npm run build:lib        # writes dist/ — required before another project can install it`}
+        />
+        <div style={{ height: 12 }} />
+        <CodeBlock
+          lang="bash"
+          code={`# in your app
+npm install ../cesium-design-system
 # or
-pnpm add @cesium-ds/core
+pnpm add ../cesium-design-system
 # or
-yarn add @cesium-ds/core`}
+yarn add file:../cesium-design-system`}
+        />
+        <div className="prose" style={{ marginTop: 16 }}>
+          <p>
+            Shipping it to a team or a CI runner? Pack the built package once and install the tarball —
+            that is the same artefact an npm publish would produce:
+          </p>
+        </div>
+        <div style={{ height: 10 }} />
+        <CodeBlock
+          lang="bash"
+          code={`npm pack                              # in the repo → cesium-ds-core-1.0.0.tgz
+npm install ./cesium-ds-core-1.0.0.tgz  # in your app`}
         />
         <div style={{ height: 12 }} />
         <CodeBlock
@@ -47,7 +78,8 @@ export function App() {
         <div className="prose" style={{ marginTop: 16 }}>
           <p>
             The stylesheet is a single compiled file. If you prefer to compile from source, import{' '}
-            <code>@cesium-ds/core/src/styles/index.css</code> from a PostCSS or Vite pipeline instead.
+            <code>@cesium-ds/core/src/styles/index.css</code> from a PostCSS or Vite pipeline instead —
+            the <code>src/</code> tree ships in the package for exactly this.
           </p>
         </div>
       </Section>
@@ -60,22 +92,41 @@ export function App() {
             machine data. They are not bundled: the package stays binary-free, and every stack ends in
             a system fallback so the UI never blocks on a font request.
           </p>
+          <p>
+            The four files this site uses live in <code>docs/public/fonts/</code> and are served at{' '}
+            <code>/fonts/</code>. Copy them into your own static directory, or load the families from
+            Google Fonts. All three are SIL Open Font License 1.1 — the licence texts sit next to the
+            binaries.
+          </p>
         </div>
         <div style={{ height: 12 }} />
         <CodeBlock
           lang="css"
-          code={`/* self-host the two variable files, or load them from Google Fonts */
-@font-face {
+          code={`@font-face {
   font-family: 'Newsreader';
-  font-weight: 200 800;
+  font-style: normal;
+  font-weight: 400 500;            /* this binary is instanced to 400–500 */
   font-display: swap;
   src: url('/fonts/newsreader-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/newsreader-italic-latin.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Instrument Sans';
   font-weight: 400 700;
   font-display: swap;
   src: url('/fonts/instrument-sans-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono-latin.woff2') format('woff2');
 }`}
         />
         <div className="prose" style={{ marginTop: 16 }}>
@@ -228,9 +279,8 @@ localStorage.setItem('cesium-style', 'plus');`}
       <Section id="tokens" title="Tokens">
         <div className="prose">
           <p>
-            {TOKEN_STATS.total} variables are compiled from a single JSON file. The bundle is
-            published with the package so design tools and codegen can consume the same source of
-            truth.
+            {TOKEN_STATS.total} tokens are compiled from a single JSON file. The bundle is published
+            with the package so design tools and codegen can consume the same source of truth.
           </p>
         </div>
         <div className="cs-row" style={{ gap: 10, marginTop: 14 }}>
@@ -333,7 +383,7 @@ localStorage.setItem('cesium-style', 'plus');`}
           <h3>1.0.0 — Initial release</h3>
           <ul>
             <li>{TOKEN_STATS.total} design tokens across dark and light themes, compiled from JSON.</li>
-            <li>37 React components in 8 categories, typed and dependency-free.</li>
+            <li>{componentCount} React components in 8 categories, typed and dependency-free.</li>
             <li>HUD layer: Compass, ScaleBar, CoordinateReadout, Legend.</li>
             <li>Documentation site with live examples, prop tables and patterns.</li>
             <li>Agent skill package with token and component references.</li>

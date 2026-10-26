@@ -15,7 +15,7 @@ It ships five things that stay in sync:
 
 | Deliverable | Path | What it is |
 | --- | --- | --- |
-| Design tokens | `tokens/tokens.json` → `src/styles/tokens.css` | 149 CSS variables, dark + light + 2 shape presets, compiled from one JSON source |
+| Design tokens | `tokens/tokens.json` → `src/styles/tokens.css` | 153 design tokens, dark + light + 2 shape presets, compiled from one JSON source |
 | React library | `src/` | 40 typed components, zero runtime dependencies |
 | Page templates | `docs/templates/` | 4 complete pages — homepage, sign in, settings, 404 — each one file |
 | Documentation site | `docs/` | Live examples, prop tables, foundations, patterns |

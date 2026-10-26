@@ -46,8 +46,14 @@ If a needed value does not exist as a token, **use the nearest token** — do no
 
 ## 1. Setup
 
+The package is **not on npm yet**. If `@cesium-ds/core` is already in the project's
+`package.json`, use it and skip the build. If it is not, install it from the repository:
+
 ```bash
-npm i @cesium-ds/core
+git clone https://github.com/brown-sussy/cesium-design-system.git
+cd cesium-design-system && npm install && npm run build:lib
+# then, in the target project
+npm install ../cesium-design-system
 ```
 
 ```tsx
@@ -56,6 +62,10 @@ import '@cesium-ds/core/styles.css';
 
 import { Button, Panel, PanelBody } from '@cesium-ds/core';
 ```
+
+Working **inside** this repository? Import from `src/index.ts` directly (the docs site aliases
+`@cesium-ds/core` to it) — no build step needed, and `npm run dev` serves the docs at
+`http://localhost:5178`.
 
 Dark is the default. Light is opt-in:
 

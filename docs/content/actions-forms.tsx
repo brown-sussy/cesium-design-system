@@ -509,9 +509,11 @@ export const actionsForms: ComponentDoc[] = [
       { name: 'rows', type: 'number', default: '4', description: 'Initial visible rows.' },
       { name: 'mono', type: 'boolean', default: 'false', description: 'Monospace variant at 12px/1.7.' },
       { name: 'invalid', type: 'boolean', default: 'false', description: 'Danger border and aria-invalid.' },
-      { name: 'resize', type: 'CSS property', default: 'vertical', description: 'Native resize handle.' },
     ],
-    a11y: ['Vertical resize only — horizontal resizing breaks the grid.', 'Use Field for labelling.'],
+    a11y: [
+      'Resize is CSS, not a prop: .cs-textarea sets resize: vertical, because horizontal resizing breaks the grid. Override it with style if you must.',
+      'Use Field for labelling.',
+    ],
     related: ['input', 'field'],
   },
 

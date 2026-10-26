@@ -316,14 +316,16 @@ export function Home() {
               Install
             </div>
             <p className="doc-sub" style={{ marginTop: 6 }}>
-              One package, one stylesheet. React 18+ as the only peer dependency.
+              One package, one stylesheet. React 18+ is the only peer dependency. Not on npm yet —
+              build it from the repo, then install it by path.
             </p>
             <CodeBlock
               lang="bash"
-              code={`npm i @cesium-ds/core
+              code={`git clone https://github.com/brown-sussy/cesium-design-system
+cd cesium-design-system && npm i && npm run build:lib
 
-# app entry
-import '@cesium-ds/core/styles.css';`}
+# then, in your app
+npm install ../cesium-design-system`}
             />
             <div style={{ height: 10 }} />
             <CodeBlock

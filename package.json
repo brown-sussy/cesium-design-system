@@ -43,7 +43,8 @@
       "require": "./dist/index.cjs"
     },
     "./styles.css": "./dist/cesium-ds.css",
-    "./tokens.json": "./dist/tokens.json"
+    "./tokens.json": "./dist/tokens.json",
+    "./src/*": "./src/*"
   },
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",

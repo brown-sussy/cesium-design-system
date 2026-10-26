@@ -1,6 +1,8 @@
 import { Badge, Divider, Icon, KeyValue, Panel, PanelBody } from '@cesium-ds/core';
 import { CodeBlock, PageHead, Section } from '../components/DocsUI';
-import { componentCount } from '../content/registry';
+// Metadata, not the registry: importing the registry here would pull every
+// component's demo and source string into this page's chunk to print a number.
+import { componentCount } from '../content/nav.generated';
 
 const structure = [
   ['skill/SKILL.md', 'Entry point: when to use the system, the token rules, the component API, anti-patterns.'],
@@ -20,7 +22,7 @@ export function Skill() {
           <>
             <Badge tone="accent">SKILL.md</Badge>
             <Badge>4 files</Badge>
-            <Badge>~900 lines</Badge>
+            <Badge>~1.5k lines</Badge>
           </>
         }
       />
