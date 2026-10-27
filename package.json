@@ -36,6 +36,9 @@
     "dist",
     "src"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -44,7 +47,8 @@
     },
     "./styles.css": "./dist/cesium-ds.css",
     "./tokens.json": "./dist/tokens.json",
-    "./src/*": "./src/*"
+    "./src/*": "./src/*",
+    "./package.json": "./package.json"
   },
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
@@ -55,7 +59,8 @@
     "build:docs": "node scripts/build-docs-nav.mjs && vite build --config vite.docs.config.ts",
     "preview": "vite preview --config vite.docs.config.ts --port 4173",
     "audit": "node scripts/audit.mjs",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prepublishOnly": "npm run build:lib"
   },
   "peerDependencies": {
     "react": ">=18",

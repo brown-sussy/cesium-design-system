@@ -71,6 +71,38 @@ elsewhere with `DOCS_URL=http://127.0.0.1:4173 npm run audit` against `npm run p
 Keep commits scoped to one idea. If a change is visual, say what it looked like before and what it
 looks like now — a screenshot in the PR description saves a round trip.
 
+## Releasing to npm
+
+The package publishes as `@cesium-ds/core`. `publishConfig.access` is `public` in `package.json` —
+a scoped package defaults to private, and without that field the publish fails on a free account.
+`prepublishOnly` rebuilds `dist/` before the tarball is packed, so a stale build cannot ship.
+
+```bash
+npm login                     # once per machine
+npm whoami                    # must print your npm username
+
+npm run typecheck             # never publish a red build
+npm publish --dry-run         # 106 files, ~106 kB — read the list before shipping
+npm publish                   # prepublishOnly rebuilds dist/ first
+```
+
+If the account has 2FA enabled, `npm publish` prompts for a one-time password.
+
+Verify what actually landed, from a clean directory:
+
+```bash
+npm view @cesium-ds/core version dist.tarball
+npm i @cesium-ds/core && node -e "console.log(Object.keys(require('@cesium-ds/core')).length)"
+```
+
+**A published version is permanent.** Unpublishing is only allowed within 72 hours, and the version
+number can never be reused — so bump with `npm version patch|minor|major` rather than editing
+`version` by hand, and never publish `1.0.0` twice.
+
+After publishing, the four places that name the install command must say `npm i @cesium-ds/core`:
+the Install section of `docs/pages/Resources.tsx`, the Home snippet in `docs/pages/Home.tsx`,
+`skill/SKILL.md` and `README.md`.
+
 ## Reporting a bug
 
 Include the component or route, the theme (`dark` / `light`) and shape preset (`classic` / `plus`)
