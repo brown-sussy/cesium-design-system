@@ -1,16 +1,11 @@
 import {
-  Badge,
   Button,
   Compass,
   CoordinateReadout,
   Icon,
-  KeyValue,
-  Panel,
-  PanelBody,
-  Progress,
+  Kbd,
   ScaleBar,
   StatusDot,
-  Kbd,
 } from '@cesium-ds/core';
 import { Globe } from '../components/Globe';
 import { CodeBlock } from '../components/DocsUI';
@@ -25,40 +20,34 @@ import { TOKEN_STATS } from '../lib/tokenStats';
 const TeaserPage = Homepage;
 const templateList = templateMeta;
 
-const features = [
+const rules = [
   {
-    icon: 'layers' as const,
     title: 'Token-first',
-    text: 'Every colour, space and duration is a CSS custom property compiled from one JSON source. No magic numbers in component code.',
+    text: 'Every colour, space and duration is a CSS custom property compiled from one JSON source. Component code contains no raw values.',
   },
   {
-    icon: 'moon' as const,
     title: 'Dark by construction',
-    text: 'The default theme is the void behind the globe. Light is a second pass, not an inversion — each value is chosen for its surface.',
+    text: 'The default theme is the void behind the globe. Light is written per surface, not inverted from dark.',
   },
   {
-    icon: 'ruler' as const,
     title: 'Density with air',
-    text: '28 / 34 / 40px control heights on a 4px grid, hairline borders, and 2–3px radii. Compact, never cramped.',
+    text: '28 / 34 / 40px control heights on a 4px grid, hairline borders, 2–5px radii. Compact, never cramped.',
   },
   {
-    icon: 'gauge' as const,
     title: 'Instrument language',
-    text: 'Monospace labels, tabular figures, dotted leaders and uppercase micro-captions. Data reads like a readout, not prose.',
+    text: 'Monospace labels, tabular figures, dotted leaders, uppercase micro-captions. Data reads as a readout.',
   },
   {
-    icon: 'palette' as const,
     title: 'One accent, earned',
-    text: 'Grey carries the structure and a white key carries the action. One steel accent is left for what is interactive or selected.',
+    text: 'Grey carries structure, white carries the action. Steel is left for whatever is interactive or selected.',
   },
   {
-    icon: 'sparkles' as const,
     title: 'Agent-ready',
     text: 'Ships with a SKILL.md that teaches an agent the tokens, APIs and anti-patterns, so generated UI stays on-system.',
   },
 ];
 
-const featured = ['button', 'input', 'table', 'panel', 'compass', 'coordinate-readout', 'badge', 'tabs'];
+const featured = ['button', 'input', 'table', 'panel', 'badge', 'tabs', 'compass', 'coordinate-readout'];
 
 const principles = [
   ['Precision over decoration', 'A hairline where a shadow would do. A number where an adjective would do.'],
@@ -67,83 +56,76 @@ const principles = [
   ['Motion as feedback', '120–260ms, mechanical easing. Nothing bounces, nothing lingers.'],
 ];
 
+/* One ramp from surface to signal, so the band reads as a value scale in
+   either theme rather than eight unrelated swatches. */
+const swatches: [string, string][] = [
+  ['bg-base', 'var(--cs-bg-base)'],
+  ['border', 'var(--cs-border)'],
+  ['text-disabled', 'var(--cs-text-disabled)'],
+  ['text-tertiary', 'var(--cs-text-tertiary)'],
+  ['text-primary', 'var(--cs-text-primary)'],
+  ['accent', 'var(--cs-accent)'],
+  ['success', 'var(--cs-success)'],
+  ['warning', 'var(--cs-warning)'],
+];
+
+const specs: [string, string][] = [
+  ['Components', String(componentCount)],
+  ['Tokens', String(TOKEN_STATS.total)],
+  ['Runtime deps', '0'],
+  ['Peer dep', 'React 18'],
+];
+
 export function Home() {
-  const docs = navEntries.filter((d) => featured.includes(d.slug));
+  // Curated order, not registry order: actions, forms, data, layout, display,
+  // navigation, HUD — so the two columns read left to right.
+  const docs = featured
+    .map((slug) => navEntries.find((d) => d.slug === slug))
+    .filter((d): d is (typeof navEntries)[number] => Boolean(d));
 
   return (
     <div className="doc-container">
       <section className="hero">
-        <div className="hero__inner">
-          <span className="hero__pill">
-            <span className="hero__pill-dot" />
-            v1.0 · {componentCount} components · 2 themes
-          </span>
+        <div className="hero__text">
           <h1 className="hero__title">
-            Interfaces for <br />
-            <em>planetary scale</em>.
+            Interfaces for
+            <br />
+            planetary scale.
           </h1>
           <p className="hero__lede">
-            A design system for geospatial, data-dense products. Built for the dark, tuned for
-            precision, and shipped as tokens, React components and an agent skill.
+            A design system for maps, globes and the dashboards that watch them. {componentCount}{' '}
+            components, {TOKEN_STATS.total} tokens, one stylesheet.
           </p>
           <div className="hero__actions">
-            <Button variant="primary" size="lg" iconRight={<Icon name="arrow-right" size={15} />} onClick={() => navigate('/components')}>
+            <Button variant="primary" size="lg" onClick={() => navigate('/components')}>
               Browse components
             </Button>
-            <Button variant="secondary" size="lg" iconLeft={<Icon name="code" size={15} />} onClick={() => navigate('/resources')}>
+            <button type="button" className="hero__link" onClick={() => navigate('/resources')}>
               Get started
-            </Button>
+              <Icon name="arrow-right" size={13} />
+            </button>
           </div>
-          <div className="hero__meta">
-            <span>
-              <Icon name="box" size={12} /> {componentCount} components
-            </span>
-            <span>
-              <Icon name="type" size={12} /> {TOKEN_STATS.total} tokens
-            </span>
-            <span>
-              <Icon name="zap" size={12} /> zero runtime CSS
-            </span>
-            <span>
-              <Icon name="terminal" size={12} /> TypeScript
-            </span>
-          </div>
+          <dl className="hero__specs">
+            {specs.map(([label, value]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
 
         <div className="hero-stage">
-          <span className="hero-stage__corner hero-stage__corner--tl" />
-          <span className="hero-stage__corner hero-stage__corner--tr" />
-          <span className="hero-stage__corner hero-stage__corner--bl" />
-          <span className="hero-stage__corner hero-stage__corner--br" />
-          <span className="hero-stage__label">orbital ops · scene 03 · wgs 84</span>
-
           <div className="hero-stage__globe">
             <Globe />
           </div>
 
           <div className="hud-float hud-float--status">
-            <div className="cs-row" style={{ gap: 12 }}>
-              <StatusDot tone="success" label="Stream live" pulse />
-              <span className="cs-mono" style={{ fontSize: 10, color: 'var(--cs-text-tertiary)' }}>
-                60 FPS
-              </span>
-            </div>
+            <StatusDot tone="success" label="Stream live" pulse />
           </div>
 
           <div className="hud-float hud-float--compass">
-            <Compass heading={28} size={64} />
-          </div>
-
-          <div className="hud-float hud-float--panel">
-            <Panel title="Scene budget" accent>
-              <PanelBody>
-                <div className="cs-stack" style={{ gap: 9 }}>
-                  <Progress label="Primitives" value={82} showValue thin />
-                  <Progress label="Textures" value={54} showValue thin />
-                  <Progress label="Tiles" value={37} showValue thin />
-                </div>
-              </PanelBody>
-            </Panel>
+            <Compass heading={28} size={56} />
           </div>
 
           <div className="hud-float hud-float--coords">
@@ -151,7 +133,7 @@ export function Home() {
           </div>
 
           <div className="hud-float hud-float--scale">
-            <ScaleBar distance={500} unit="km" width={112} />
+            <ScaleBar distance={500} unit="km" width={104} />
           </div>
         </div>
       </section>
@@ -160,22 +142,19 @@ export function Home() {
         <div className="home-head">
           <div>
             <div className="doc-eyebrow">The system</div>
-            <h2 className="home-head__title">Six decisions, applied everywhere</h2>
-            <p className="home-head__desc">
-              The rules are few and they are enforced by tokens. That is what keeps a dashboard, a
-              dialog and a HUD overlay looking like one product.
-            </p>
+            <h2 className="home-head__title">Six rules, enforced by tokens</h2>
           </div>
-          <Badge tone="accent">MIT licensed</Badge>
+          <p className="home-head__note">
+            The rules are few. Because they live in tokens rather than in component code, a
+            dashboard, a dialog and a HUD overlay stay one product.
+          </p>
         </div>
-        <div className="feature-grid">
-          {features.map((f) => (
-            <div className="feature" key={f.title}>
-              <span className="feature__icon">
-                <Icon name={f.icon} size={15} />
-              </span>
-              <span className="feature__title">{f.title}</span>
-              <span className="feature__text">{f.text}</span>
+        <div className="rule-list">
+          {rules.map((rule, i) => (
+            <div className="rule" key={rule.title}>
+              <span className="rule__n">{String(i + 1).padStart(2, '0')}</span>
+              <span className="rule__title">{rule.title}</span>
+              <span className="rule__text">{rule.text}</span>
             </div>
           ))}
         </div>
@@ -186,32 +165,25 @@ export function Home() {
           <div>
             <div className="doc-eyebrow">Foundations</div>
             <h2 className="home-head__title">Grey structure, white action</h2>
-            <p className="home-head__desc">
-              Neutral greys carry every surface, border and label. A steel accent carries
-              interaction, and signal colours are reserved for state — success, warning, danger and
-              info.
-            </p>
           </div>
-          <Button variant="ghost" size="sm" iconRight={<Icon name="arrow-right" size={12} />} onClick={() => navigate('/foundations/color')}>
-            Colour system
-          </Button>
+          <p className="home-head__note">
+            Neutral greys carry surfaces, borders and labels. Steel marks what is interactive.
+            Signal colours only ever mean state.
+          </p>
         </div>
-        <div className="token-strip">
-          {[
-            ['--cs-bg-base', 'var(--cs-bg-base)'],
-            ['--cs-bg-raised', 'var(--cs-bg-raised)'],
-            ['--cs-border-strong', 'var(--cs-border-strong)'],
-            ['--cs-text-tertiary', 'var(--cs-text-tertiary)'],
-            ['--cs-text-primary', 'var(--cs-text-primary)'],
-            ['--cs-accent', 'var(--cs-accent)'],
-            ['--cs-success', 'var(--cs-success)'],
-            ['--cs-warning', 'var(--cs-warning)'],
-          ].map(([name, value]) => (
-            <div className="token-chip" key={name}>
-              <span className="token-chip__swatch" style={{ background: value }} />
-              <span className="token-chip__name">{name.replace('--cs-', '')}</span>
+        <div className="swatch-band">
+          {swatches.map(([name, value]) => (
+            <div className="swatch" key={name}>
+              <span className="swatch__chip" style={{ background: value }} />
+              <span className="swatch__name">{name}</span>
             </div>
           ))}
+        </div>
+        <div className="home-more">
+          <button type="button" className="home__link" onClick={() => navigate('/foundations/color')}>
+            Colour system
+            <Icon name="arrow-right" size={12} />
+          </button>
         </div>
       </section>
 
@@ -219,20 +191,16 @@ export function Home() {
         <div className="home-head">
           <div>
             <div className="doc-eyebrow">Components</div>
-            <h2 className="home-head__title">{componentCount} components, one grammar</h2>
-            <p className="home-head__desc">
-              Typed, dependency-free, and documented with live examples, prop tables and
-              accessibility notes.
-            </p>
+            <h2 className="home-head__title">The index</h2>
           </div>
-          <Button variant="secondary" size="sm" iconRight={<Icon name="arrow-right" size={12} />} onClick={() => navigate('/components')}>
-            View all
-          </Button>
+          <p className="home-head__note">
+            Typed, dependency-free, documented with live examples, prop tables and keyboard notes.
+          </p>
         </div>
-        <div className="comp-grid">
+        <div className="index-list">
           {docs.map((doc) => (
             <a
-              className="comp-card"
+              className="index-row"
               key={doc.slug}
               href={`#/components/${doc.slug}`}
               onClick={(e) => {
@@ -240,11 +208,17 @@ export function Home() {
                 navigate(`/components/${doc.slug}`);
               }}
             >
-              <span className="comp-card__name">{doc.name}</span>
-              <span className="comp-card__desc">{doc.summary}</span>
-              <span className="comp-card__cat">{doc.category}</span>
+              <span className="index-row__name">{doc.name}</span>
+              <span className="index-row__dots" />
+              <span className="index-row__cat">{doc.category}</span>
             </a>
           ))}
+        </div>
+        <div className="home-more">
+          <button type="button" className="home__link" onClick={() => navigate('/components')}>
+            All {componentCount} components
+            <Icon name="arrow-right" size={12} />
+          </button>
         </div>
       </section>
 
@@ -252,20 +226,12 @@ export function Home() {
         <div className="home-head">
           <div>
             <div className="doc-eyebrow">Templates</div>
-            <h2 className="home-head__title">Start from a page, not a blank file</h2>
-            <p className="home-head__desc">
-              Whole screens assembled from the system — a homepage, a sign-in, a settings shell and
-              an error page. Each is one file, rendered live from its own source.
-            </p>
+            <h2 className="home-head__title">Start from a page</h2>
           </div>
-          <Button
-            variant="secondary"
-            size="sm"
-            iconRight={<Icon name="arrow-right" size={12} />}
-            onClick={() => navigate('/templates')}
-          >
-            Browse templates
-          </Button>
+          <p className="home-head__note">
+            Four whole screens built from the system. Each is a single file, rendered live from its
+            own source.
+          </p>
         </div>
         <div className="tpl-teaser">
           <TemplateThumb className="tpl-teaser__art">
@@ -300,22 +266,24 @@ export function Home() {
             <h2 className="home-head__title" style={{ marginTop: 10 }}>
               What we optimise for
             </h2>
-            <div className="cs-stack" style={{ gap: 18, marginTop: 20 }}>
-              {principles.map(([title, text]) => (
-                <div className="quote" key={title}>
-                  <div style={{ color: 'var(--cs-text-primary)', fontWeight: 600, fontSize: 14 }}>{title}</div>
-                  <div style={{ marginTop: 3, fontSize: 13, color: 'var(--cs-text-tertiary)', lineHeight: 1.55 }}>
-                    {text}
-                  </div>
-                </div>
+            <ol className="principle-list">
+              {principles.map(([title, text], i) => (
+                <li className="principle" key={title}>
+                  <span className="principle__n">{String(i + 1).padStart(2, '0')}</span>
+                  <span>
+                    <span className="principle__title">{title}</span>
+                    <span className="principle__text">{text}</span>
+                  </span>
+                </li>
               ))}
-            </div>
+            </ol>
           </div>
           <div>
-            <div className="home-head__title" style={{ fontSize: 15 }}>
-              Install
-            </div>
-            <p className="doc-sub" style={{ marginTop: 6 }}>
+            <div className="doc-eyebrow">Install</div>
+            <h2 className="home-head__title" style={{ marginTop: 10 }}>
+              Build it, then install it
+            </h2>
+            <p className="doc-sub" style={{ marginTop: 8 }}>
               One package, one stylesheet. React 18+ is the only peer dependency. Not on npm yet —
               build it from the repo, then install it by path.
             </p>

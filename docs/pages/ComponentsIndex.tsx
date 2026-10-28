@@ -63,10 +63,10 @@ export function ComponentsIndex() {
             <span className="cat-block__count">{String(group.docs.length).padStart(2, '0')}</span>
             <span className="cat-block__line" />
           </div>
-          <div className="comp-grid">
+          <div className="comp-rows">
             {group.docs.map((doc) => (
               <a
-                className="comp-card"
+                className="comp-row"
                 key={doc.slug}
                 href={`#/components/${doc.slug}`}
                 onClick={(e) => {
@@ -74,12 +74,12 @@ export function ComponentsIndex() {
                   navigate(`/components/${doc.slug}`);
                 }}
               >
-                <span className="comp-card__name">{doc.name}</span>
-                <span className="comp-card__desc">{doc.summary}</span>
-                <span className="comp-card__cat">
-                  {doc.status === 'New' ? 'NEW · ' : ''}
-                  {doc.examples} examples
+                <span className="comp-row__name">
+                  {doc.name}
+                  {doc.status === 'New' && <span className="comp-row__new">new</span>}
                 </span>
+                <span className="comp-row__desc">{doc.summary}</span>
+                <span className="comp-row__meta">{doc.examples} ex</span>
               </a>
             ))}
           </div>

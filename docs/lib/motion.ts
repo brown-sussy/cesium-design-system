@@ -35,8 +35,8 @@ export function useScrollReveal(key: string) {
       observer.observe(el);
     });
 
-    // Cards get their own stagger, indexed within each category block.
-    const cards = Array.from(document.querySelectorAll<HTMLElement>('.comp-card'));
+    // Index rows get their own stagger, indexed within each category block.
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('.comp-row'));
     cards.forEach((card, i) => {
       card.classList.add('cs-reveal');
       card.style.setProperty('--cs-anim-delay', `${(i % 8) * 35}ms`);
