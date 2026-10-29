@@ -1,12 +1,23 @@
+import { build } from 'esbuild';
 import { chromium } from 'playwright';
 
-const slugs = [
-  'button', 'input', 'textarea', 'select', 'checkbox', 'switch', 'slider', 'field',
-  'segmented-control', 'badge', 'tag', 'avatar', 'kbd', 'status-dot', 'spinner',
-  'progress', 'skeleton', 'divider', 'tooltip', 'icon', 'card', 'panel', 'toolbar',
-  'table', 'stat', 'key-value', 'sparkline', 'coordinate-readout', 'legend', 'tabs',
-  'breadcrumb', 'pagination', 'menu', 'sidebar', 'dropdown', 'modal', 'drawer', 'alert', 'compass', 'scale-bar',
-];
+/**
+ * The slug list comes from the generated nav index, not from this file. A
+ * hand-written list is how 13 new component pages went unaudited: the crawler
+ * kept reporting "57 routes, 0 problems" while the pages did not exist yet.
+ */
+const nav = await build({
+  entryPoints: [new URL('../docs/content/nav.generated.ts', import.meta.url).pathname],
+  bundle: true,
+  write: false,
+  format: 'esm',
+  platform: 'node',
+  logLevel: 'silent',
+});
+const navModule = await import(
+  `data:text/javascript;base64,${Buffer.from(nav.outputFiles[0].text).toString('base64')}`
+);
+const slugs = navModule.navEntries.map((entry) => entry.slug);
 
 const templates = ['homepage', 'sign-in', 'settings', 'not-found'];
 

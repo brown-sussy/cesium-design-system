@@ -76,6 +76,10 @@ const grouped = categoryOrder
   }))
   .filter((g) => g.docs.length > 0);
 
+/* Derived, not typed out: a category added to the registry used to leave this
+   union behind, and the generated file then failed to compile. */
+const categoryUnion = categoryOrder.map((c) => `  | ${q(c)}`).join('\n');
+
 const body = `/**
  * GENERATED FILE — do not edit.
  *
@@ -87,14 +91,7 @@ const body = `/**
  */
 
 export type NavCategory =
-  | 'Actions'
-  | 'Forms'
-  | 'Display'
-  | 'Layout'
-  | 'Data'
-  | 'Navigation'
-  | 'Overlay'
-  | 'HUD';
+${categoryUnion};
 
 export interface NavEntry {
   slug: string;

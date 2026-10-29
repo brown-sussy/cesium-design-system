@@ -1,0 +1,353 @@
+/* ------------------------------------------------------------------
+ * AI — ReasoningTrace, ToolCall, ContextMeter
+ * ------------------------------------------------------------------ */
+
+/* --- reasoning trace ------------------------------------------------ */
+
+.cs-trace {
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-bg-surface);
+}
+
+.cs-trace__head {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-6);
+  width: 100%;
+  padding: 7px 10px;
+  border: 0;
+  background: none;
+  color: var(--cs-text-tertiary);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-wider);
+  text-transform: uppercase;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-trace__head:hover {
+  color: var(--cs-text-secondary);
+}
+
+.cs-trace__head svg {
+  transition: transform var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-trace[data-open='true'] .cs-trace__head svg {
+  transform: rotate(90deg);
+}
+
+.cs-trace__summary {
+  margin-left: auto;
+  color: var(--cs-text-disabled);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-trace__list {
+  display: grid;
+  margin: 0;
+  padding: 2px 10px 8px;
+  border-top: 1px solid var(--cs-border-subtle);
+  list-style: none;
+}
+
+.cs-trace__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 9px minmax(0, 1fr) auto;
+  gap: 1px 9px;
+  padding: 7px 0;
+}
+
+.cs-trace__step + .cs-trace__step {
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+/* The thread between dots. It stops short of the next dot rather than
+   running into it. */
+.cs-trace__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  bottom: -8px;
+  left: 4px;
+  width: 1px;
+  background: var(--cs-border);
+}
+
+.cs-trace__dot {
+  position: relative;
+  z-index: 1;
+  width: 9px;
+  height: 9px;
+  margin-top: 3px;
+  border: 1px solid var(--cs-border-strong);
+  border-radius: 50%;
+  background: var(--cs-bg-surface);
+}
+
+.cs-trace__step[data-status='done'] .cs-trace__dot {
+  border-color: var(--cs-text-tertiary);
+  background: var(--cs-text-tertiary);
+}
+
+.cs-trace__step[data-status='active'] .cs-trace__dot {
+  border-color: var(--cs-accent);
+  background: var(--cs-accent);
+  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+}
+
+.cs-trace__step[data-status='failed'] .cs-trace__dot {
+  border-color: var(--cs-danger);
+  background: var(--cs-danger);
+}
+
+.cs-trace__label {
+  font-size: var(--cs-fs-sm);
+  line-height: 1.4;
+  color: var(--cs-text-secondary);
+}
+
+.cs-trace__step[data-status='active'] .cs-trace__label {
+  color: var(--cs-text-primary);
+}
+
+.cs-trace__detail {
+  grid-column: 2;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  line-height: 1.5;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-trace__time {
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* --- tool call ------------------------------------------------------ */
+
+.cs-tool {
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-bg-surface);
+  overflow: hidden;
+}
+
+.cs-tool__head {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  padding: 6px 8px 6px 10px;
+  min-width: 0;
+}
+
+.cs-tool__icon {
+  color: var(--cs-text-tertiary);
+}
+
+.cs-tool[data-status='running'] .cs-tool__icon {
+  color: var(--cs-accent);
+}
+
+.cs-tool[data-status='failed'] .cs-tool__icon {
+  color: var(--cs-danger);
+}
+
+.cs-tool__name {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-xs);
+  color: var(--cs-text-primary);
+  white-space: nowrap;
+}
+
+.cs-tool__args {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  color: var(--cs-text-tertiary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-tool__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  margin-left: auto;
+  padding-left: var(--cs-space-8);
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cs-tool__status[data-status='running'] {
+  color: var(--cs-accent);
+}
+
+.cs-tool__status[data-status='done'] {
+  color: var(--cs-success);
+}
+
+.cs-tool__status[data-status='failed'] {
+  color: var(--cs-danger);
+}
+
+.cs-tool__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: var(--cs-radius-xs);
+  background: none;
+  color: var(--cs-text-disabled);
+  cursor: pointer;
+}
+
+.cs-tool__toggle:hover {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-secondary);
+}
+
+.cs-tool__toggle svg {
+  transition: transform var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-tool[data-open='true'] .cs-tool__toggle svg {
+  transform: rotate(180deg);
+}
+
+.cs-tool__body {
+  padding: 8px 10px;
+  border-top: 1px solid var(--cs-border-subtle);
+  background: var(--cs-bg-inset);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  line-height: 1.65;
+  color: var(--cs-text-secondary);
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.cs-tool[data-status='failed'] .cs-tool__body {
+  color: var(--cs-danger);
+}
+
+/* --- context meter -------------------------------------------------- */
+
+.cs-ctx {
+  display: grid;
+  gap: var(--cs-space-6);
+  min-width: 0;
+}
+
+.cs-ctx__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cs-space-8);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-wider);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-ctx__value {
+  margin-left: auto;
+  color: var(--cs-text-secondary);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-ctx__bar {
+  position: relative;
+  display: flex;
+  gap: 1px;
+  height: 8px;
+  border-radius: 1px;
+  background: var(--cs-bg-inset);
+  overflow: hidden;
+}
+
+.cs-ctx__seg {
+  height: 100%;
+  background: var(--cs-border-strong);
+}
+
+.cs-ctx__seg[data-tone='accent'] {
+  background: var(--cs-accent);
+}
+
+.cs-ctx__seg[data-tone='success'] {
+  background: var(--cs-success);
+}
+
+.cs-ctx__seg[data-tone='warning'] {
+  background: var(--cs-warning);
+}
+
+.cs-ctx__seg[data-tone='danger'] {
+  background: var(--cs-danger);
+}
+
+.cs-ctx__limit {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--cs-text-primary);
+  opacity: 0.5;
+}
+
+.cs-ctx__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-10);
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  color: var(--cs-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-ctx__key {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cs-ctx__key i {
+  width: 5px;
+  height: 5px;
+  background: var(--cs-border-strong);
+}
+
+.cs-ctx__key[data-tone='accent'] i {
+  background: var(--cs-accent);
+}
+
+.cs-ctx__key[data-tone='success'] i {
+  background: var(--cs-success);
+}
+
+.cs-ctx__key[data-tone='warning'] i {
+  background: var(--cs-warning);
+}
+
+.cs-ctx__key[data-tone='danger'] i {
+  background: var(--cs-danger);
+}

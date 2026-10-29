@@ -45,9 +45,13 @@ const rules = [
     title: 'Agent-ready',
     text: 'Ships with a SKILL.md that teaches an agent the tokens, APIs and anti-patterns, so generated UI stays on-system.',
   },
+  {
+    title: 'Past the chrome',
+    text: 'AI traces, tool calls, transcripts, spectra, event displays and sequences — the same tokens, no charting dependency.',
+  },
 ];
 
-const featured = ['button', 'input', 'table', 'panel', 'badge', 'tabs', 'compass', 'coordinate-readout'];
+const featured = ['button', 'input', 'table', 'panel', 'reasoning-trace', 'event-display', 'compass', 'coordinate-readout'];
 
 const principles = [
   ['Precision over decoration', 'A hairline where a shadow would do. A number where an adjective would do.'],
@@ -142,7 +146,7 @@ export function Home() {
         <div className="home-head">
           <div>
             <div className="doc-eyebrow">The system</div>
-            <h2 className="home-head__title">Six rules, enforced by tokens</h2>
+            <h2 className="home-head__title">{rules.length} rules, enforced by tokens</h2>
           </div>
           <p className="home-head__note">
             The rules are few. Because they live in tokens rather than in component code, a

@@ -1,6 +1,6 @@
 import { Badge, Button, Divider, Icon, StatusDot } from '@cesium-ds/core';
 import { CodeBlock, PageHead, Section } from '../components/DocsUI';
-import { componentCount } from '../content/nav.generated';
+import { componentCount, navByCategory } from '../content/nav.generated';
 import { TOKEN_STATS } from '../lib/tokenStats';
 
 export function Resources() {
@@ -383,8 +383,9 @@ localStorage.setItem('cesium-style', 'plus');`}
           <h3>1.0.0 — Initial release</h3>
           <ul>
             <li>{TOKEN_STATS.total} design tokens across dark and light themes, compiled from JSON.</li>
-            <li>{componentCount} React components in 8 categories, typed and dependency-free.</li>
+            <li>{componentCount} React components in {navByCategory.length} categories, typed and dependency-free.</li>
             <li>HUD layer: Compass, ScaleBar, CoordinateReadout, Legend.</li>
+            <li>AI, chat and science layers: reasoning traces, tool calls, context meters, transcripts, and readouts for physics, high-energy physics and biotech.</li>
             <li>Documentation site with live examples, prop tables and patterns.</li>
             <li>Agent skill package with token and component references.</li>
           </ul>

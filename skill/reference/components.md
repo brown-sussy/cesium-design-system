@@ -452,6 +452,145 @@ at north rather than at the camera. `heading={28}` therefore puts the needle 28�
 
 ---
 
+## AI
+
+### ReasoningTrace
+
+`steps` (`{ id, label, detail?, status?, time? }[]`), `title` (default `Reasoning`), `summary`,
+`open` / `defaultOpen` / `onOpenChange`.
+
+Status is `pending | active | done | failed`. `active` gets an accent dot with a 3px soft ring;
+the thread between dots stops short of the next dot rather than running into it. Opens by
+default while a step is `active` — a trace you have to click to watch is a trace nobody watches.
+
+```tsx
+<ReasoningTrace
+  steps={[
+    { id: 'a', label: 'Parse the request', time: '0.2s' },
+    { id: 'b', label: 'Search the catalogue', time: '0.9s' },
+    { id: 'c', label: 'Check tile availability', status: 'active', time: '1.4s' },
+    { id: 'd', label: 'Compose the answer', status: 'pending' },
+  ]}
+/>
+```
+
+### ToolCall
+
+`name`, `args` (record), `status` (`running | done | failed`), `result`, `duration`,
+`defaultOpen`.
+
+Arguments render as `k="v" · k=v`. A string `result` is printed as-is in a monospace body on
+`--cs-bg-inset`; the chevron only exists when there is a result. A failed call prints the error
+text, so the failure is not only a red status word.
+
+### ContextMeter
+
+`segments` (`{ label, tokens, tone? }[]`), `limit`, `label`, `showLegend`.
+
+The bar is scaled to `limit`, not to the used total — an empty half means room left. Tones are
+`neutral | accent | success | warning | danger`. `role="img"` with a label listing every segment.
+
+```tsx
+<ContextMeter
+  limit={128000}
+  segments={[
+    { label: 'system', tokens: 2140 },
+    { label: 'history', tokens: 18400, tone: 'accent' },
+  ]}
+/>
+```
+
+---
+
+## Chat
+
+### Message / MessageList
+
+`role` (`user | assistant | system | tool`), `author`, `time`, `streaming`, `actions`,
+`meta` (`{ label, value }[]`).
+
+A transcript, not bubbles. The role sits above the body in 9.5px monospace; a user turn gets
+`--cs-bg-raised` plus a 2px left edge, an assistant turn stays on the page, a system turn is
+monospace and dim. `streaming` adds a blinking 6px caret and `aria-busy`. `MessageList` renders
+`role="log"`.
+
+### Composer
+
+`value` / `onChange` (controlled or uncontrolled), `onSend`, `onStop`, `busy`, `disabled`,
+`placeholder`, `maxLength`, `rows`, `hint`.
+
+Enter sends, Shift+Enter breaks the line. While `busy` the button becomes a stop square, Enter
+is inert, and the stop button stays focusable — stopping a run must not require a mouse.
+
+### TypingIndicator
+
+`label` (default `Generating`). Three dots on a 1.15s cycle, 140ms apart, plus a monospace
+caption. `role="status"` with `aria-live="polite"`.
+
+### ThreadList
+
+`items` (`{ id, title, preview?, time?, unread? }[]`), `value`, `onSelect`.
+
+Each row is a `<button>`; the active row carries a 2px accent left edge, `--cs-bg-raised` and
+`aria-current`. The unread count lives inside the title span so it is read with the thread name.
+
+---
+
+## Science
+
+Readouts, not charts: they take numbers, units and bins rather than a charting config. All are
+static SVG with no interaction layer, so they are safe inside a table cell.
+
+### Quantity
+
+`value`, `unit`, `uncertainty`, `precision`, `exponent`, `size` (`sm | md | lg`).
+
+`value={9.1093837} exponent={-31} precision={7} unit="kg"` renders `9.1093837 ×10⁻³¹ kg`.
+Uncertainty prints as `±`. Everything is monospace and tabular, so a column lines up on the
+decimal point. The exponent carries an `aria-label`.
+
+### VectorReadout
+
+`x`, `y`, `z?`, `unit`, `magnitude`, `precision`, `labels` (default `['x','y','z']`).
+
+Each row is its own grid with the value right-aligned, so components stack on the decimal point.
+`magnitude` adds a `|v|` row above a hairline.
+
+### Histogram
+
+`bins` (`{ x0, x1, count }[]`), `height`, `log`, `unit`, `marker`.
+
+Bin geometry comes from the data. Log scales counts as `log10(count + 1)`. `marker` draws a
+dashed rule with a haloed label so it stays legible over the bars. Empty bins render as a
+hairline, not a gap. Footer prints bins, unit and total events.
+
+### EventDisplay
+
+`tracks` (`{ angle, length, charge? }[]`), `calorimeter` (`{ angle, energy }[]`),
+`hits` (`{ x, y, r? }[]`), `label`, `size`.
+
+A transverse view: tracker rings at 26/44/62, calorimeter between 78 and 96 of a 240 view-box.
+Tracks curve by charge (+1 accent, −1 warning, 0 dashed grey); towers grow from the inner
+calorimeter ring by energy. Geometry only — same props, same picture.
+
+### SequenceView
+
+`sequence`, `kind` (`dna | protein`), `start`, `perLine` (default 60), `highlight`
+(`{ start, end }`, 0-based half-open), `colorBy`, `label`.
+
+DNA colours one class per base; protein uses hydrophobic / polar / basic / acidic / special.
+The sequence is real text, so it stays selectable and copyable.
+
+### DoseResponse
+
+`ic50`, `hill`, `top`, `bottom`, `points`, `xRange`, `height`, `unit`.
+
+Four-parameter logistic on a log x axis: `bottom + (top − bottom) / (1 + (ic50/x)^hill)`.
+`xRange` defaults to `ic50/100 … ic50×100`. Decades are labelled; the IC50 rule is dashed and
+labelled with its value and unit.
+
+---
+
 ## HUD surface utility
 
 `className="cs-hud"` gives the scene backdrop: dark inset, 28px graticule, accent bloom.

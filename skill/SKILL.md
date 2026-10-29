@@ -186,10 +186,28 @@ Two presets ship in the same stylesheet. Only the radius + elevation layer chang
 | Heading indicator | `Compass` | an icon |
 | Map scale | `ScaleBar` | text |
 | Shortcut hint | `Kbd` / `KbdGroup` | plain text |
+| What the agent did | `ReasoningTrace` | a `<ul>` of sentences |
+| One tool invocation | `ToolCall` | a raw `<pre>` |
+| Context budget | `ContextMeter` | `Progress` with no scale |
+| A chat turn | `Message` inside `MessageList` | `div` bubbles |
+| Chat input | `Composer` | `Textarea` + `Button` |
+| Waiting on a model | `TypingIndicator` | a bare `Spinner` |
+| Conversation list | `ThreadList` | `Menu` |
+| A measured value | `Quantity` | `Stat` (a metric, not a measurement) |
+| x/y/z components | `VectorReadout` | three `KeyValue` rows |
+| Binned distribution | `Histogram` | `Sparkline` (no axes) |
+| Detector event | `EventDisplay` | a screenshot |
+| Sequence / alignment | `SequenceView` | `<pre>` |
+| Dose–response curve | `DoseResponse` | a generic line chart |
 
-`Panel` vs `Card`: **Panel** has a 34px monospace header strip and is dense — use it for
+`Panel` vs `Card`: **Panel** has a 32px monospace header strip and is dense — use it for
 dashboards, inspectors and HUD blocks. **Card** has a 16px padded header and is roomier — use
 it for content that is read rather than monitored.
+
+**Science** components are readouts, not charts: they take numbers, units and bins, not a
+charting library's config object. Reach for them when the value itself is the content —
+a mass with its uncertainty, a spectrum, an event. They render static SVG with no
+interaction layer, so they cost nothing to put in a table cell.
 
 ---
 

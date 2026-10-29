@@ -9,7 +9,10 @@ export type Category =
   | 'Data'
   | 'Navigation'
   | 'Overlay'
-  | 'HUD';
+  | 'HUD'
+  | 'AI'
+  | 'Chat'
+  | 'Science';
 
 export interface ComponentExample {
   title: string;

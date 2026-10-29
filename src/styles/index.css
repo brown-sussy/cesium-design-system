@@ -17,3 +17,6 @@
 @import './components/nav.css';
 @import './components/overlay.css';
 @import './components/hud.css';
+@import './components/ai.css';
+@import './components/chat.css';
+@import './components/science.css';

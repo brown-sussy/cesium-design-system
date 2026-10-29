@@ -1,10 +1,19 @@
 import { actionsForms } from './actions-forms';
+import { aiChat } from './ai-chat';
 import { display } from './display';
 import { layoutData } from './layout-data';
 import { navOverlayHud } from './nav-overlay-hud';
+import { science } from './science';
 import type { Category, ComponentDoc } from './types';
 
-export const registry: ComponentDoc[] = [...actionsForms, ...display, ...layoutData, ...navOverlayHud];
+export const registry: ComponentDoc[] = [
+  ...actionsForms,
+  ...display,
+  ...layoutData,
+  ...navOverlayHud,
+  ...aiChat,
+  ...science,
+];
 
 export const categoryOrder: Category[] = [
   'Actions',
@@ -15,6 +24,9 @@ export const categoryOrder: Category[] = [
   'Navigation',
   'Overlay',
   'HUD',
+  'AI',
+  'Chat',
+  'Science',
 ];
 
 export const byCategory: Array<{ category: Category; docs: ComponentDoc[] }> = categoryOrder

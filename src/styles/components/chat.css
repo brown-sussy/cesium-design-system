@@ -1,0 +1,378 @@
+/* ------------------------------------------------------------------
+ * Chat — Message, Composer, TypingIndicator, ThreadList
+ * ------------------------------------------------------------------ */
+
+/* --- transcript ------------------------------------------------------ */
+
+.cs-thread {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-msg {
+  display: grid;
+  gap: var(--cs-space-6);
+  padding: 14px 0;
+}
+
+.cs-msg + .cs-msg {
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+.cs-msg__head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cs-space-8);
+  min-width: 0;
+}
+
+.cs-msg__role {
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: var(--cs-tracking-widest);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-msg[data-role='assistant'] .cs-msg__role {
+  color: var(--cs-accent);
+}
+
+.cs-msg[data-role='user'] .cs-msg__role {
+  color: var(--cs-text-secondary);
+}
+
+.cs-msg__author {
+  font-size: var(--cs-fs-xs);
+  color: var(--cs-text-secondary);
+}
+
+.cs-msg__time {
+  margin-left: auto;
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cs-msg__body {
+  font-size: var(--cs-fs-base);
+  line-height: 1.62;
+  color: var(--cs-text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.cs-msg[data-role='user'] .cs-msg__body {
+  padding: 9px 12px;
+  border-left: 2px solid var(--cs-border-strong);
+  border-radius: 0 var(--cs-radius-sm) var(--cs-radius-sm) 0;
+  /* bg-raised is #fff in the light theme, so the block would vanish on a white
+     page. Mixed from the text colour instead — same trap as the panel header. */
+  background: color-mix(in srgb, var(--cs-text-primary) 4%, var(--cs-bg-surface));
+  color: var(--cs-text-primary);
+}
+
+.cs-msg[data-role='system'] .cs-msg__body {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  line-height: 1.6;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-msg__body > * + * {
+  margin-top: 10px;
+}
+
+.cs-msg__body code {
+  padding: 1px 4px;
+  border-radius: var(--cs-radius-xs);
+  background: var(--cs-bg-inset);
+  font-family: var(--cs-font-mono);
+  font-size: 0.92em;
+  color: var(--cs-text-primary);
+}
+
+/* The caret sits on the last line of a message that is still arriving. */
+.cs-msg[data-streaming='true'] .cs-msg__body::after {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 0.95em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--cs-accent);
+  animation: cs-caret 1s steps(1, end) infinite;
+}
+
+@keyframes cs-caret {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.cs-msg__foot {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-4);
+  margin-top: -2px;
+}
+
+.cs-msg__meta {
+  display: flex;
+  gap: var(--cs-space-10);
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- composer -------------------------------------------------------- */
+
+.cs-composer {
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-bg-surface);
+  transition: border-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-composer:focus-within {
+  border-color: var(--cs-border-strong);
+}
+
+.cs-composer[data-disabled='true'] {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.cs-composer__input {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  color: var(--cs-text-primary);
+  font-family: var(--cs-font-sans);
+  font-size: var(--cs-fs-base);
+  line-height: 1.55;
+  resize: none;
+  outline: none;
+}
+
+.cs-composer__input::placeholder {
+  color: var(--cs-text-disabled);
+}
+
+.cs-composer__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-6);
+  padding: 6px 6px 6px 8px;
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+.cs-composer__hint {
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.05em;
+  color: var(--cs-text-disabled);
+  white-space: nowrap;
+}
+
+.cs-composer__attach {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  border: 0;
+  border-radius: var(--cs-radius-xs);
+  background: none;
+  color: var(--cs-text-tertiary);
+  cursor: pointer;
+  transition: background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-composer__attach:hover {
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
+.cs-composer__count {
+  margin-left: auto;
+  padding-right: 4px;
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-composer__count[data-over='true'] {
+  color: var(--cs-danger);
+}
+
+.cs-composer__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  border: 0;
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-solid);
+  color: var(--cs-solid-contrast);
+  cursor: pointer;
+  transition: background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-composer__send:hover {
+  background: var(--cs-solid-hover);
+}
+
+.cs-composer__send:disabled {
+  background: var(--cs-bg-active);
+  color: var(--cs-text-disabled);
+  cursor: not-allowed;
+}
+
+.cs-composer__send[data-busy='true'] {
+  background: var(--cs-bg-active);
+  color: var(--cs-text-primary);
+}
+
+/* --- typing indicator ------------------------------------------------ */
+
+.cs-typing {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--cs-space-8);
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-wider);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-typing__dots {
+  display: inline-flex;
+  gap: 3px;
+}
+
+.cs-typing__dots i {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: cs-typing 1.15s var(--cs-ease-in-out) infinite;
+}
+
+.cs-typing__dots i:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.cs-typing__dots i:nth-child(3) {
+  animation-delay: 0.28s;
+}
+
+@keyframes cs-typing {
+  0%,
+  62%,
+  100% {
+    opacity: 0.28;
+    transform: translateY(0);
+  }
+  28% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+/* --- thread list ----------------------------------------------------- */
+
+.cs-threads {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-threads__item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px 10px;
+  padding: 8px 10px 9px;
+  border-left: 2px solid transparent;
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-threads__item:hover {
+  background: var(--cs-bg-hover);
+}
+
+.cs-threads__item[data-active='true'] {
+  border-left-color: var(--cs-accent);
+  background: color-mix(in srgb, var(--cs-text-primary) 5%, var(--cs-bg-surface));
+}
+
+.cs-threads__title {
+  overflow: hidden;
+  font-size: var(--cs-fs-sm);
+  color: var(--cs-text-primary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-threads__item:not([data-active='true']) .cs-threads__title {
+  color: var(--cs-text-secondary);
+}
+
+.cs-threads__time {
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  line-height: 1.7;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.cs-threads__preview {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  font-size: var(--cs-fs-xs);
+  line-height: 1.5;
+  color: var(--cs-text-tertiary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cs-threads__unread {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  height: 14px;
+  margin-left: 6px;
+  padding: 0 4px;
+  border-radius: var(--cs-radius-xs);
+  background: var(--cs-accent-soft);
+  color: var(--cs-accent);
+  font-family: var(--cs-font-mono);
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  vertical-align: 1px;
+}

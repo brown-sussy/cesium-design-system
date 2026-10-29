@@ -99,3 +99,35 @@ export { Compass } from './components/Compass';
 export type { CompassProps } from './components/Compass';
 export { ScaleBar } from './components/ScaleBar';
 export type { ScaleBarProps } from './components/ScaleBar';
+
+/* ai */
+export { ReasoningTrace } from './components/ReasoningTrace';
+export type { ReasoningTraceProps, TraceStep, TraceStatus } from './components/ReasoningTrace';
+export { ToolCall } from './components/ToolCall';
+export type { ToolCallProps, ToolStatus } from './components/ToolCall';
+export { ContextMeter } from './components/ContextMeter';
+export type { ContextMeterProps, ContextSegment, ContextTone } from './components/ContextMeter';
+
+/* chat */
+export { Message, MessageList } from './components/Message';
+export type { MessageProps, MessageListProps, MessageRole } from './components/Message';
+export { Composer } from './components/Composer';
+export type { ComposerProps } from './components/Composer';
+export { TypingIndicator } from './components/TypingIndicator';
+export type { TypingIndicatorProps } from './components/TypingIndicator';
+export { ThreadList } from './components/ThreadList';
+export type { ThreadListProps, ThreadItem } from './components/ThreadList';
+
+/* science */
+export { Quantity } from './components/Quantity';
+export type { QuantityProps } from './components/Quantity';
+export { VectorReadout } from './components/VectorReadout';
+export type { VectorReadoutProps } from './components/VectorReadout';
+export { Histogram } from './components/Histogram';
+export type { HistogramProps, HistogramBin } from './components/Histogram';
+export { EventDisplay } from './components/EventDisplay';
+export type { EventDisplayProps, EventTrack, EventHit, EventCalo } from './components/EventDisplay';
+export { SequenceView } from './components/SequenceView';
+export type { SequenceViewProps, SequenceKind } from './components/SequenceView';
+export { DoseResponse } from './components/DoseResponse';
+export type { DoseResponseProps, DosePoint } from './components/DoseResponse';

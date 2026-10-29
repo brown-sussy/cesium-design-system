@@ -16,7 +16,7 @@ It ships five things that stay in sync:
 | Deliverable | Path | What it is |
 | --- | --- | --- |
 | Design tokens | `tokens/tokens.json` → `src/styles/tokens.css` | 153 design tokens, dark + light + 2 shape presets, compiled from one JSON source |
-| React library | `src/` | 40 typed components, zero runtime dependencies |
+| React library | `src/` | 53 typed components across 11 categories, zero runtime dependencies |
 | Page templates | `docs/templates/` | 4 complete pages — homepage, sign in, settings, 404 — each one file |
 | Documentation site | `docs/` | Live examples, prop tables, foundations, patterns |
 | Agent skill | `skill/` | `SKILL.md` + three references so an AI agent can build on-system UI |
@@ -42,6 +42,10 @@ It ships five things that stay in sync:
   `font-optical-sizing: auto` lets each size pick its own cut.
 - **Instrument language.** Monospace labels, tabular figures, dotted leaders, uppercase
   micro-captions, registration marks on panel corners.
+- **Three layers past the chrome.** AI surfaces (`ReasoningTrace`, `ToolCall`, `ContextMeter`),
+  chat (`Message`, `Composer`, `TypingIndicator`, `ThreadList`) and scientific readouts
+  (`Quantity`, `VectorReadout`, `Histogram`, `EventDisplay`, `SequenceView`, `DoseResponse`) —
+  same tokens, same restraint, no charting dependency.
 - **Motion as feedback.** 80–260ms, mechanical easing, no infinite motion except a live pulse.
 
 ---

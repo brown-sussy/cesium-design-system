@@ -1,0 +1,385 @@
+/* ------------------------------------------------------------------
+ * Science — Quantity, VectorReadout, Histogram, EventDisplay,
+ *           SequenceView, DoseResponse
+ * ------------------------------------------------------------------ */
+
+/* --- quantity -------------------------------------------------------- */
+
+.cs-qty {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3em;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-base);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  color: var(--cs-text-primary);
+  white-space: nowrap;
+}
+
+.cs-qty--sm {
+  font-size: var(--cs-fs-xs);
+}
+
+.cs-qty--lg {
+  font-size: var(--cs-fs-xl);
+}
+
+.cs-qty__value {
+  font-weight: var(--cs-fw-regular);
+}
+
+.cs-qty__pm {
+  font-size: 0.78em;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-qty__unit {
+  font-size: 0.82em;
+  letter-spacing: 0.04em;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-qty__exp {
+  font-size: 0.72em;
+  color: var(--cs-text-secondary);
+}
+
+/* --- vector readout --------------------------------------------------- */
+
+.cs-vec {
+  display: grid;
+  min-width: 0;
+  font-family: var(--cs-font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-vec__row {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  gap: var(--cs-space-10);
+  align-items: baseline;
+  padding: 3px 0;
+}
+
+.cs-vec__axis {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cs-text-disabled);
+}
+
+.cs-vec__val {
+  font-size: var(--cs-fs-sm);
+  text-align: right;
+  color: var(--cs-text-primary);
+}
+
+.cs-vec__unit {
+  font-size: 9.5px;
+  letter-spacing: 0.04em;
+  color: var(--cs-text-disabled);
+}
+
+.cs-vec__mag {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr) auto;
+  gap: var(--cs-space-10);
+  margin-top: 5px;
+  padding-top: 6px;
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+.cs-vec__mag .cs-vec__axis {
+  color: var(--cs-text-tertiary);
+}
+
+.cs-vec__mag .cs-vec__val {
+  color: var(--cs-text-secondary);
+}
+
+/* --- histogram -------------------------------------------------------- */
+
+.cs-hist {
+  display: grid;
+  gap: var(--cs-space-6);
+  min-width: 0;
+}
+
+.cs-hist__frame {
+  position: relative;
+}
+
+.cs-hist svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.cs-hist__bar {
+  fill: var(--cs-accent);
+  transition: fill var(--cs-dur-fast) var(--cs-ease-out);
+}
+
+.cs-hist__bar:hover {
+  fill: var(--cs-accent-hover);
+}
+
+.cs-hist__bar[data-empty='true'] {
+  fill: var(--cs-border-strong);
+}
+
+.cs-hist__grid {
+  stroke: var(--cs-border-subtle);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.cs-hist__axis {
+  stroke: var(--cs-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.cs-hist__tick {
+  fill: var(--cs-text-disabled);
+  font-family: var(--cs-font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+}
+
+.cs-hist__marker {
+  stroke: var(--cs-text-tertiary);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+/* The marker label sits over the bars, so it carries a stroke in the surface
+   colour to keep its own edge — cheaper and sharper than a backing rect. */
+.cs-hist__marker-label {
+  fill: var(--cs-text-secondary);
+  font-family: var(--cs-font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+  paint-order: stroke;
+  stroke: var(--cs-bg-surface);
+  stroke-width: 2.5px;
+  stroke-linejoin: round;
+}
+
+.cs-hist__foot {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--cs-space-10);
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- event display ---------------------------------------------------- */
+
+.cs-event {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-bg-inset);
+}
+
+.cs-event__ring {
+  fill: none;
+  stroke: var(--cs-border-subtle);
+  stroke-width: 1;
+}
+
+.cs-event__ring--detector {
+  stroke: var(--cs-border);
+}
+
+.cs-event__track {
+  fill: none;
+  stroke: var(--cs-accent);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.cs-event__track--negative {
+  stroke: var(--cs-warning);
+}
+
+.cs-event__track--neutral {
+  stroke: var(--cs-text-tertiary);
+  stroke-dasharray: 3 2;
+}
+
+.cs-event__hit {
+  fill: var(--cs-text-tertiary);
+}
+
+.cs-event__calo {
+  fill: none;
+  stroke: var(--cs-accent-line);
+  stroke-linecap: butt;
+}
+
+.cs-event__vertex {
+  fill: var(--cs-text-primary);
+}
+
+.cs-event__label {
+  fill: var(--cs-text-disabled);
+  font-family: var(--cs-font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.14em;
+}
+
+/* --- sequence view ---------------------------------------------------- */
+
+.cs-seq {
+  min-width: 0;
+  overflow-x: auto;
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  line-height: 1.6;
+}
+
+.cs-seq__row {
+  display: flex;
+  gap: var(--cs-space-10);
+  white-space: nowrap;
+}
+
+.cs-seq__pos {
+  flex: none;
+  min-width: 42px;
+  font-size: 9px;
+  line-height: 1.78;
+  text-align: right;
+  color: var(--cs-text-disabled);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-seq__bases {
+  letter-spacing: 0.16em;
+}
+
+.cs-seq__r {
+  color: var(--cs-text-secondary);
+}
+
+.cs-seq__r--a {
+  color: var(--cs-accent);
+}
+
+.cs-seq__r--c {
+  color: var(--cs-success);
+}
+
+.cs-seq__r--g {
+  color: var(--cs-warning);
+}
+
+.cs-seq__r--t {
+  color: var(--cs-danger);
+}
+
+.cs-seq__r--hydrophobic {
+  color: var(--cs-text-primary);
+}
+
+.cs-seq__r--polar {
+  color: var(--cs-accent);
+}
+
+.cs-seq__r--basic {
+  color: var(--cs-success);
+}
+
+.cs-seq__r--acidic {
+  color: var(--cs-danger);
+}
+
+.cs-seq__r--special {
+  color: var(--cs-warning);
+}
+
+.cs-seq__r[data-hl='true'] {
+  border-radius: 1px;
+  background: var(--cs-accent-soft);
+  box-shadow: 0 0 0 1px var(--cs-accent-soft);
+}
+
+.cs-seq__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cs-space-10);
+  margin-top: var(--cs-space-8);
+  padding-top: var(--cs-space-8);
+  border-top: 1px solid var(--cs-border-subtle);
+  font-family: var(--cs-font-mono);
+  font-size: 9.5px;
+  color: var(--cs-text-tertiary);
+}
+
+.cs-seq__legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cs-seq__legend b {
+  font-weight: var(--cs-fw-regular);
+}
+
+/* --- dose response ---------------------------------------------------- */
+
+.cs-dose {
+  display: grid;
+  gap: var(--cs-space-6);
+  min-width: 0;
+}
+
+.cs-dose svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.cs-dose__curve {
+  fill: none;
+  stroke: var(--cs-accent);
+  stroke-width: 1.4;
+}
+
+.cs-dose__point {
+  fill: var(--cs-bg-surface);
+  stroke: var(--cs-accent);
+  stroke-width: 1.2;
+}
+
+.cs-dose__ic50 {
+  stroke: var(--cs-text-tertiary);
+  stroke-width: 1;
+  stroke-dasharray: 2 3;
+}
+
+.cs-dose__rule {
+  stroke: var(--cs-border);
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+
+.cs-dose__label {
+  fill: var(--cs-text-disabled);
+  font-family: var(--cs-font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.04em;
+}
+
+.cs-dose__label--mark {
+  fill: var(--cs-text-secondary);
+}

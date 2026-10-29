@@ -16,7 +16,10 @@ export type NavCategory =
   | 'Data'
   | 'Navigation'
   | 'Overlay'
-  | 'HUD';
+  | 'HUD'
+  | 'AI'
+  | 'Chat'
+  | 'Science';
 
 export interface NavEntry {
   slug: string;
@@ -69,6 +72,19 @@ export const navEntries: NavEntry[] = [
   { slug: 'alert', name: 'Alert', category: 'Overlay', summary: 'Inline message tied to the content around it — not a toast.', status: 'Stable', examples: 1 },
   { slug: 'compass', name: 'Compass', category: 'HUD', summary: 'Camera heading indicator: a fixed card, a needle that tracks north.', status: 'New', examples: 1 },
   { slug: 'scale-bar', name: 'ScaleBar', category: 'HUD', summary: 'Map scale bracket with end caps and a mid tick.', status: 'New', examples: 1 },
+  { slug: 'reasoning-trace', name: 'ReasoningTrace', category: 'AI', summary: 'The steps an agent took, as a collapsible list with per-step timing.', status: 'New', examples: 2 },
+  { slug: 'tool-call', name: 'ToolCall', category: 'AI', summary: 'One tool invocation: name, arguments, status, duration and raw result.', status: 'New', examples: 1 },
+  { slug: 'context-meter', name: 'ContextMeter', category: 'AI', summary: 'How much of the context window is spent, split by what spent it.', status: 'New', examples: 1 },
+  { slug: 'message', name: 'Message', category: 'Chat', summary: 'One turn in a transcript, with role, timing and an optional streaming caret.', status: 'New', examples: 2 },
+  { slug: 'composer', name: 'Composer', category: 'Chat', summary: 'The input line: attach, hint, counter, and send that becomes stop.', status: 'New', examples: 1 },
+  { slug: 'typing-indicator', name: 'TypingIndicator', category: 'Chat', summary: 'Three dots and a caption: what the surface does while it waits.', status: 'New', examples: 1 },
+  { slug: 'thread-list', name: 'ThreadList', category: 'Chat', summary: 'Conversations as rows: title, preview, time, unread count.', status: 'New', examples: 1 },
+  { slug: 'quantity', name: 'Quantity', category: 'Science', summary: 'A measured value: digits, ± uncertainty, power of ten, unit.', status: 'New', examples: 2 },
+  { slug: 'vector-readout', name: 'VectorReadout', category: 'Science', summary: 'Three components and a magnitude, sharing one decimal column.', status: 'New', examples: 1 },
+  { slug: 'histogram', name: 'Histogram', category: 'Science', summary: 'Binned counts as a static SVG, linear or log, with an optional marker.', status: 'New', examples: 2 },
+  { slug: 'event-display', name: 'EventDisplay', category: 'Science', summary: 'A transverse view of one collision: tracker, tracks and calorimeter towers.', status: 'New', examples: 1 },
+  { slug: 'sequence-view', name: 'SequenceView', category: 'Science', summary: 'A wrapped nucleotide or protein sequence with a position ruler.', status: 'New', examples: 2 },
+  { slug: 'dose-response', name: 'DoseResponse', category: 'Science', summary: 'A four-parameter dose–response curve on a log x axis, with IC50 marked.', status: 'New', examples: 1 },
 ];
 
 export const navByCategory: Array<{ category: NavCategory; docs: NavEntry[] }> = [
@@ -103,6 +119,18 @@ export const navByCategory: Array<{ category: NavCategory; docs: NavEntry[] }> =
   {
     category: 'HUD',
     docs: navEntries.filter((d) => d.category === 'HUD'),
+  },
+  {
+    category: 'AI',
+    docs: navEntries.filter((d) => d.category === 'AI'),
+  },
+  {
+    category: 'Chat',
+    docs: navEntries.filter((d) => d.category === 'Chat'),
+  },
+  {
+    category: 'Science',
+    docs: navEntries.filter((d) => d.category === 'Science'),
   },
 ];
 

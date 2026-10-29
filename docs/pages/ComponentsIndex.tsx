@@ -6,7 +6,7 @@ import { navigate } from '../lib/router';
 
 /**
  * The component index. Deliberately built on `nav.generated` rather than the
- * content registry: this page lists 40 components and needs four fields of
+ * content registry: this page lists every component and needs four fields of
  * each, while the registry also carries every demo component and source
  * string. Same page, a fraction of the weight.
  */
@@ -38,7 +38,7 @@ export function ComponentsIndex() {
         meta={
           <>
             <Badge tone="accent">{componentCount} components</Badge>
-            <Badge>8 categories</Badge>
+            <Badge>{navByCategory.length} categories</Badge>
             <Badge>0 runtime dependencies</Badge>
           </>
         }

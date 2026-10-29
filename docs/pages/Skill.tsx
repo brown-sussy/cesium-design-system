@@ -22,7 +22,7 @@ export function Skill() {
           <>
             <Badge tone="accent">SKILL.md</Badge>
             <Badge>4 files</Badge>
-            <Badge>~1.5k lines</Badge>
+            <Badge>~1.7k lines</Badge>
           </>
         }
       />
