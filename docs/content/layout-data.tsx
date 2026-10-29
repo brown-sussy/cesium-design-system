@@ -82,9 +82,12 @@ function PanelDemo() {
         title="Camera state"
         accent
         actions={
-          <IconButton label="Refresh" size="sm" variant="ghost">
-            <Icon name="activity" size={12} />
-          </IconButton>
+          <>
+            <StatusDot tone="success" label="live" pulse />
+            <IconButton label="Refresh" size="sm" variant="ghost">
+              <Icon name="activity" size={12} />
+            </IconButton>
+          </>
         }
       >
         <PanelBody>
@@ -308,8 +311,13 @@ export const layoutData: ComponentDoc[] = [
     examples: [
       {
         title: 'Accent panel',
-        description: 'The accent variant adds a 2px gradient hairline along the top edge.',
-        code: `<Panel title="Camera state" accent actions={<IconButton label="Refresh" />}>
+        description:
+          'Registration marks frame the corners; accent turns them and the border to the signal colour.',
+        code: `<Panel
+  title="Camera state"
+  accent
+  actions={<><StatusDot tone="success" label="live" pulse /><IconButton label="Refresh" /></>}
+>
   <PanelBody>
     <KeyValue items={[...]} />
   </PanelBody>
@@ -320,7 +328,7 @@ export const layoutData: ComponentDoc[] = [
     props: [
       { name: 'title', type: 'ReactNode', default: '—', description: 'Monospace uppercase header label.' },
       { name: 'actions', type: 'ReactNode', default: '—', description: 'Trailing header controls.' },
-      { name: 'accent', type: 'boolean', default: 'false', description: 'Gradient hairline at the top edge.' },
+      { name: 'accent', type: 'boolean', default: 'false', description: 'Accent border and corner marks.' },
       { name: 'flush', type: 'boolean', default: 'false', description: 'Removes body padding.' },
     ],
     a11y: ['The header is visual only; add a heading element inside if the panel is a landmark.'],
@@ -336,7 +344,7 @@ export const layoutData: ComponentDoc[] = [
     examples: [
       {
         title: 'Scene controls',
-        description: 'Icon buttons are 28px; separators are 16px tall and never adjacent to the edge.',
+        description: 'Icon buttons are 28px; separators are 18px tall and never adjacent to the edge.',
         code: `<Toolbar label="Scene">
   <IconButton label="Layers" size="sm"><Icon name="layers" size={13} /></IconButton>
   <ToolbarSeparator />
@@ -360,12 +368,12 @@ export const layoutData: ComponentDoc[] = [
     status: 'Stable',
     summary: 'Dense data table with sticky monospace headers, row selection and numeric alignment.',
     intro:
-      'Headers are monospace uppercase at 10px so they recede behind the data. Numeric columns align right and use tabular figures, which is what makes a table of coordinates or byte counts actually readable.',
+      'Headers sit on their own raised band in 10px monospace, so the column labels read as a header strip rather than a first row. Numeric columns align right and use tabular figures, which is what makes a table of coordinates or byte counts actually readable.',
     examples: [
       {
         title: 'With selection',
         description:
-          'Row hover is 5% white; the selected row lifts to 10% and goes full-contrast. Selection is a neutral step, never a tint.',
+          'Hover is a 5% wash, selection a 13% accent wash plus a 2px edge on the first cell. Selection is a tint, not a step: a neutral 10% disappears against five alternating hairlines.',
         code: `<Table
   columns={columns}
   rows={assets}

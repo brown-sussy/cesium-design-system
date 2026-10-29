@@ -41,7 +41,7 @@ It ships five things that stay in sync:
   JetBrains Mono carries anything a machine produced. Display tracking steps to `-0.021em`, and
   `font-optical-sizing: auto` lets each size pick its own cut.
 - **Instrument language.** Monospace labels, tabular figures, dotted leaders, uppercase
-  micro-captions, 2px gradient hairlines on panels.
+  micro-captions, registration marks on panel corners.
 - **Motion as feedback.** 80–260ms, mechanical easing, no infinite motion except a live pulse.
 
 ---

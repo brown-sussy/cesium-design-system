@@ -238,9 +238,9 @@ arrow-up-right arrow-down menu copy info warning success error sun moon command 
 
 ### Panel / PanelBody
 
-The dense instrument container: 34px monospace header strip.
+The dense instrument container: 32px monospace header strip, accent registration marks in two corners.
 
-`Panel`: `title`, `actions`, `accent` (2px gradient hairline), `flush` (no body padding).
+`Panel`: `title`, `actions`, `accent` (accent border and corner marks), `flush` (no body padding).
 
 ```tsx
 <Panel title="Camera state" accent actions={<IconButton label="Refresh" size="sm" />}>

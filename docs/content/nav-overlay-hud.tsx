@@ -418,7 +418,8 @@ export const navOverlayHud: ComponentDoc[] = [  {
     examples: [
       {
         title: 'Underline',
-        description: 'The active indicator is a 2px accent bar inset 9px from each edge.',
+        description:
+          'The indicator is a 2px accent bar the full width of the tab, sitting on the hairline. It is measured in JS so it slides rather than fades.',
         code: `<Tabs
   value={tab}
   onChange={setTab}

@@ -87,18 +87,50 @@
   flex-direction: column;
   background: var(--cs-bg-surface);
   border: 1px solid var(--cs-border);
-  border-radius: var(--cs-radius-md);
+  border-radius: var(--cs-radius-sm);
   overflow: hidden;
+}
+
+/* Registration marks — two 9px Ls at opposite corners, the way a plotter
+   frames a drawing. They sit inside the border because the panel clips its
+   flush bodies, and they are drawn at z-index 2 so a flush table's sticky
+   header cannot paint over them. */
+.cs-panel::before,
+.cs-panel::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid var(--cs-accent-line);
+  pointer-events: none;
+}
+
+.cs-panel::before {
+  top: 0;
+  left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.cs-panel::after {
+  right: 0;
+  bottom: 0;
+  border-top: 0;
+  border-left: 0;
 }
 
 .cs-panel__head {
   display: flex;
   align-items: center;
   gap: var(--cs-space-8);
-  height: 34px;
+  height: 32px;
   padding: 0 8px 0 12px;
-  border-bottom: 1px solid var(--cs-border-subtle);
-  background: linear-gradient(180deg, var(--cs-bg-raised), var(--cs-bg-surface));
+  border-bottom: 1px solid var(--cs-border);
+  /* A tinted strip, not bg-raised: in the light theme surface and raised are
+     both #fff, so the header would vanish. Mixing the text colour in keeps the
+     strip one step off the body in either theme. */
+  background: color-mix(in srgb, var(--cs-text-primary) 4%, var(--cs-bg-surface));
 }
 
 .cs-panel__title {
@@ -124,13 +156,17 @@
   padding: 0;
 }
 
-.cs-panel--accent::before {
-  content: '';
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--cs-accent), transparent);
-  opacity: 0.7;
+.cs-panel--accent {
+  border-color: var(--cs-accent-line);
+}
+
+.cs-panel--accent::before,
+.cs-panel--accent::after {
+  border-color: var(--cs-accent);
+}
+
+.cs-panel--accent .cs-panel__title {
+  color: var(--cs-text-secondary);
 }
 
 /* --- toolbar -------------------------------------------------------- */
@@ -140,9 +176,9 @@
   align-items: center;
   gap: 2px;
   padding: 3px;
-  background: var(--cs-bg-surface);
+  background: var(--cs-bg-base);
   border: 1px solid var(--cs-border);
-  border-radius: var(--cs-radius-md);
+  border-radius: var(--cs-radius-sm);
 }
 
 .cs-toolbar--block {
@@ -153,9 +189,9 @@
 .cs-toolbar__sep {
   flex: none;
   width: 1px;
-  height: 16px;
+  height: 18px;
   margin: 0 3px;
-  background: var(--cs-border-subtle);
+  background: var(--cs-border);
 }
 
 .cs-toolbar__label {

@@ -21,8 +21,10 @@
   position: sticky;
   top: 0;
   z-index: 1;
-  padding: 8px 12px;
-  background: var(--cs-bg-surface);
+  padding: 7px 12px;
+  /* Same reasoning as the panel head: bg-raised is #fff in the light theme, so
+     the band is mixed from the text colour instead. */
+  background: color-mix(in srgb, var(--cs-text-primary) 5%, var(--cs-bg-surface));
   border-bottom: 1px solid var(--cs-border);
   color: var(--cs-text-tertiary);
   font-family: var(--cs-font-mono);
@@ -45,20 +47,23 @@
   border-bottom: 0;
 }
 
-.cs-table tbody tr {
+/* Hover and selection are painted on the cells, not the row: a row background
+   sits behind the sticky header and leaks through its hairlines while scrolling. */
+.cs-table tbody td {
   transition: background-color var(--cs-dur-fast) var(--cs-ease-out);
 }
 
-.cs-table tbody tr:hover {
+.cs-table tbody tr:hover td {
   background: var(--cs-bg-hover);
 }
 
-.cs-table tbody tr[data-selected='true'] {
-  background: var(--cs-bg-selected);
+.cs-table tbody tr[data-selected='true'] td {
+  background: var(--cs-accent-soft);
+  color: var(--cs-text-primary);
 }
 
-.cs-table tbody tr[data-selected='true'] td {
-  color: var(--cs-text-primary);
+.cs-table tbody tr[data-selected='true'] td:first-child {
+  box-shadow: inset 2px 0 0 var(--cs-accent);
 }
 
 .cs-table--compact th {
@@ -74,6 +79,13 @@
 .cs-table th.cs-table__num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+/* A value split across two lines ("2.4 / GB") destroys the column alignment
+   the rest of the table depends on, so numeric and mono cells never wrap. */
+.cs-table .cs-table__num,
+.cs-table .cs-table__mono {
+  white-space: nowrap;
 }
 
 .cs-table .cs-table__mono {

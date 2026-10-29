@@ -20,7 +20,7 @@ export interface TabsProps {
 
 export function Tabs({ items, value, onChange, variant = 'underline', className, ...rest }: TabsProps) {
   const underline = variant === 'underline';
-  const { ref, box } = useIndicator<HTMLDivElement>(value, underline ? 9 : 0);
+  const { ref, box } = useIndicator<HTMLDivElement>(value);
 
   return (
     <div
