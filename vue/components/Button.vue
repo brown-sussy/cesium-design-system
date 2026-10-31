@@ -32,7 +32,9 @@ const props = withDefaults(
   >
     <span v-if="loading" class="cs-btn__spinner" aria-hidden="true" />
     <span v-if="$slots['icon-left']" class="cs-btn__icon"><slot name="icon-left" /></span>
-    <slot />
+    <!-- Wrapped so `[data-loading] > :not(.cs-btn__spinner)` can hide it: a
+         bare text node is not an element and opacity cannot reach one. -->
+    <span v-if="$slots.default" class="cs-btn__label"><slot /></span>
     <span v-if="$slots['icon-right']" class="cs-btn__icon"><slot name="icon-right" /></span>
   </button>
 </template>

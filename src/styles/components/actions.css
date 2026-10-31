@@ -198,6 +198,18 @@
   cursor: progress;
 }
 
+/* The label is its own element only so the rule below can reach it — `opacity`
+ * cannot hide a bare text node, and without a box the label stayed visible
+ * under the loading ring. `inline-flex` keeps the replacement box-identical:
+ * text and an `IconButton`'s glyph both behave exactly as they did as direct
+ * children of the button. */
+.cs-btn__label {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Hide everything but the spinner. The box is kept, so the button does not
+ * resize when it starts loading. */
 .cs-btn[data-loading='true'] > :not(.cs-btn__spinner) {
   opacity: 0;
 }

@@ -52,7 +52,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     >
       {loading && <span className="cs-btn__spinner" aria-hidden="true" />}
       {iconLeft && <span className="cs-btn__icon">{iconLeft}</span>}
-      {children}
+      {/* Wrapped so `[data-loading] > :not(.cs-btn__spinner)` can hide it — a
+          bare text node is not an element, and opacity cannot reach one. The
+          box stays, so the button does not resize when it starts loading.
+          `false` is excluded: an empty span would still claim a flex gap. */}
+      {children != null && children !== false && (
+        <span className="cs-btn__label">{children}</span>
+      )}
       {iconRight && <span className="cs-btn__icon">{iconRight}</span>}
     </button>
   );
