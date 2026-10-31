@@ -77,7 +77,9 @@ const specs: [string, string][] = [
   ['Components', String(componentCount)],
   ['Tokens', String(TOKEN_STATS.total)],
   ['Runtime deps', '0'],
-  ['Peer dep', 'React 18'],
+  // Kept to two words: the strip is four equal columns, and "React 18 · Vue 3"
+  // filled the last one to the pixel. Exact minimums live on /resources.
+  ['Peer dep', 'React · Vue'],
 ];
 
 export function Home() {
@@ -288,8 +290,9 @@ export function Home() {
               Build it, then install it
             </h2>
             <p className="doc-sub" style={{ marginTop: 8 }}>
-              One package, one stylesheet. React 18+ is the only peer dependency. Not on npm yet —
-              build it from the repo, then install it by path.
+              One package, one stylesheet. React 18+ or Vue 3.3+ — whichever you already run — is
+              the only peer dependency. Not on npm yet — build it from the repo, then install it by
+              path.
             </p>
             <CodeBlock
               lang="bash"

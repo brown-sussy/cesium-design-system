@@ -5,6 +5,7 @@
 [![CI](https://github.com/brown-sussy/cesium-design-system/actions/workflows/ci.yml/badge.svg)](https://github.com/brown-sussy/cesium-design-system/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-7BB1C6?style=flat-square)](LICENSE)
 [![React ≥ 18](https://img.shields.io/badge/react-%E2%89%A5%2018-7BB1C6?style=flat-square)](package.json)
+[![Vue ≥ 3.3](https://img.shields.io/badge/vue-%E2%89%A5%203.3-7BB1C6?style=flat-square)](package.json)
 [![Live docs](https://img.shields.io/badge/docs-live-7BB1C6?style=flat-square)](https://brown-sussy.github.io/cesium-design-system/)
 
 A dark-first design system for geospatial, instrument-like products: one accent colour, a cool
@@ -17,6 +18,7 @@ It ships five things that stay in sync:
 | --- | --- | --- |
 | Design tokens | `tokens/tokens.json` → `src/styles/tokens.css` | 153 design tokens, dark + light + 2 shape presets, compiled from one JSON source |
 | React library | `src/` | 53 typed components across 11 categories, zero runtime dependencies |
+| Vue library | `vue/` | the same 68 exports as `<script setup>` SFCs — one stylesheet serves both |
 | Page templates | `docs/templates/` | 4 complete pages — homepage, sign in, settings, 404 — each one file |
 | Documentation site | `docs/` | Live examples, prop tables, foundations, patterns |
 | Agent skill | `skill/` | `SKILL.md` + three references so an AI agent can build on-system UI |
@@ -90,6 +92,48 @@ Light theme: `document.documentElement.dataset.theme = 'light'`.
 No build step and no CSS framework needed at the consumer end — `styles.css` is a single compiled
 stylesheet, and the components ship as ES modules with type declarations.
 
+### Vue
+
+The Vue build is the same component set against the same stylesheet — there is no second CSS file
+to keep in sync, because every component emits the same `.cs-*` markup.
+
+```vue
+<script setup lang="ts">
+import '@cesium-ds/core/styles.css';
+import { Button, Panel, PanelBody, CoordinateReadout } from '@cesium-ds/core/vue';
+</script>
+
+<template>
+  <Panel title="Camera" accent>
+    <PanelBody>
+      <CoordinateReadout :lat="37.7749" :lon="-122.4194" :alt="1284.5" />
+      <Button variant="primary">Deploy</Button>
+    </PanelBody>
+  </Panel>
+</template>
+```
+
+Or register all 68 components globally:
+
+```ts
+import { createApp } from 'vue';
+import CesiumVue from '@cesium-ds/core/vue';
+createApp(App).use(CesiumVue); // <CsButton>, <CsPanel>, …
+```
+
+Vue idioms replace React ones where the framework has a convention of its own:
+
+| React | Vue |
+| --- | --- |
+| `value` + `onValueChange` | `v-model` |
+| `open` + `onOpenChange` | `v-model:open` |
+| `render` prop returning JSX | scoped slot `#cell-<key>` |
+| `iconLeft` / `iconRight` nodes | `#icon-left` / `#icon-right` slots |
+| `onSelect` on a menu item | one `@select="item"` on the `<CsMenu>` |
+
+`vue/playground/` is the harness: it renders all 68 components in both themes and is what
+`npm run test:vue` drives. It is not published.
+
 ---
 
 ## Repository layout
@@ -100,9 +144,13 @@ cesium-design-system/
 ├── scripts/
 │   ├── build-tokens.mjs        JSON → CSS variables + tokens.json + skill reference
 │   ├── build-docs-nav.mjs      content registry → docs navigation index (metadata only)
-│   └── shots.mjs               screenshot harness (playwright)
+│   ├── build-vue-types.mjs     strip .vue from emitted declarations so tsc can read them
+│   ├── check-icons.mjs         fail if vue/lib/icons.ts drifts from Icon.tsx
+│   ├── audit.mjs               crawl every docs route in a browser
+│   ├── shots.mjs               screenshot harness (playwright)
+│   └── shots-vue.mjs, vue-interact.mjs   the Vue visual and behavioural harnesses
 ├── src/
-│   ├── index.ts                public API
+│   ├── index.ts                public API (React)
 │   ├── components/             one file per component, all typed
 │   ├── lib/cx.ts               class name helper
 │   └── styles/
@@ -110,6 +158,12 @@ cesium-design-system/
 │       ├── base.css            reset, document type, focus, scrollbars, textures
 │       ├── utilities.css       the small utility layer
 │       └── components/*.css    actions, forms, display, layout, data, nav, overlay, hud
+├── vue/
+│   ├── index.ts                public API (Vue) + the install plugin
+│   ├── components/             one .vue SFC per component
+│   ├── lib/                    the same helpers as composables (usePopover, useIndicator…)
+│   ├── types.ts                the data shapes callers name (Column, MenuEntry, SidebarSection…)
+│   └── playground/             verification harness — every component, both themes
 ├── docs/                       documentation site (Vite + React)
 │   ├── content/                component docs as data
 │   ├── pages/                  home, foundations, component page, patterns, resources
@@ -122,18 +176,26 @@ cesium-design-system/
 
 ---
 
-## Components (40)
+## Components (53)
+
+53 documented pages cover 68 exports. The difference is sub-parts — `CardHeader`, `CardBody`,
+`CardFooter`, `PanelBody`, `ToolbarSeparator`, `DropdownHeader`, `DropdownFooter` — which ship as
+their own export but share the parent's page. Every one of the 68 exists twice: once in `src/` for
+React and once in `vue/components/` for Vue.
 
 **Actions** — Button, IconButton, ButtonGroup
 **Forms** — Input, SearchInput, Textarea, Select, Checkbox, Radio, RadioGroup, Switch, Slider,
 Field, SegmentedControl
 **Display** — Badge, Tag, Avatar, Kbd, KbdGroup, StatusDot, Spinner, Progress, Skeleton,
-Divider, Tooltip, Icon (44 glyphs)
+SkeletonText, Divider, Tooltip, Icon (50 glyphs)
 **Layout** — Card, Panel, Toolbar
 **Data** — Table, Stat, KeyValue, Sparkline, CoordinateReadout, Legend
 **Navigation** — Tabs, Breadcrumb, Pagination, Menu, Sidebar
 **Overlay** — Dropdown, Modal, Drawer, Alert
 **HUD** — Compass, ScaleBar, plus the `.cs-hud` surface utility
+**AI** — ReasoningTrace, ToolCall, ContextMeter
+**Chat** — Message, MessageList, Composer, TypingIndicator, ThreadList
+**Science** — Quantity, VectorReadout, Histogram, EventDisplay, SequenceView, DoseResponse
 
 Nothing in that list is a native browser widget. `Select` is a portalled listbox rather than a
 `<select>` popup, `Slider` is a `role="slider"` track rather than a range input, `Menu` and
@@ -167,7 +229,7 @@ the thumbnail on the index, and the source shown beside it (`?raw`), so the thre
 
 The docs ship as **route-split chunks**, not one bundle. The landing page is eager; every other
 page is a `React.lazy` module, so opening the site to read about `Button` no longer downloads the
-foundations essays, both patterns, four templates and all 40 component pages first.
+foundations essays, both patterns, four templates and all 53 component pages first.
 
 ```
 before   index.js  410 kB (118 kB gzip)   ← one bundle, everything
@@ -198,10 +260,15 @@ size axis is intact), which took it from 129 kB to 86 kB.
 | `npm run tokens` | Compile `tokens/tokens.json` → CSS, JSON bundle, skill reference |
 | `npm run docs:nav` | Rebuild the docs navigation index from the content registry |
 | `npm run dev` | Documentation site at `http://localhost:5178` |
-| `npm run build` | Tokens → library (`dist/`) → static site (`site/`) |
-| `npm run build:lib` | Library only (ESM + CJS + `.d.ts` + `cesium-ds.css`) |
+| `npm run build` | Tokens → library (`dist/`) → Vue build (`dist/vue/`) → static site (`site/`) |
+| `npm run build:lib` | React library only (ESM + CJS + `.d.ts` + `cesium-ds.css`) |
+| `npm run build:vue` | Vue library only (`dist/vue/`: ESM + CJS + declarations) |
 | `npm run build:docs` | Static documentation site |
-| `npm run typecheck` | `tsc --noEmit` across library and docs |
+| `npm run dev:vue` | Vue playground — every component, both themes |
+| `npm run typecheck` | `tsc --noEmit` for React and docs, then `vue-tsc` for the Vue package |
+| `npm run icons` | Fail if `vue/lib/icons.ts` drifts from `src/components/Icon.tsx` |
+| `npm run test:vue` | 24 behavioural checks against the playground (select, menu, modal, …) |
+| `npm run shots:vue` | Section-by-section screenshots of the playground in both themes |
 
 ---
 

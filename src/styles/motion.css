@@ -48,13 +48,30 @@
   }
 }
 
-/* Self-drawing stroke. Pair with pathLength="1" on the path. */
+/* Self-drawing stroke. Pair with pathLength="1" on the path.
+ *
+ * Only correct when the SVG is drawn at its viewBox scale: `vector-effect:
+ * non-scaling-stroke` measures the dash in screen space, so a path stretched
+ * by `preserveAspectRatio="none"` renders as a dash–gap–dash instead of one
+ * line. Use cs-wipe for anything that stretches. */
 @keyframes cs-draw {
   from {
     stroke-dashoffset: 1;
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+/* Left-to-right reveal that does not depend on the path's own length, so it
+ * survives non-uniform scaling. Percentages resolve against the element's
+ * bounding box, which scales with the transform. */
+@keyframes cs-wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 

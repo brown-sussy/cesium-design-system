@@ -9,11 +9,12 @@ export function Resources() {
       <PageHead
         eyebrow="Resources"
         title="Installation & theming"
-        lede="One package, one stylesheet, two themes. The library has no runtime dependencies beyond React and ships CSS that is already tokenised."
+        lede="One package, one stylesheet, two themes — for React and for Vue. The library has no runtime dependencies beyond its framework and ships CSS that is already tokenised."
         meta={
           <>
             <Badge tone="accent">v1.0.0</Badge>
             <Badge>React ≥ 18</Badge>
+            <Badge>Vue ≥ 3.3</Badge>
             <Badge>MIT</Badge>
           </>
         }
@@ -80,6 +81,54 @@ export function App() {
             The stylesheet is a single compiled file. If you prefer to compile from source, import{' '}
             <code>@cesium-ds/core/src/styles/index.css</code> from a PostCSS or Vite pipeline instead —
             the <code>src/</code> tree ships in the package for exactly this.
+          </p>
+        </div>
+      </Section>
+
+      <Section id="vue" title="Vue">
+        <div className="prose">
+          <p>
+            The same components ship for Vue 3 at <code>@cesium-ds/core/vue</code>. They render the
+            same <code>.cs-*</code> markup, so there is no second stylesheet to keep in sync —{' '}
+            <code>styles.css</code> is the whole of it for both frameworks.
+          </p>
+        </div>
+        <div style={{ height: 12 }} />
+        <CodeBlock
+          lang="vue"
+          code={`<script setup lang="ts">
+import '@cesium-ds/core/styles.css';
+import { Button, Panel, Compass } from '@cesium-ds/core/vue';
+</script>
+
+<template>
+  <Panel title="Mission" accent>
+    <Button variant="primary">Deploy</Button>
+    <Compass :heading="28" />
+  </Panel>
+</template>`}
+        />
+        <div className="prose" style={{ marginTop: 16 }}>
+          <p>
+            Register all 68 exports globally with the plugin — every component is available as{' '}
+            <code>&lt;CsButton&gt;</code>, <code>&lt;CsPanel&gt;</code> and so on:
+          </p>
+        </div>
+        <div style={{ height: 10 }} />
+        <CodeBlock
+          lang="ts"
+          code={`import { createApp } from 'vue';
+import CesiumVue from '@cesium-ds/core/vue';
+
+createApp(App).use(CesiumVue);`}
+        />
+        <div className="prose" style={{ marginTop: 16 }}>
+          <p>
+            Where the framework has its own convention, the Vue build uses it:{' '}
+            <code>v-model</code> instead of <code>value</code> + <code>onValueChange</code>,{' '}
+            <code>v-model:open</code> for overlays, and scoped slots in place of render props —{' '}
+            <code>Table</code> takes <code>#cell-status</code> where React took{' '}
+            <code>column.render</code>.
           </p>
         </div>
       </Section>
@@ -383,7 +432,10 @@ localStorage.setItem('cesium-style', 'plus');`}
           <h3>1.0.0 — Initial release</h3>
           <ul>
             <li>{TOKEN_STATS.total} design tokens across dark and light themes, compiled from JSON.</li>
-            <li>{componentCount} React components in {navByCategory.length} categories, typed and dependency-free.</li>
+            <li>
+              {componentCount} components in {navByCategory.length} categories, typed and
+              dependency-free — the same set for React and for Vue, off one stylesheet.
+            </li>
             <li>HUD layer: Compass, ScaleBar, CoordinateReadout, Legend.</li>
             <li>AI, chat and science layers: reasoning traces, tool calls, context meters, transcripts, and readouts for physics, high-energy physics and biotech.</li>
             <li>Documentation site with live examples, prop tables and patterns.</li>

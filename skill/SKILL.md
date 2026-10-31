@@ -1,6 +1,6 @@
 ---
 name: cesium-design
-description: Build interfaces with the Cesium Design System — a dark-first, data-dense React design system for geospatial and instrument-style products. Use this skill whenever the task involves UI work that should match this system: dashboards, tables, HUD overlays, forms, inspectors, settings pages, or any component work using @cesium-ds/core. Triggers on "Cesium design", "cesium-ds", "use our design system", "build a dashboard / HUD / inspector", or when the project imports from @cesium-ds/core.
+description: Build interfaces with the Cesium Design System — a dark-first, data-dense design system for React and Vue, built for geospatial and instrument-style products. Use this skill whenever the task involves UI work that should match this system: dashboards, tables, HUD overlays, forms, inspectors, settings pages, or any component work using @cesium-ds/core. Triggers on "Cesium design", "cesium-ds", "use our design system", "build a dashboard / HUD / inspector", or when the project imports from @cesium-ds/core.
 ---
 
 # Cesium Design System
@@ -73,7 +73,29 @@ Dark is the default. Light is opt-in:
 document.documentElement.dataset.theme = 'light'; // or remove the attribute for dark
 ```
 
-Peer dependency: React ≥ 18. No CSS-in-JS, no Tailwind, no runtime styling library.
+Peer dependency: React ≥ 18, or Vue ≥ 3.3 — whichever the host app already runs, and both are
+optional in `peerDependenciesMeta`, so installing the package never pulls a framework in. No
+CSS-in-JS, no Tailwind, no runtime styling library.
+
+### If the project is Vue
+
+The same components ship at `@cesium-ds/core/vue` — one `.vue` SFC per component, same
+`.cs-*` markup, **same stylesheet** (`import '@cesium-ds/core/styles.css'`). Do not write a
+second CSS file and do not re-create a component that exists in both builds.
+
+```vue
+<script setup lang="ts">
+import '@cesium-ds/core/styles.css';
+import { Button, Panel, PanelBody } from '@cesium-ds/core/vue';
+</script>
+```
+
+Vue idioms, not React ones: `v-model` for values, `v-model:open` for overlays,
+`@select` on `Menu`/`Sidebar`/`ThreadList`, `#cell-<key>` scoped slots on `Table`
+(React's `column.render` only returns text here), `#icon-left` / `#icon-right` on `Button`,
+and `app.use(CesiumVue)` to register every component as `<CsButton>`, `<CsPanel>`, …
+Typecheck with `vue-tsc`; the exported declarations are plain `.d.ts` and resolve without a
+`.vue` shim.
 
 ### Start from a page, not a blank file
 

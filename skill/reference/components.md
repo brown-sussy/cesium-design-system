@@ -10,6 +10,20 @@ Every component accepts `className` and spreads native DOM attributes. Refs are 
 the underlying element is interactive (`Button`, `Input`, `Textarea`, `Select`, `Checkbox`,
 `Radio`, `Switch`, `Slider`).
 
+**Vue:** the same components come from `@cesium-ds/core/vue` as `.vue` SFCs and emit identical
+markup, so every prop, slot, ARIA attribute and class name below applies unchanged. Two
+mechanical differences: `className` is `class`, and `ref` gives you the component instance rather
+than the DOM node — put a plain `ref` on a wrapper if you need the element. Where Vue has a
+convention of its own, it is used:
+
+| React | Vue |
+| --- | --- |
+| `value` / `defaultValue` + `onValueChange` | `v-model` |
+| `open` + `onOpenChange` | `v-model:open` |
+| `column.render` returning JSX | `#cell-<key>` scoped slot (text only) |
+| `iconLeft` / `iconRight` nodes | `#icon-left` / `#icon-right` slots |
+| `onSelect` per menu item | `@select="item"` on the menu |
+
 ---
 
 ## Actions

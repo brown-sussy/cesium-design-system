@@ -180,6 +180,10 @@
   letter-spacing: var(--cs-tracking-wide);
   color: var(--cs-text-tertiary);
   font-variant-numeric: tabular-nums;
+  /* The sparkline beside it is a growing flex item, so without this the delta
+     shrinks to its longest word and stacks the caption on three lines. */
+  flex: none;
+  white-space: nowrap;
 }
 
 .cs-stat__delta--up {
@@ -263,8 +267,10 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
-  stroke-dasharray: 1;
-  animation: cs-draw var(--cs-anim-dur, 900ms) var(--cs-ease-out)
+  /* A wipe, not a dash draw: `cs-spark` is routinely stretched past its
+     viewBox (Stat hands it `cs-grow`), and a dash measured in screen space
+     breaks into segments at any non-uniform scale. */
+  animation: cs-wipe var(--cs-anim-dur, 900ms) var(--cs-ease-out)
     var(--cs-anim-delay, 0ms) both;
 }
 

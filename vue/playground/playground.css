@@ -1,0 +1,145 @@
+/* Playground chrome only — every component on the page is styled by the
+   design system itself, which is the point: the Vue build ships no CSS. */
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+.pg {
+  display: flex;
+  height: 100%;
+  background: var(--cs-bg-base);
+}
+
+.pg-main {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+.pg-top {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--cs-space-12);
+  padding: var(--cs-space-12) var(--cs-space-32);
+  background: color-mix(in srgb, var(--cs-bg-base) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.pg-title {
+  font-family: var(--cs-font-display);
+  font-size: var(--cs-fs-lg);
+  letter-spacing: var(--cs-tracking-tight);
+  margin-right: auto;
+}
+
+.pg-title span {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-widest);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+  margin-left: var(--cs-space-8);
+}
+
+.pg-section {
+  padding: var(--cs-space-40) var(--cs-space-32);
+  border-bottom: 1px solid var(--cs-border-subtle);
+  scroll-margin-top: 64px;
+}
+
+.pg-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--cs-space-12);
+  margin-bottom: var(--cs-space-24);
+}
+
+.pg-head h2 {
+  font-family: var(--cs-font-display);
+  font-size: var(--cs-fs-xl);
+  font-weight: 400;
+  letter-spacing: var(--cs-tracking-tight);
+  margin: 0;
+}
+
+.pg-head p {
+  margin: 0;
+  color: var(--cs-text-tertiary);
+  font-size: var(--cs-fs-sm);
+}
+
+.pg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(272px, 1fr));
+  gap: var(--cs-space-16);
+  align-items: start;
+}
+
+.pg-cell {
+  padding: var(--cs-space-16);
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-sm);
+  background: var(--cs-bg-surface);
+  min-width: 0;
+}
+
+.pg-cell--wide {
+  grid-column: span 2;
+}
+
+.pg-cell__label {
+  font-family: var(--cs-font-mono);
+  font-size: var(--cs-fs-2xs);
+  letter-spacing: var(--cs-tracking-widest);
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+  margin-bottom: var(--cs-space-12);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--cs-space-8);
+}
+
+.pg-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--cs-space-8);
+}
+
+.pg-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  gap: var(--cs-space-16);
+  align-items: start;
+}
+
+@media (max-width: 1080px) {
+  .pg-cell--wide {
+    grid-column: span 1;
+  }
+  .pg-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .pg-section {
+    padding: var(--cs-space-24) var(--cs-space-16);
+  }
+  .pg-top {
+    padding: var(--cs-space-12) var(--cs-space-16);
+  }
+}

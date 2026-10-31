@@ -71,3 +71,31 @@ jobs:
             sleep 1
           done
           DOCS_URL=http://127.0.0.1:4173 npm run audit
+
+  # The Vue build proves it compiles; this proves it behaves. The playground
+  # renders all 68 components off the same stylesheet the React build emits, so
+  # a passing run here means the two frameworks have not diverged.
+  vue:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Serve the playground and drive it
+        run: |
+          npx vite --config vite.playground.config.ts --port 5180 --host 127.0.0.1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:5180/; then break; fi
+            sleep 1
+          done
+          npm run test:vue

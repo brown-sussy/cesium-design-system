@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.vue.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist/vue"
+  },
+  "include": ["vue/**/*.ts", "vue/**/*.vue"],
+  "exclude": ["vue/playground"]
+}

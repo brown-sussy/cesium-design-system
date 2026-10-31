@@ -242,11 +242,15 @@ export function Select({
                   ref={searchRef}
                   value={query}
                   onChange={(e) => {
-                    setQuery(e.target.value);
-                    const first = options.findIndex(
-                      (o) => !o.disabled && o.label.toLowerCase().includes(e.target.value.toLowerCase()),
-                    );
-                    setActive(first);
+                    const next = e.target.value;
+                    setQuery(next);
+                    // Measure against the *filtered* list — an index into
+                    // `options` points past the end of a narrowed list.
+                    const needle = next.trim().toLowerCase();
+                    const list = needle
+                      ? options.filter((o) => o.label.toLowerCase().includes(needle))
+                      : options;
+                    setActive(list.findIndex((o) => !o.disabled));
                   }}
                   onKeyDown={(e) => {
                     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {

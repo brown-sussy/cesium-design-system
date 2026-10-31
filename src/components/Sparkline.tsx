@@ -60,7 +60,7 @@ export function Sparkline({
           <path className="cs-spark__area" d={areaPath} fill={`url(#${gradientId})`} />
         </>
       )}
-      <path className="cs-spark__line" d={line} pathLength={1} />
+      <path className="cs-spark__line" d={line} />
       {showDot && <circle className="cs-spark__dot" cx={last[0]} cy={last[1]} r={2.5} />}
     </svg>
   );

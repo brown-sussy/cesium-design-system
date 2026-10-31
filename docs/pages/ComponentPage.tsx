@@ -91,7 +91,7 @@ export function ComponentPage({ slug }: { slug: string }) {
             meta={
               <>
                 {doc.status && <Badge tone={doc.status === 'New' ? 'accent' : 'neutral'}>{doc.status}</Badge>}
-                <Badge>React</Badge>
+                <Badge>React · Vue</Badge>
                 <Badge>TypeScript</Badge>
                 <span className="doc-meta__code">
                   import {'{ '}

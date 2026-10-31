@@ -34,7 +34,7 @@ export function ComponentsIndex() {
       <PageHead
         eyebrow="Library"
         title="Components"
-        lede={`${componentCount} typed React components, grouped by the job they do. Every component is documented with live examples, a prop table and accessibility notes.`}
+        lede={`${componentCount} typed components, grouped by the job they do — every one shipped for both React and Vue. Each is documented with live examples, a prop table and accessibility notes.`}
         meta={
           <>
             <Badge tone="accent">{componentCount} components</Badge>

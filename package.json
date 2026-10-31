@@ -1,7 +1,7 @@
 {
   "name": "@cesium-ds/core",
   "version": "1.0.0",
-  "description": "Cesium Design System — precision interfaces for planetary-scale data. React components, design tokens, and documentation.",
+  "description": "Cesium Design System — precision interfaces for planetary-scale data. React and Vue components, design tokens, and documentation.",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -15,6 +15,7 @@
   "keywords": [
     "design-system",
     "react",
+    "vue",
     "design-tokens",
     "geospatial",
     "cesium",
@@ -48,34 +49,60 @@
     "./styles.css": "./dist/cesium-ds.css",
     "./tokens.json": "./dist/tokens.json",
     "./src/*": "./src/*",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "import": "./dist/vue/index.js",
+      "require": "./dist/vue/index.cjs"
+    }
   },
   "scripts": {
     "tokens": "node scripts/build-tokens.mjs",
     "docs:nav": "node scripts/build-docs-nav.mjs",
     "dev": "node scripts/build-docs-nav.mjs && vite --config vite.docs.config.ts",
-    "build": "npm run tokens && npm run build:lib && npm run build:docs",
+    "build": "npm run tokens && npm run build:lib && npm run build:vue && npm run build:docs",
     "build:lib": "vite build && tsc -p tsconfig.build.json && node scripts/build-css.mjs && node scripts/build-tokens.mjs",
     "build:docs": "node scripts/build-docs-nav.mjs && vite build --config vite.docs.config.ts",
     "preview": "vite preview --config vite.docs.config.ts --port 4173",
     "audit": "node scripts/audit.mjs",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prepublishOnly": "npm run build:lib"
+    "typecheck": "tsc -p tsconfig.json --noEmit && vue-tsc -p tsconfig.vue.json --noEmit",
+    "prepublishOnly": "npm run build:lib && npm run build:vue",
+    "build:vue": "node scripts/check-icons.mjs && vite build --config vite.vue.config.ts && vue-tsc -p tsconfig.vue.build.json && node scripts/build-vue-types.mjs",
+    "dev:vue": "vite --config vite.playground.config.ts",
+    "typecheck:vue": "vue-tsc -p tsconfig.vue.json --noEmit",
+    "icons": "node scripts/check-icons.mjs",
+    "shots:vue": "node scripts/shots-vue.mjs",
+    "test:vue": "node scripts/vue-interact.mjs"
   },
   "peerDependencies": {
     "react": ">=18",
-    "react-dom": ">=18"
+    "react-dom": ">=18",
+    "vue": ">=3.3"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^5.2.0",
+    "@vitejs/plugin-vue": "^6.0.10",
     "esbuild": "^0.28.2",
     "playwright": "^1.64.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.6.3",
-    "vite": "^7.3.7"
+    "vite": "^7.3.7",
+    "vue": "^3.5.44",
+    "vue-tsc": "^3.3.14"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
   }
 }
