@@ -9,6 +9,7 @@ const props = withDefaults(
     modelValue: string;
     accent?: boolean;
     block?: boolean;
+    ariaLabel?: string;
   }>(),
   { accent: false, block: false },
 );
@@ -22,6 +23,7 @@ const { ref: rootRef, box } = useIndicator(() => props.modelValue);
   <div
     ref="rootRef"
     role="tablist"
+    :aria-label="ariaLabel"
     :data-indicator="box ? 'on' : 'off'"
     :class="cx('cs-segmented', accent && 'cs-segmented--accent', block && 'cs-segmented--block')"
   >

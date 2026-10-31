@@ -146,6 +146,7 @@ cesium-design-system/
 │   ├── build-docs-nav.mjs      content registry → docs navigation index (metadata only)
 │   ├── build-vue-types.mjs     strip .vue from emitted declarations so tsc can read them
 │   ├── check-icons.mjs         fail if vue/lib/icons.ts drifts from Icon.tsx
+│   ├── check-parity.mjs        fail if a React prop has no Vue prop, slot or emit behind it
 │   ├── audit.mjs               crawl every docs route in a browser
 │   ├── shots.mjs               screenshot harness (playwright)
 │   └── shots-vue.mjs, vue-interact.mjs   the Vue visual and behavioural harnesses
@@ -267,6 +268,7 @@ size axis is intact), which took it from 129 kB to 86 kB.
 | `npm run dev:vue` | Vue playground — every component, both themes |
 | `npm run typecheck` | `tsc --noEmit` for React and docs, then `vue-tsc` for the Vue package |
 | `npm run icons` | Fail if `vue/lib/icons.ts` drifts from `src/components/Icon.tsx` |
+| `npm run parity` | Fail if a React prop has no Vue prop, slot or emit behind it |
 | `npm run test:vue` | 24 behavioural checks against the playground (select, menu, modal, …) |
 | `npm run shots:vue` | Section-by-section screenshots of the playground in both themes |
 

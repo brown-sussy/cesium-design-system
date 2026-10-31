@@ -67,10 +67,11 @@
     "audit": "node scripts/audit.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit && vue-tsc -p tsconfig.vue.json --noEmit",
     "prepublishOnly": "npm run build:lib && npm run build:vue",
-    "build:vue": "node scripts/check-icons.mjs && vite build --config vite.vue.config.ts && vue-tsc -p tsconfig.vue.build.json && node scripts/build-vue-types.mjs",
+    "build:vue": "node scripts/check-icons.mjs && node scripts/check-parity.mjs && vite build --config vite.vue.config.ts && vue-tsc -p tsconfig.vue.build.json && node scripts/build-vue-types.mjs",
     "dev:vue": "vite --config vite.playground.config.ts",
     "typecheck:vue": "vue-tsc -p tsconfig.vue.json --noEmit",
     "icons": "node scripts/check-icons.mjs",
+    "parity": "node scripts/check-parity.mjs",
     "shots:vue": "node scripts/shots-vue.mjs",
     "test:vue": "node scripts/vue-interact.mjs"
   },
