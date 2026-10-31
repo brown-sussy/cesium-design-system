@@ -134,6 +134,12 @@ Vue idioms replace React ones where the framework has a convention of its own:
 `vue/playground/` is the harness: it renders all 68 components in both themes and is what
 `npm run test:vue` drives. It is not published.
 
+`vue-site/` is the browsable Vue documentation — the same 53 pages, the same prop tables, the same
+accessibility notes as the React docs, because both are generated from `docs/content/`. It builds
+into `site/vue` and is served beside the React docs. Every component page runs a real `.vue` file
+from `vue-site/demos/`, and the code pane shows that file's own source, so an example cannot go
+stale. `npm run check:demos` fails the build if a documented component has no demo.
+
 ---
 
 ## Repository layout
@@ -148,6 +154,9 @@ cesium-design-system/
 │   ├── check-icons.mjs         fail if vue/lib/icons.ts drifts from Icon.tsx
 │   ├── check-parity.mjs        fail if a React prop has no Vue prop, slot or emit behind it
 │   ├── audit.mjs               crawl every docs route in a browser
+│   ├── build-vue-catalog.mjs   content registry → the Vue site's catalogue (full + nav-only)
+│   ├── check-demos.mjs         fail if a documented component has no demo file
+│   ├── crawl-vue-site.mjs      crawl every Vue site route in both themes
 │   ├── shots.mjs               screenshot harness (playwright)
 │   └── shots-vue.mjs, vue-interact.mjs   the Vue visual and behavioural harnesses
 ├── src/
@@ -165,6 +174,11 @@ cesium-design-system/
 │   ├── lib/                    the same helpers as composables (usePopover, useIndicator…)
 │   ├── types.ts                the data shapes callers name (Column, MenuEntry, SidebarSection…)
 │   └── playground/             verification harness — every component, both themes
+├── vue-site/                   Vue demo site (Vite + Vue), builds into site/vue
+│   ├── lib/                    hash router, theme, demo loader, GENERATED catalogue
+│   ├── components/             header, sidebar, palette, preview, prop table
+│   ├── pages/                  overview, component index, component page
+│   └── demos/                  one .vue per component — runs *and* is the shown source
 ├── docs/                       documentation site (Vite + React)
 │   ├── content/                component docs as data
 │   ├── pages/                  home, foundations, component page, patterns, resources
@@ -261,11 +275,16 @@ size axis is intact), which took it from 129 kB to 86 kB.
 | `npm run tokens` | Compile `tokens/tokens.json` → CSS, JSON bundle, skill reference |
 | `npm run docs:nav` | Rebuild the docs navigation index from the content registry |
 | `npm run dev` | Documentation site at `http://localhost:5178` |
-| `npm run build` | Tokens → library (`dist/`) → Vue build (`dist/vue/`) → static site (`site/`) |
+| `npm run build` | Tokens → library (`dist/`) → Vue build (`dist/vue/`) → React site (`site/`) → Vue site (`site/vue/`) |
 | `npm run build:lib` | React library only (ESM + CJS + `.d.ts` + `cesium-ds.css`) |
 | `npm run build:vue` | Vue library only (`dist/vue/`: ESM + CJS + declarations) |
-| `npm run build:docs` | Static documentation site |
+| `npm run build:docs` | Static React documentation site |
+| `npm run build:site` | Vue demo site only (`site/vue/`) |
 | `npm run dev:vue` | Vue playground — every component, both themes |
+| `npm run dev:site` | Vue demo site at `http://localhost:5179` |
+| `npm run check:demos` | Fail if a documented component has no demo file |
+| `npm run crawl:site` | Crawl every Vue site route in both themes, at 390px too |
+| `npm run interact:site` | Palette, theme persistence, mobile drawer, code pane — 10 checks |
 | `npm run typecheck` | `tsc --noEmit` for React and docs, then `vue-tsc` for the Vue package |
 | `npm run icons` | Fail if `vue/lib/icons.ts` drifts from `src/components/Icon.tsx` |
 | `npm run parity` | Fail if a React prop has no Vue prop, slot or emit behind it |

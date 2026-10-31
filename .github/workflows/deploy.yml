@@ -34,8 +34,11 @@ jobs:
 
       # `base: './'` in vite.docs.config.ts keeps every asset URL relative, so
       # the same build works at a user site and at /<repo>/ on project Pages.
+      #
+      # Order matters: build:docs empties `site/`, build:site writes `site/vue`.
+      # Run them the other way round and the Vue site disappears.
       - name: Build site
-        run: npm run build:docs
+        run: npm run build:docs && npm run build:site
 
       - uses: actions/configure-pages@v5
 

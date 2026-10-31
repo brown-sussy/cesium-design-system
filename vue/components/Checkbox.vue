@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { cx } from '../lib/cx';
-import { classOf, withoutClassStyle } from '../lib/attrs';
+import { classOf, styleOf, withoutClassStyle } from '../lib/attrs';
 
 defineOptions({ inheritAttrs: false });
 
@@ -34,7 +34,7 @@ function onChange(e: Event) {
 </script>
 
 <template>
-  <label :class="cx('cs-check', classOf($attrs))">
+  <label :class="cx('cs-check', classOf($attrs))" :style="styleOf($attrs)">
     <input
       ref="inputRef"
       type="checkbox"

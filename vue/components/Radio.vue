@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { cx } from '../lib/cx';
-import { classOf, withoutClassStyle } from '../lib/attrs';
+import { classOf, styleOf, withoutClassStyle } from '../lib/attrs';
 
 defineOptions({ inheritAttrs: false });
 
@@ -23,7 +23,7 @@ const checked = computed(() => props.modelValue === props.value);
 </script>
 
 <template>
-  <label :class="cx('cs-check', classOf($attrs))">
+  <label :class="cx('cs-check', classOf($attrs))" :style="styleOf($attrs)">
     <input
       type="radio"
       class="cs-check__input"

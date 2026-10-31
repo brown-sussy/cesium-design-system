@@ -106,6 +106,14 @@ export function DocsHeader({ onSearch, theme, onToggleTheme, onToggleMenu }: Hea
           },
         ]}
       />
+      {/*
+        Absolute, not relative: the Vue site is built into `site/vue` and the two
+        dev servers run on different ports, so `./vue/` would 404 under
+        `npm run dev` and be silently right only after a deploy.
+      */}
+      <a className="site-switch" href="https://brown-sussy.github.io/cesium-design-system/vue/">
+        Vue
+      </a>
       <Tooltip
         content={theme === 'dark' ? 'Light theme' : 'Dark theme'}
         placement="bottom"

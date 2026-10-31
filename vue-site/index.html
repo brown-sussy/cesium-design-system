@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cesium Design System — Vue</title>
+    <meta
+      name="description"
+      content="The Cesium Design System for Vue: 53 typed components, one stylesheet, dark and light themes."
+    />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <!-- Same two faces the React site preloads: these paint above the fold. -->
+    <link rel="preload" href="./fonts/instrument-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <style>
+      /* Kept in step with docs/index.html. The weight axis is narrowed to
+         400–500 because display type is never drawn bold; the opsz axis stays
+         intact so `font-optical-sizing: auto` still picks the display cut. */
+      @font-face {
+        font-family: 'Newsreader';
+        font-style: normal;
+        font-weight: 400 500;
+        font-display: swap;
+        src: url('./fonts/newsreader-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Newsreader';
+        font-style: italic;
+        font-weight: 200 800;
+        font-display: swap;
+        src: url('./fonts/newsreader-italic-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'Instrument Sans';
+        font-style: normal;
+        font-weight: 400 700;
+        font-display: swap;
+        src: url('./fonts/instrument-sans-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      @font-face {
+        font-family: 'JetBrains Mono';
+        font-style: normal;
+        font-weight: 400 600;
+        font-display: swap;
+        src: url('./fonts/jetbrains-mono-latin.woff2') format('woff2');
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      html {
+        background: #08090a;
+      }
+      html[data-theme='light'] {
+        background: #f3f4f5;
+      }
+    </style>
+    <script>
+      /* Restore theme + shape preset before first paint, so there is no flash.
+         Shared keys with the React site: someone switching themes on one site
+         should not be greeted by the other theme on the next one. */
+      try {
+        var t = localStorage.getItem('cesium-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        if (localStorage.getItem('cesium-style') === 'plus') {
+          document.documentElement.dataset.style = 'plus';
+        }
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>

@@ -119,6 +119,39 @@
   display: none;
 }
 
+/* --- framework switch ----------------------------------------------- */
+
+/*
+ * One chip in the header of both sites, pointing at the other one. It is a
+ * two-letter word rather than an icon because "Vue" and "React" are the whole
+ * message; anything more abstract gets read as a theme toggle.
+ */
+.site-switch {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 9px;
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: 999px;
+  font-family: var(--cs-font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cs-text-tertiary);
+  text-decoration: none;
+  transition:
+    background-color var(--cs-dur-fast),
+    color var(--cs-dur-fast),
+    border-color var(--cs-dur-fast);
+}
+
+.site-switch:hover {
+  border-color: var(--cs-border-strong);
+  background: var(--cs-bg-hover);
+  color: var(--cs-text-primary);
+}
+
 /* --- body grid ------------------------------------------------------ */
 
 .doc-body {

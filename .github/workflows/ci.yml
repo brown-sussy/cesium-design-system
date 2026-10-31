@@ -31,9 +31,9 @@ jobs:
       # in a reviewer's browser.
       - name: Generated files are up to date
         run: |
-          files="src/styles/tokens.css docs/public/tokens.json docs/content/nav.generated.ts"
+          files="src/styles/tokens.css docs/public/tokens.json docs/content/nav.generated.ts vue-site/lib/catalog.generated.ts vue-site/lib/nav.generated.ts"
           if ! git diff --quiet -- $files; then
-            echo "::error::Generated files are stale. Run 'npm run tokens' and 'npm run docs:nav', then commit the result."
+            echo "::error::Generated files are stale. Run 'npm run tokens', 'npm run docs:nav' and 'npm run vue:catalog', then commit the result."
             git diff --stat -- $files
             exit 1
           fi
@@ -99,3 +99,35 @@ jobs:
             sleep 1
           done
           npm run test:vue
+
+  # The demo site is a separate build with its own failure modes: a missing demo
+  # file, a demo that throws on mount, a route that overflows at 390px. Build it
+  # and crawl every route in both themes.
+  site:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Build the Vue site
+        run: npm run build:site
+
+      - name: Serve and crawl every route
+        run: |
+          npx vite preview --config vite.vue-site.config.ts --port 5179 --host 127.0.0.1 &
+          for i in $(seq 1 30); do
+            if curl -sf -o /dev/null http://127.0.0.1:5179/; then break; fi
+            sleep 1
+          done
+          npm run crawl:site -- http://127.0.0.1:5179
+          npm run interact:site -- http://127.0.0.1:5179

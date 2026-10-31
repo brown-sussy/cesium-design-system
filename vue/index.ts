@@ -188,6 +188,13 @@ export {
 
 export type * from './types';
 
+/**
+ * The glyph table, so a caller can enumerate what `Icon` accepts — an icon
+ * picker, or a docs page that has to show every glyph without a hand-kept list
+ * that drifts. `scripts/check-icons.mjs` keeps this identical to the React set.
+ */
+export { iconPaths } from './lib/icons';
+
 /** Globally registered component names, for template-only consumers. */
 export const components = {
   CsButton: Button,

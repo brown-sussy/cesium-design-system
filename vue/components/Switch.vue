@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cx } from '../lib/cx';
-import { classOf, withoutClassStyle } from '../lib/attrs';
+import { classOf, styleOf, withoutClassStyle } from '../lib/attrs';
 
 defineOptions({ inheritAttrs: false });
 
@@ -22,7 +22,7 @@ function onChange(e: Event) {
 </script>
 
 <template>
-  <label :class="cx('cs-switch', size === 'sm' && 'cs-switch--sm', classOf($attrs))">
+  <label :class="cx('cs-switch', size === 'sm' && 'cs-switch--sm', classOf($attrs))" :style="styleOf($attrs)">
     <input
       type="checkbox"
       role="switch"

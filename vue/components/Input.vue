@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { cx } from '../lib/cx';
-import { classOf, withoutClassStyle } from '../lib/attrs';
+import { classOf, styleOf, withoutClassStyle } from '../lib/attrs';
 
 defineOptions({ inheritAttrs: false });
 
@@ -32,6 +32,7 @@ function onInput(e: Event) {
 <template>
   <div
     :class="cx('cs-input-shell', size !== 'md' && `cs-input-shell--${size}`, classOf($attrs))"
+    :style="styleOf($attrs)"
     :data-invalid="invalid || undefined"
     :data-disabled="disabled || undefined"
   >

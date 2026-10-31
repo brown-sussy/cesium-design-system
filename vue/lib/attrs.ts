@@ -1,4 +1,5 @@
 import { normalizeClass } from 'vue';
+import type { StyleValue } from 'vue';
 
 /**
  * Attribute splitting for components whose React original spread `...rest`
@@ -13,6 +14,15 @@ import { normalizeClass } from 'vue';
 export function classOf(attrs: Record<string, unknown>): string | undefined {
   const cls = normalizeClass(attrs.class as never);
   return cls || undefined;
+}
+
+/**
+ * `style` on its own. Paired with `classOf` on the wrapper: a width written as
+ * an inline style has to reach the box that draws the border, not the `<input>`
+ * inside it, or `style="width: 260px"` silently does nothing.
+ */
+export function styleOf(attrs: Record<string, unknown>): StyleValue | undefined {
+  return attrs.style as StyleValue | undefined;
 }
 
 /** Everything except `class` and `style`. */
