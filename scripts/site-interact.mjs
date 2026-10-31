@@ -57,14 +57,29 @@ check(
 );
 
 await page.keyboard.press('Enter');
-await page.waitForTimeout(400);
+await page
+  .waitForFunction(() => location.hash.includes('/components/segmented-control'), { timeout: 5000 })
+  .catch(() => {});
 const routed = page.url().includes('/components/segmented-control');
 check('Enter navigates to the component', routed, page.url().split('#')[1]);
 
-/* 2 — the code pane shows the demo's own source. */
+/* 2 — the code pane shows the demo's own source.
+ *
+ * The pane is created on demand and fills in after the highlighter runs, so
+ * wait for the text rather than for a duration. A fixed 200ms passed on
+ * localhost and failed against the deployed site. */
 await page.locator('.preview__tab', { hasText: 'Code' }).click();
-await page.waitForTimeout(200);
-const code = await page.locator('.preview__code').innerText();
+const codeLoaded = await page
+  .waitForFunction(
+    () => {
+      const el = document.querySelector('.preview__code');
+      return Boolean(el) && el.innerText.includes('<script setup');
+    },
+    { timeout: 5000 },
+  )
+  .then(() => true)
+  .catch(() => false);
+const code = codeLoaded ? await page.locator('.preview__code').innerText() : '';
 check(
   'code pane shows the demo source',
   code.includes('<script setup') && code.includes('SegmentedControl'),
@@ -80,13 +95,20 @@ await page.waitForTimeout(300);
 const afterReload = await page.evaluate(() => document.documentElement.dataset.theme);
 check('theme toggle persists across reload', afterToggle === afterReload, `${afterToggle} → ${afterReload}`);
 
-/* 4 — the search button opens the same palette. */
+/* 4 — the search button opens the same palette. It is a lazy chunk, so wait
+ * for it rather than for a duration. */
 await page.locator('.doc-search-btn').click();
-await page.waitForTimeout(250);
-check('search button opens the palette', (await page.locator('.site-palette__input').count()) === 1);
+const searchOpened = await page
+  .waitForSelector('.site-palette__input', { timeout: 5000 })
+  .then(() => true)
+  .catch(() => false);
+check('search button opens the palette', searchOpened);
 await page.keyboard.press('Escape');
-await page.waitForTimeout(200);
-check('Escape closes the palette', (await page.locator('.site-palette__input').count()) === 0);
+const escaped = await page
+  .waitForSelector('.site-palette__input', { state: 'detached', timeout: 5000 })
+  .then(() => true)
+  .catch(() => false);
+check('Escape closes the palette', escaped);
 
 /* 5 — mobile: the drawer opens, a link closes it. */
 const mobile = await context.newPage();
