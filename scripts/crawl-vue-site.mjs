@@ -86,11 +86,27 @@ async function check(route, theme, viewport) {
     await page.waitForTimeout(300);
   }
 
+  /*
+   * Overflow has to be measured on the document, not on `.doc-main`. The header
+   * is outside `.doc-main`, so a header that does not fit — which is what a
+   * 390px viewport did: the search button collapsed to 2px and the theme toggle
+   * sat at x=417 — leaves the main pane perfectly clean while the page scrolls
+   * sideways. Check both.
+   */
   const overflow = await page.evaluate(() => {
+    const doc = document.documentElement;
     const main = document.querySelector('.doc-main');
-    return main ? Math.max(0, main.scrollWidth - main.clientWidth) : 0;
+    return {
+      doc: Math.max(0, doc.scrollWidth - doc.clientWidth),
+      main: main ? Math.max(0, main.scrollWidth - main.clientWidth) : 0,
+    };
   });
-  if (overflow > 1) problems.push(`${route} [${theme} ${viewport.width}px] overflows by ${overflow}px`);
+  if (overflow.doc > 1) {
+    problems.push(`${route} [${theme} ${viewport.width}px] page overflows by ${overflow.doc}px`);
+  }
+  if (overflow.main > 1) {
+    problems.push(`${route} [${theme} ${viewport.width}px] content overflows by ${overflow.main}px`);
+  }
 
   const mounted = await page.evaluate(() => {
     const stage = document.querySelector('.preview__stage');
@@ -110,8 +126,9 @@ for (const route of routes) {
   await check(route, 'light', desktop);
 }
 
-// Mobile: nothing may scroll sideways at 390px.
-for (const route of ['/', '/components', '/components/button', '/components/table', '/components/message']) {
+// Mobile: nothing may scroll sideways at 390px. Every route, not a sample —
+// a header overflow is page-wide, and a demo overflow is per-page.
+for (const route of routes) {
   await check(route, 'dark', { width: 390, height: 844 });
 }
 

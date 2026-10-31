@@ -1,5 +1,14 @@
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import {
+  computed,
+  defineAsyncComponent,
+  onBeforeUnmount,
+  onMounted,
+  ref,
+  watch,
+  type Component,
+} from 'vue';
+import PageSkeleton from './components/PageSkeleton.vue';
 import SiteHeader from './components/SiteHeader.vue';
 import SiteSidebar from './components/SiteSidebar.vue';
 import { scrollToTop, useRoute } from './lib/router';
@@ -11,13 +20,35 @@ import { scrollToTop, useRoute } from './lib/router';
  */
 import Overview from './pages/Overview.vue';
 
-const ComponentsIndex = defineAsyncComponent(() => import('./pages/ComponentsIndex.vue'));
-const ComponentPage = defineAsyncComponent(() => import('./pages/ComponentPage.vue'));
+/**
+ * `delay` keeps a fast chunk silent: a page that resolves inside 120ms never
+ * shows the skeleton, so a warm navigation is a straight swap. Only a genuine
+ * wait gets a placeholder — and it is the same three bars the React docs use,
+ * so the two sites do not diverge while loading.
+ */
+function pageChunk(loader: () => Promise<{ default: Component }>) {
+  return defineAsyncComponent({
+    loader,
+    loadingComponent: PageSkeleton,
+    delay: 120,
+  });
+}
+
+const ComponentsIndex = pageChunk(() => import('./pages/ComponentsIndex.vue'));
+const ComponentPage = pageChunk(() => import('./pages/ComponentPage.vue'));
 const SearchPalette = defineAsyncComponent(() => import('./components/SearchPalette.vue'));
 
 const route = useRoute();
 const menuOpen = ref(false);
 const searchOpen = ref(false);
+
+/**
+ * The pane's entrance animation is for arriving at the site, not for moving
+ * around inside it. `<main>` is keyed by route, so it remounts on every
+ * navigation; leaving `page-enter` on it would fade a pane whose content is
+ * already rendered. Cleared on the first route change and never restored.
+ */
+const enter = ref(true);
 
 const path = computed(() => route.value.split('?')[0]);
 
@@ -35,6 +66,7 @@ const pageProps = computed(() =>
 );
 
 watch(path, () => {
+  enter.value = false;
   menuOpen.value = false;
   scrollToTop();
 });
@@ -64,7 +96,11 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
     <div class="doc-body">
       <SiteSidebar :route="route" :open="menuOpen" @navigate="menuOpen = false" />
 
-      <main :key="route" class="doc-main page-enter" :class="{ 'doc-main--wide': path === '/' }">
+      <main
+        :key="route"
+        class="doc-main"
+        :class="{ 'doc-main--wide': path === '/', 'page-enter': enter }"
+      >
         <component :is="page" v-if="page" v-bind="pageProps" />
         <div v-else class="doc-main__inner">
           <header>

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { DocsFooter, DocsHeader, DocsSidebar, useMediaQuery, useTheme } from './components/Chrome';
 import { Home } from './pages/Home';
 import { navigate, useRoute } from './lib/router';
@@ -95,6 +95,19 @@ export function App() {
   const { theme, toggle } = useTheme();
   const isMobile = useMediaQuery('(max-width: 960px)');
 
+  /**
+   * The pane's entrance is for arriving at the site, not for moving around
+   * inside it. `<main>` is keyed by route, so it remounts on every navigation;
+   * leaving `page-enter` on it fades a pane whose content is already rendered,
+   * which reads as a blink. Read during render, cleared after the first commit
+   * — a ref, so the clearing does not re-render and cut the animation short.
+   */
+  const enter = useRef(true);
+  const animatePane = enter.current;
+  useEffect(() => {
+    enter.current = false;
+  }, [route]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -156,7 +169,12 @@ export function App() {
 
       <div className="doc-body">
         <DocsSidebar route={route} open={menuOpen && isMobile} onNavigate={() => setMenuOpen(false)} />
-        <main key={route} className={wide ? 'doc-main doc-main--wide page-enter' : 'doc-main page-enter'}>
+        <main
+          key={route}
+          className={['doc-main', wide && 'doc-main--wide', animatePane && 'page-enter']
+            .filter(Boolean)
+            .join(' ')}
+        >
           <Suspense fallback={<PageFallback />}>
             <PageReveal>{page}</PageReveal>
           </Suspense>

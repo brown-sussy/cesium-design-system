@@ -126,6 +126,20 @@
   font-size: var(--cs-fs-sm);
 }
 
+/* The loading placeholder for a page chunk. Same rhythm as the React docs'
+ * PageFallback: eyebrow bar, title bar, lede bar. */
+.page-skeleton {
+  padding-top: 56px;
+}
+
+.page-skeleton__gap {
+  height: 22px;
+}
+
+.page-skeleton__gap--wide {
+  height: 20px;
+}
+
 /* Search palette ---------------------------------------------------- */
 
 .site-palette {

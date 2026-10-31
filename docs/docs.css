@@ -69,6 +69,20 @@
   flex: 1 1 auto;
 }
 
+/*
+ * Every control in the header is a fixed size. Without `flex: none` they shrink
+ * instead of the header overflowing — at 390px the search button was collapsing
+ * to 2px and the theme toggle was pushed off-screen, which reads as a broken
+ * page rather than a tight one. Let the header overflow visibly in dev; the
+ * media queries below remove controls before it ever comes to that.
+ */
+.doc-header__icon-btn,
+.doc-search-btn,
+.doc-style,
+.site-switch {
+  flex: none;
+}
+
 .doc-search-btn {
   display: flex;
   align-items: center;
@@ -1396,6 +1410,33 @@
   }
 }
 
+/*
+ * Header budget. At full width the row needs ~490px: menu 30 + brand 164 +
+ * search 30 + shape menu 77 + framework chip 53 + theme 30, plus 5 gaps and
+ * 36px of padding. Below that something has to go, and it has to go in order of
+ * usefulness: the shape preset is a curiosity, the framework chip duplicates a
+ * link that is also on the overview page, the wordmark stays.
+ */
+@media (max-width: 700px) {
+  .doc-style {
+    display: none;
+  }
+}
+
+@media (max-width: 460px) {
+  .site-switch {
+    display: none;
+  }
+}
+
+/* 320px is the narrowest screen worth supporting; by then even the wordmark is
+   the thing that has to go, and the logo mark carries the identity alone. */
+@media (max-width: 380px) {
+  .doc-wordmark {
+    display: none;
+  }
+}
+
 /* --- home sections -------------------------------------------------- */
 
 /* Sections are separated by a rule, the way a document is — not by air alone. */
@@ -2038,14 +2079,20 @@
 
 /* --- motion ---------------------------------------------------------- */
 
+/* The pane entrance belongs to the app's *first* paint, not to navigation —
+ * both shells drop the class on the first route change. Replaying it per
+ * route blanks a pane whose content is already rendered, so the reader sees
+ * the page blink rather than a page arrive.
+ *
+ * Opacity only. A translate here moves the body underneath a stationary
+ * header and sidebar, and it makes <main> a containing block for the length
+ * of the animation, which re-anchors any fixed-position child inside it. */
 @keyframes page-in {
   from {
     opacity: 0;
-    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: none;
   }
 }
 

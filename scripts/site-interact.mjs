@@ -3,9 +3,10 @@
  *
  * The crawl (`crawl-vue-site.mjs`) proves every route renders. This proves the
  * site's own chrome works: the command palette filters and navigates, the theme
- * toggle survives a reload, the mobile drawer opens and closes, and the demo
- * pane can switch to its own source. Those are the four things a reader touches
- * before they read anything.
+ * toggle survives a reload, the mobile drawer opens and closes, the demo pane
+ * can switch to its own source, navigation does not replay the pane entrance,
+ * and a slow chunk shows the skeleton instead of a blank pane. Those are the
+ * things a reader touches before they read anything.
  *
  *   node scripts/site-interact.mjs http://localhost:5179
  */
@@ -119,6 +120,70 @@ await page.goto(`${base}/#/components/not-a-component`, { waitUntil: 'networkidl
 await page.waitForTimeout(250);
 const lost = await page.locator('.doc-main').innerText();
 check('unknown route renders the 404', lost.includes('Signal lost'), lost.split('\n')[1] ?? '');
+
+/* 7 — moving between pages must not replay the pane entrance.
+ *
+ * `<main>` is keyed by route, so it remounts on every navigation. An entrance
+ * animation left on it blanks a pane whose content is already rendered: the
+ * reader sees the page blink. Both routes are visited first so the chunk is
+ * warm and the measurement is about the animation, not the network. */
+await page.goto(`${base}/#/components/button`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(400);
+await page.goto(`${base}/#/components/table`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(400);
+await page.goto(`${base}/#/components/button`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(400);
+
+const pane = await page.evaluate(async () => {
+  const frames = [];
+  const start = performance.now();
+  location.hash = '#/components/table';
+  await new Promise((resolve) => {
+    function tick() {
+      const main = document.querySelector('.doc-main');
+      if (main) {
+        frames.push({
+          op: Number(getComputedStyle(main).opacity),
+          cls: main.className,
+        });
+      }
+      if (performance.now() - start < 600) requestAnimationFrame(tick);
+      else resolve();
+    }
+    requestAnimationFrame(tick);
+  });
+  return frames;
+});
+const dim = pane.filter((f) => f.op < 0.9).length;
+const reentered = pane.some((f) => f.cls.includes('page-enter'));
+check(
+  'navigation does not fade the pane',
+  pane.length > 0 && dim === 0 && !reentered,
+  `${pane.length} frames, ${dim} below 0.9 opacity, page-enter=${reentered}`,
+);
+
+/* 8 — a page chunk that is genuinely slow gets the skeleton, not a blank pane.
+ * Its own context, so nothing is already in the HTTP cache. */
+const slowContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+const slow = await slowContext.newPage();
+await slow.route('**/*ComponentPage*', async (route) => {
+  await new Promise((r) => setTimeout(r, 700));
+  await route.continue();
+});
+await slow.goto(`${base}/#/`, { waitUntil: 'networkidle' });
+await slow.evaluate(() => {
+  location.hash = '#/components/button';
+});
+const sawSkeleton = await slow
+  .waitForSelector('.page-skeleton', { timeout: 2500 })
+  .then(() => true)
+  .catch(() => false);
+const landed = await slow
+  .waitForSelector('.doc-h1', { timeout: 6000 })
+  .then(() => true)
+  .catch(() => false);
+check('a slow chunk shows the skeleton', sawSkeleton && landed, `skeleton=${sawSkeleton} content=${landed}`);
+await slowContext.close();
 
 await browser.close();
 
