@@ -59,7 +59,32 @@ async function openPage(theme, viewport) {
 async function check(route, theme, viewport) {
   const page = await openPage(theme, viewport);
   await page.goto(`${base}/#${route}`, { waitUntil: 'load' });
-  await page.waitForTimeout(260);
+
+  /*
+   * Wait for the condition, not for a stopwatch. A fixed sleep is enough on
+   * localhost and wrong everywhere else: against the deployed site the route
+   * chunk and then the demo chunk both arrive over the network, and the page
+   * looks empty for a second.
+   *
+   * The condition has to exclude the placeholder. `DemoPreview` renders
+   * `<span class="site-empty">Demo loading…</span>` inside the stage, so
+   * `children.length > 0` is true before the demo exists — which is exactly
+   * how this reported 53/53 locally and 0/53 over the network.
+   */
+  const isComponent = route.startsWith('/components/') && route !== '/components';
+  if (isComponent) {
+    await page
+      .waitForFunction(
+        () => {
+          const stage = document.querySelector('.preview__stage');
+          return Boolean(stage) && !stage.querySelector('.site-empty');
+        },
+        { timeout: 15000 },
+      )
+      .catch(() => {});
+  } else {
+    await page.waitForTimeout(300);
+  }
 
   const overflow = await page.evaluate(() => {
     const main = document.querySelector('.doc-main');
