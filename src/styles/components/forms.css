@@ -16,6 +16,7 @@
   background: var(--cs-bg-inset);
   border: 1px solid var(--cs-border);
   border-radius: var(--cs-radius-md);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
   transition: border-color var(--cs-dur-fast) var(--cs-ease-out),
     box-shadow var(--cs-dur-fast) var(--cs-ease-out),
     background-color var(--cs-dur-fast) var(--cs-ease-out);
@@ -28,7 +29,7 @@
 .cs-input-shell:focus-within {
   background: var(--cs-bg-surface);
   border-color: var(--cs-accent);
-  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+  box-shadow: 0 0 0 1px var(--cs-accent), 0 0 14px -2px var(--cs-accent-soft);
 }
 
 .cs-input-shell[data-invalid='true'] {
@@ -36,7 +37,7 @@
 }
 
 .cs-input-shell[data-invalid='true']:focus-within {
-  box-shadow: 0 0 0 3px var(--cs-danger-soft);
+  box-shadow: 0 0 0 1px var(--cs-danger), 0 0 14px -2px var(--cs-danger-soft);
 }
 
 .cs-input-shell[data-disabled='true'] {
@@ -104,6 +105,7 @@
   background: var(--cs-bg-inset);
   border: 1px solid var(--cs-border);
   border-radius: var(--cs-radius-md);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.22);
   font-family: var(--cs-font-sans);
   font-size: var(--cs-fs-base);
   line-height: 1.55;
@@ -122,7 +124,7 @@
 .cs-textarea:focus {
   background: var(--cs-bg-surface);
   border-color: var(--cs-accent);
-  box-shadow: 0 0 0 3px var(--cs-accent-soft);
+  box-shadow: 0 0 0 1px var(--cs-accent), 0 0 14px -2px var(--cs-accent-soft);
 }
 
 .cs-textarea[data-invalid='true'] {
@@ -212,6 +214,7 @@
   background: var(--cs-bg-inset);
   border: 1px solid var(--cs-border-strong);
   border-radius: var(--cs-radius-sm);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.2);
   transition: background-color var(--cs-dur-fast) var(--cs-ease-out),
     border-color var(--cs-dur-fast) var(--cs-ease-out),
     box-shadow var(--cs-dur-fast) var(--cs-ease-out);
@@ -234,11 +237,13 @@
 
 .cs-check:hover .cs-check__box {
   border-color: var(--cs-accent);
+  box-shadow: 0 0 8px -2px var(--cs-accent-soft);
 }
 
 .cs-check__input:checked + .cs-check__box {
   background: var(--cs-accent);
   border-color: var(--cs-accent);
+  box-shadow: 0 0 10px -2px var(--cs-accent-soft);
 }
 
 .cs-check__input:checked + .cs-check__box::after {
@@ -249,6 +254,7 @@
 .cs-check__input:indeterminate + .cs-check__box {
   background: var(--cs-accent);
   border-color: var(--cs-accent);
+  box-shadow: 0 0 10px -2px var(--cs-accent-soft);
 }
 
 .cs-check__input:indeterminate + .cs-check__box::after {
@@ -323,8 +329,10 @@
   background: var(--cs-bg-inset);
   border: 1px solid var(--cs-border-strong);
   border-radius: var(--cs-radius-pill);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
   transition: background-color var(--cs-dur-base) var(--cs-ease-out),
-    border-color var(--cs-dur-base) var(--cs-ease-out);
+    border-color var(--cs-dur-base) var(--cs-ease-out),
+    box-shadow var(--cs-dur-base) var(--cs-ease-out);
 }
 
 .cs-switch__thumb {
@@ -335,6 +343,7 @@
   height: 14px;
   background: var(--cs-text-tertiary);
   border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
   transition: transform var(--cs-dur-base) var(--cs-ease-spring),
     background-color var(--cs-dur-base) var(--cs-ease-out),
     width var(--cs-dur-base) var(--cs-ease-out);
@@ -351,11 +360,13 @@
 .cs-switch__input:checked + .cs-switch__track {
   background: var(--cs-accent);
   border-color: var(--cs-accent);
+  box-shadow: 0 0 12px -2px var(--cs-accent-soft);
 }
 
 .cs-switch__input:checked + .cs-switch__track .cs-switch__thumb {
   background: var(--cs-accent-contrast);
   transform: translateX(14px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .cs-switch__input:focus-visible + .cs-switch__track {
@@ -423,7 +434,8 @@
   position: absolute;
   inset: 0 auto 0 0;
   border-radius: inherit;
-  background: var(--cs-accent);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--cs-accent) 70%, var(--cs-text-primary)) 0%, var(--cs-accent) 100%);
+  box-shadow: 0 0 8px -2px var(--cs-accent-soft);
   transition: width var(--cs-dur-instant) linear;
 }
 
@@ -437,7 +449,7 @@
   border-radius: 50%;
   background: var(--cs-bg-raised);
   border: 2px solid var(--cs-accent);
-  box-shadow: var(--cs-shadow-xs);
+  box-shadow: var(--cs-shadow-xs), 0 0 8px -2px var(--cs-accent);
   pointer-events: none;
   transition:
     transform var(--cs-dur-fast) var(--cs-ease-spring),
@@ -445,12 +457,13 @@
 }
 
 .cs-slider:hover .cs-slider__thumb {
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.12);
+  box-shadow: var(--cs-shadow-sm), 0 0 12px -2px var(--cs-accent);
 }
 
 .cs-slider[data-dragging] .cs-slider__thumb {
-  transform: translateY(-50%) scale(1.16);
-  box-shadow: 0 0 0 4px var(--cs-accent-soft);
+  transform: translateY(-50%) scale(1.18);
+  box-shadow: 0 0 0 4px var(--cs-accent-soft), 0 0 14px -1px var(--cs-accent);
 }
 
 .cs-slider__bubble {
@@ -498,6 +511,7 @@
 
 .cs-slider__tick[data-on] {
   background: var(--cs-accent);
+  box-shadow: 0 0 4px var(--cs-accent-soft);
 }
 
 .cs-slider__value {
@@ -521,6 +535,7 @@
   background: var(--cs-bg-inset);
   border: 1px solid var(--cs-border-subtle);
   border-radius: var(--cs-radius-control);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 /* Sliding selection. Geometry is measured in JS; CSS only moves it. */
@@ -542,7 +557,7 @@
 .cs-segmented--accent .cs-segmented__thumb {
   background: var(--cs-accent-soft);
   border-color: var(--cs-accent-line);
-  box-shadow: none;
+  box-shadow: 0 0 12px -3px var(--cs-accent-soft);
 }
 
 .cs-segmented__item {

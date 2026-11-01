@@ -15,85 +15,85 @@ only; primitives exist for charts and illustrations.
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-bg-base` | `#08090A` | `#F3F4F5` |
-| `--cs-bg-canvas` | `#0B0C0E` | `#FAFAFB` |
-| `--cs-bg-surface` | `#111214` | `#FFFFFF` |
-| `--cs-bg-raised` | `#18191C` | `#FFFFFF` |
-| `--cs-bg-inset` | `#050506` | `#EEF0F2` |
-| `--cs-bg-hover` | `rgba(255,255,255,0.05)` | `rgba(12,13,15,0.045)` |
-| `--cs-bg-active` | `rgba(255,255,255,0.085)` | `rgba(12,13,15,0.08)` |
-| `--cs-bg-selected` | `rgba(255,255,255,0.10)` | `rgba(12,13,15,0.07)` |
+| `--cs-bg-base` | `#090A0E` | `#F4F5F7` |
+| `--cs-bg-canvas` | `#0D0F14` | `#F9FAFB` |
+| `--cs-bg-surface` | `#13161F` | `#FFFFFF` |
+| `--cs-bg-raised` | `#1A1E29` | `#FFFFFF` |
+| `--cs-bg-inset` | `#07080B` | `#EEF0F3` |
+| `--cs-bg-hover` | `rgba(255,255,255,0.06)` | `rgba(12,13,15,0.045)` |
+| `--cs-bg-active` | `rgba(255,255,255,0.095)` | `rgba(12,13,15,0.08)` |
+| `--cs-bg-selected` | `rgba(78,184,222,0.13)` | `rgba(31,108,135,0.08)` |
 
 ### Borders
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-border-subtle` | `rgba(255,255,255,0.07)` | `rgba(12,13,15,0.08)` |
-| `--cs-border` | `rgba(255,255,255,0.13)` | `rgba(12,13,15,0.14)` |
-| `--cs-border-strong` | `rgba(255,255,255,0.24)` | `rgba(12,13,15,0.26)` |
+| `--cs-border-subtle` | `rgba(255,255,255,0.08)` | `rgba(12,13,15,0.08)` |
+| `--cs-border` | `rgba(255,255,255,0.14)` | `rgba(12,13,15,0.14)` |
+| `--cs-border-strong` | `rgba(255,255,255,0.26)` | `rgba(12,13,15,0.26)` |
 
 ### Text
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-text-primary` | `#F5F6F7` | `#0D0E10` |
-| `--cs-text-secondary` | `#A2A6AC` | `#54585E` |
-| `--cs-text-tertiary` | `#7A7F86` | `#6A6F76` |
-| `--cs-text-disabled` | `#4E5359` | `#A5A9AF` |
-| `--cs-text-inverse` | `#0B0C0E` | `#FFFFFF` |
+| `--cs-text-primary` | `#F8F9FA` | `#0D0E11` |
+| `--cs-text-secondary` | `#A6ABB3` | `#545960` |
+| `--cs-text-tertiary` | `#7E848D` | `#6D727B` |
+| `--cs-text-disabled` | `#4B5057` | `#A4A8AE` |
+| `--cs-text-inverse` | `#090A0E` | `#FFFFFF` |
 
 ### Solid (primary action)
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-solid` | `#F5F6F7` | `#131417` |
-| `--cs-solid-hover` | `#E4E6E8` | `#000000` |
-| `--cs-solid-active` | `#D3D6DA` | `#2C2E33` |
-| `--cs-solid-contrast` | `#0B0C0E` | `#FFFFFF` |
+| `--cs-solid` | `#F8F9FA` | `#111317` |
+| `--cs-solid-hover` | `#FFFFFF` | `#000000` |
+| `--cs-solid-active` | `#D6D9DD` | `#26282E` |
+| `--cs-solid-contrast` | `#090A0E` | `#FFFFFF` |
 
 ### Accent (interaction signal)
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-accent` | `#7BB1C6` | `#2A6E85` |
-| `--cs-accent-hover` | `#97C2D3` | `#1F5B6F` |
-| `--cs-accent-active` | `#5B9EB9` | `#164755` |
-| `--cs-accent-contrast` | `#08151A` | `#FFFFFF` |
-| `--cs-accent-soft` | `rgba(123,177,198,0.13)` | `rgba(42,110,133,0.09)` |
-| `--cs-accent-line` | `rgba(123,177,198,0.36)` | `rgba(42,110,133,0.34)` |
+| `--cs-accent` | `#4EB8DE` | `#1F6C87` |
+| `--cs-accent-hover` | `#6EC7EA` | `#17576E` |
+| `--cs-accent-active` | `#3EA0C4` | `#124355` |
+| `--cs-accent-contrast` | `#041217` | `#FFFFFF` |
+| `--cs-accent-soft` | `rgba(78,184,222,0.14)` | `rgba(31,108,135,0.09)` |
+| `--cs-accent-line` | `rgba(78,184,222,0.38)` | `rgba(31,108,135,0.34)` |
 
 ### State
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-success` | `#3ED598` | `#12855C` |
-| `--cs-success-soft` | `rgba(62,213,152,0.12)` | `rgba(18,133,92,0.10)` |
-| `--cs-warning` | `#F2B33D` | `#A6690A` |
-| `--cs-warning-soft` | `rgba(242,179,61,0.12)` | `rgba(166,105,10,0.10)` |
-| `--cs-danger` | `#FF6B7D` | `#C42F45` |
-| `--cs-danger-soft` | `rgba(255,107,125,0.12)` | `rgba(196,47,69,0.09)` |
+| `--cs-success` | `#34D399` | `#0E8A5E` |
+| `--cs-success-soft` | `rgba(52,211,153,0.14)` | `rgba(14,138,94,0.10)` |
+| `--cs-warning` | `#FBBF24` | `#B46A08` |
+| `--cs-warning-soft` | `rgba(251,191,36,0.14)` | `rgba(180,106,8,0.10)` |
+| `--cs-danger` | `#F87171` | `#C53046` |
+| `--cs-danger-soft` | `rgba(248,113,113,0.14)` | `rgba(197,48,70,0.10)` |
 | `--cs-danger-contrast` | `#1B0409` | `#FFFFFF` |
-| `--cs-info` | `#8AA4FF` | `#3A52C4` |
-| `--cs-info-soft` | `rgba(138,164,255,0.12)` | `rgba(58,82,196,0.09)` |
+| `--cs-info` | `#60A5FA` | `#2563EB` |
+| `--cs-info-soft` | `rgba(96,165,250,0.14)` | `rgba(37,99,235,0.10)` |
 
 ### Texture & overlay
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-grid-line` | `rgba(255,255,255,0.045)` | `rgba(12,13,15,0.045)` |
+| `--cs-grid-line` | `rgba(255,255,255,0.04)` | `rgba(12,13,15,0.04)` |
 | `--cs-grid-line-strong` | `rgba(255,255,255,0.08)` | `rgba(12,13,15,0.08)` |
-| `--cs-overlay` | `rgba(0,0,0,0.72)` | `rgba(12,13,15,0.40)` |
+| `--cs-overlay` | `rgba(4,5,7,0.76)` | `rgba(12,13,15,0.42)` |
 | `--cs-shadow-color` | `0,0,0` | `12,13,15` |
 
 ## Elevation (themed)
 
 | Token | Dark | Light |
 | --- | --- | --- |
-| `--cs-shadow-xs` | `0 1px 2px rgba(0,0,0,0.5)` | `0 1px 2px rgba(12,13,15,0.07)` |
-| `--cs-shadow-sm` | `0 2px 8px -2px rgba(0,0,0,0.6)` | `0 2px 6px -1px rgba(12,13,15,0.10)` |
-| `--cs-shadow-md` | `0 10px 28px -8px rgba(0,0,0,0.66)` | `0 10px 28px -8px rgba(12,13,15,0.16)` |
-| `--cs-shadow-lg` | `0 28px 64px -16px rgba(0,0,0,0.78)` | `0 28px 64px -16px rgba(12,13,15,0.22)` |
-| `--cs-shadow-inset` | `inset 0 1px 0 rgba(255,255,255,0.05)` | `inset 0 1px 0 rgba(255,255,255,0.9)` |
+| `--cs-shadow-xs` | `0 1px 2px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)` | `0 1px 2px rgba(12,13,15,0.05), inset 0 1px 0 rgba(255,255,255,0.9)` |
+| `--cs-shadow-sm` | `0 2px 8px -2px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.09)` | `0 2px 6px -1px rgba(12,13,15,0.08), 0 1px 2px rgba(12,13,15,0.04), inset 0 1px 0 rgba(255,255,255,0.9)` |
+| `--cs-shadow-md` | `0 12px 28px -6px rgba(0,0,0,0.65), 0 4px 12px -2px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)` | `0 10px 28px -6px rgba(12,13,15,0.14), 0 2px 8px -2px rgba(12,13,15,0.06), inset 0 1px 0 rgba(255,255,255,0.9)` |
+| `--cs-shadow-lg` | `0 28px 64px -14px rgba(0,0,0,0.8), 0 8px 24px -4px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12)` | `0 24px 60px -12px rgba(12,13,15,0.2), 0 6px 18px -3px rgba(12,13,15,0.08), inset 0 1px 0 rgba(255,255,255,0.9)` |
+| `--cs-shadow-inset` | `inset 0 1px 0 rgba(255,255,255,0.08)` | `inset 0 1px 0 rgba(255,255,255,0.95)` |
 
 ## Static
 
@@ -180,14 +180,14 @@ only; primitives exist for charts and illustrations.
 
 | Token | Value |
 | --- | --- |
-| `--cs-radius-xs` | `2px` |
-| `--cs-radius-sm` | `3px` |
-| `--cs-radius-md` | `5px` |
-| `--cs-radius-lg` | `8px` |
-| `--cs-radius-xl` | `12px` |
-| `--cs-radius-2xl` | `16px` |
+| `--cs-radius-xs` | `3px` |
+| `--cs-radius-sm` | `4px` |
+| `--cs-radius-md` | `6px` |
+| `--cs-radius-lg` | `10px` |
+| `--cs-radius-xl` | `14px` |
+| `--cs-radius-2xl` | `18px` |
 | `--cs-radius-pill` | `999px` |
-| `--cs-radius-control` | `5px` |
+| `--cs-radius-control` | `6px` |
 
 ### Motion
 
@@ -226,27 +226,27 @@ only; primitives exist for charts and illustrations.
 | `--cs-atmos-50` | `#EDF5F8` |
 | `--cs-atmos-100` | `#D6E9F0` |
 | `--cs-atmos-200` | `#B4D6E2` |
-| `--cs-atmos-300` | `#97C2D3` |
-| `--cs-atmos-400` | `#7BB1C6` |
-| `--cs-atmos-500` | `#5B9EB9` |
-| `--cs-atmos-600` | `#47849A` |
-| `--cs-atmos-700` | `#376A7D` |
-| `--cs-atmos-800` | `#2B5463` |
-| `--cs-atmos-900` | `#1F3D48` |
-| `--cs-atmos-950` | `#122630` |
-| `--cs-slate-50` | `#F5F6F7` |
-| `--cs-slate-100` | `#E7E9EB` |
-| `--cs-slate-200` | `#D2D5D9` |
-| `--cs-slate-300` | `#B0B4BA` |
-| `--cs-slate-400` | `#888D94` |
-| `--cs-slate-500` | `#676C73` |
-| `--cs-slate-600` | `#4E5359` |
-| `--cs-slate-700` | `#3B3F45` |
-| `--cs-slate-800` | `#282B30` |
-| `--cs-slate-900` | `#17191D` |
-| `--cs-slate-950` | `#0B0C0E` |
-| `--cs-signal-mint` | `#3ED598` |
-| `--cs-signal-amber` | `#F2B33D` |
-| `--cs-signal-rose` | `#FF6B7D` |
-| `--cs-signal-iris` | `#8AA4FF` |
-| `--cs-signal-teal` | `#35D6C0` |
+| `--cs-atmos-300` | `#85C4DB` |
+| `--cs-atmos-400` | `#4EB8DE` |
+| `--cs-atmos-500` | `#349FCA` |
+| `--cs-atmos-600` | `#2483AB` |
+| `--cs-atmos-700` | `#1C6B8D` |
+| `--cs-atmos-800` | `#165570` |
+| `--cs-atmos-900` | `#103E52` |
+| `--cs-atmos-950` | `#0A2836` |
+| `--cs-slate-50` | `#F8F9FA` |
+| `--cs-slate-100` | `#ECEEF0` |
+| `--cs-slate-200` | `#D6D9DE` |
+| `--cs-slate-300` | `#B3B8C1` |
+| `--cs-slate-400` | `#8D939F` |
+| `--cs-slate-500` | `#6A717E` |
+| `--cs-slate-600` | `#4E545F` |
+| `--cs-slate-700` | `#393E48` |
+| `--cs-slate-800` | `#242831` |
+| `--cs-slate-900` | `#151820` |
+| `--cs-slate-950` | `#0D0F14` |
+| `--cs-signal-mint` | `#34D399` |
+| `--cs-signal-amber` | `#FBBF24` |
+| `--cs-signal-rose` | `#F87171` |
+| `--cs-signal-iris` | `#60A5FA` |
+| `--cs-signal-teal` | `#2DD4BF` |

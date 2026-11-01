@@ -10,6 +10,10 @@
 export type { IconName } from './lib/icons';
 export type { PopoverAlign, PopoverSide } from './lib/usePopover';
 
+/* Re-exporting does not bring a name into this module's own scope, and
+   `TabItem.icon` is typed with it below. */
+import type { IconName } from './lib/icons';
+
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'subtle' | 'danger' | 'danger-ghost';
 
 export type Tone = 'neutral' | 'accent' | 'success' | 'warning' | 'danger' | 'info';
@@ -51,6 +55,7 @@ export interface TabItem {
   id: string;
   label: string;
   count?: number;
+  icon?: IconName;
 }
 
 export interface BreadcrumbItem {

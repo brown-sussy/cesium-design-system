@@ -17,16 +17,19 @@ const props = withDefaults(
   { width: 480, hideClose: false, closeOnOverlay: true },
 );
 
-const emit = defineEmits<{ close: [] }>();
+const emit = defineEmits<{ close: []; 'update:open': [boolean] }>();
 
 const panelRef = ref<HTMLDivElement | null>(null);
 
-function onKey(e: KeyboardEvent) {
-  if (e.key === 'Escape') emit('close');
+function handleClose() {
+  emit('close');
+  emit('update:open', false);
 }
 
-// Vue's watch has no return-value cleanup (that is React); the teardown has to
-// be held and called by hand, or the scroll lock outlives the dialog.
+function onKey(e: KeyboardEvent) {
+  if (e.key === 'Escape') handleClose();
+}
+
 let teardown: (() => void) | undefined;
 
 watch(
@@ -56,7 +59,7 @@ onBeforeUnmount(() => teardown?.());
   <Teleport v-if="open" to="body">
     <div
       class="cs-overlay"
-      @mousedown="closeOnOverlay && $event.target === $event.currentTarget && emit('close')"
+      @mousedown="closeOnOverlay && $event.target === $event.currentTarget && handleClose()"
     >
       <div
         ref="panelRef"
@@ -71,7 +74,7 @@ onBeforeUnmount(() => teardown?.());
         <div v-if="title || !hideClose" class="cs-modal__header">
           <h2 v-if="title" id="cs-modal-title" class="cs-modal__title">{{ title }}</h2>
           <p v-if="description" class="cs-modal__desc">{{ description }}</p>
-          <button v-if="!hideClose" type="button" class="cs-modal__close" aria-label="Close" @click="emit('close')">
+          <button v-if="!hideClose" type="button" class="cs-modal__close" aria-label="Close" @click="handleClose">
             <Icon name="close" :size="14" />
           </button>
         </div>

@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Sidebar } from '../../vue';
 import type { SidebarItem, SidebarSection } from '../../vue/types';
 import { componentCount, navByCategory } from '../lib/nav.generated';
+import { foundations, patterns, resources, templates } from '../lib/site';
 
 const props = defineProps<{ route: string; open: boolean }>();
 const emit = defineEmits<{ navigate: [] }>();
@@ -30,6 +31,11 @@ const sections = computed<SidebarSection[]>(() => {
       items: [link('/', 'Introduction')],
     },
     {
+      id: 'foundations',
+      title: 'Foundations',
+      items: foundations.map((item) => link(item.to, item.label)),
+    },
+    {
       id: 'components',
       title: 'Components',
       count: String(componentCount).padStart(2, '0'),
@@ -39,6 +45,23 @@ const sections = computed<SidebarSection[]>(() => {
         title: group.category,
         items: group.docs.map((doc) => link(`/components/${doc.slug}`, doc.name)),
       })),
+    },
+    {
+      id: 'patterns',
+      title: 'Patterns',
+      items: patterns.map((item) => link(item.to, item.label)),
+    },
+    {
+      id: 'templates',
+      title: 'Templates',
+      count: String(templates.length).padStart(2, '0'),
+      href: '#/templates',
+      items: templates.map((item) => link(item.to, item.label)),
+    },
+    {
+      id: 'resources',
+      title: 'Resources',
+      items: resources.map((item) => link(item.to, item.label)),
     },
   ];
 });

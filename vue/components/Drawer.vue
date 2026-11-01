@@ -14,10 +14,15 @@ const props = withDefaults(
   { width: 420 },
 );
 
-const emit = defineEmits<{ close: [] }>();
+const emit = defineEmits<{ close: []; 'update:open': [boolean] }>();
+
+function handleClose() {
+  emit('close');
+  emit('update:open', false);
+}
 
 function onKey(e: KeyboardEvent) {
-  if (e.key === 'Escape') emit('close');
+  if (e.key === 'Escape') handleClose();
 }
 
 let teardown: (() => void) | undefined;
@@ -39,7 +44,7 @@ onBeforeUnmount(() => teardown?.());
 
 <template>
   <Teleport v-if="open" to="body">
-    <div class="cs-overlay cs-overlay--drawer" @mousedown="$event.target === $event.currentTarget && emit('close')">
+    <div class="cs-overlay cs-overlay--drawer" @mousedown="$event.target === $event.currentTarget && handleClose()">
       <aside
         :class="cx('cs-drawer')"
         role="dialog"
@@ -54,7 +59,7 @@ onBeforeUnmount(() => teardown?.());
             class="cs-modal__close"
             aria-label="Close"
             style="position: static"
-            @click="emit('close')"
+            @click="handleClose"
           >
             <Icon name="close" :size="14" />
           </button>

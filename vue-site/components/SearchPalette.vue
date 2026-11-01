@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
-import { navEntries } from '../lib/nav.generated';
+import { paletteItems, type PaletteItem } from '../lib/site';
 import { navigate } from '../lib/router';
 
 const emit = defineEmits<{ close: [] }>();
@@ -12,12 +12,12 @@ const listRef = ref<HTMLElement | null>(null);
 
 const results = computed(() => {
   const needle = query.value.trim().toLowerCase();
-  if (!needle) return navEntries;
-  return navEntries.filter(
+  if (!needle) return paletteItems;
+  return paletteItems.filter(
     (entry) =>
-      entry.name.toLowerCase().includes(needle) ||
-      entry.category.toLowerCase().includes(needle) ||
-      entry.summary.toLowerCase().includes(needle),
+      entry.label.toLowerCase().includes(needle) ||
+      entry.group.toLowerCase().includes(needle) ||
+      (entry.desc && entry.desc.toLowerCase().includes(needle)),
   );
 });
 
@@ -30,7 +30,7 @@ onMounted(() => inputRef.value?.focus());
 function choose(index: number) {
   const hit = results.value[index];
   if (!hit) return;
-  navigate(`/components/${hit.slug}`);
+  navigate(hit.to);
   emit('close');
 }
 
@@ -59,30 +59,30 @@ function scrollActiveIntoView() {
 
 <template>
   <div class="site-palette" role="presentation" @click.self="emit('close')">
-    <div class="site-palette__panel" role="dialog" aria-modal="true" aria-label="Search components">
+    <div class="site-palette__panel" role="dialog" aria-modal="true" aria-label="Search documentation">
       <input
         ref="inputRef"
         v-model="query"
         class="site-palette__input"
         type="text"
-        placeholder="Search components…"
-        aria-label="Search components"
+        placeholder="Search documentation…"
+        aria-label="Search documentation"
         @keydown="onKeydown"
       />
       <div ref="listRef" class="site-palette__list">
         <button
           v-for="(entry, index) in results"
-          :key="entry.slug"
+          :key="entry.to"
           type="button"
           class="site-palette__item"
           :data-active="index === active"
           @click="choose(index)"
           @pointerenter="active = index"
         >
-          {{ entry.name }}
-          <span class="site-palette__cat">{{ entry.category }}</span>
+          {{ entry.label }}
+          <span class="site-palette__cat">{{ entry.group }}</span>
         </button>
-        <p v-if="results.length === 0" class="site-palette__empty">No component matches “{{ query }}”.</p>
+        <p v-if="results.length === 0" class="site-palette__empty">No result matches “{{ query }}”.</p>
       </div>
     </div>
   </div>

@@ -150,6 +150,19 @@ for (const file of readdirSync(vueDir).filter((f) => f.endsWith('.vue'))) {
   const emitsAt = text.indexOf('defineEmits<');
   const emits = emitsAt === -1 ? [] : members(text, emitsAt + 'defineEmits<'.length);
 
+  /*
+   * `defineModel()` declares the prop *and* the emit, but neither appears in
+   * `defineProps` / `defineEmits` — so a component rewritten to the Vue 3.4
+   * idiom would look like it had dropped its binding. Add both halves here:
+   * `defineModel()` is `modelValue` + `update:modelValue`, `defineModel('open')`
+   * is `open` + `update:open`.
+   */
+  for (const match of text.matchAll(/defineModel(?:<[^>]*>)?\(\s*(?:['"]([\w-]+)['"])?/g)) {
+    const model = match[1] ?? 'modelValue';
+    props.push({ name: model, type: '' });
+    emits.push({ name: `update:${model}`, type: '' });
+  }
+
   const slots = [...text.matchAll(/<slot(?:\s+name="([^"]+)")?/g)].map((m) => m[1] ?? 'default');
 
   vue.set(name, {
@@ -178,6 +191,14 @@ const SIGNED_OFF = {
   'Divider.label': 'rendered through the default slot',
   'Alert.icon': '`#icon` slot, or `hide-icon` for `icon={false}`',
   'Tooltip.content': '`#content` slot',
+  // React takes a node and renders it inline. In Vue the node *is* the slot, so
+  // the prop has no counterpart to carry: `<template #icon-left>`.
+  'Button.iconLeft': '`#icon-left` slot',
+  'Button.iconRight': '`#icon-right` slot',
+  // `TabItem` lives in a data array, where a slot cannot reach. The Vue prop is
+  // the icon's *name* and the component renders it, so the capability survives
+  // while the type does not.
+  'Tabs.icon': '`TabItem.icon` is an `IconName`, rendered by the component',
 };
 
 /**

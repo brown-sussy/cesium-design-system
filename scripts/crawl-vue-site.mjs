@@ -3,12 +3,17 @@
  *
  * Visits every route the site publishes, in both themes, and fails on a console
  * error, an uncaught exception, a component page that never rendered its demo,
- * or horizontal overflow at 390px. The React site has the same check in spirit
- * (`scripts/shots.mjs`); this one is about the Vue build being *correct*, not
- * about screenshots.
+ * a page that rendered nothing, or horizontal overflow at 390px. The React site
+ * has the same check in spirit (`scripts/shots.mjs`); this one is about the Vue
+ * build being *correct*, not about screenshots.
+ *
+ * The route list is assembled from the site's own data — the generated
+ * catalogue for components, `lib/site.ts` for everything else — because a
+ * hand-written list is how new pages go unaudited.
  *
  *   node scripts/crawl-vue-site.mjs http://localhost:5179
  */
+import { build } from 'esbuild';
 import { chromium } from 'playwright';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +24,22 @@ const base = (process.argv[2] ?? 'http://localhost:5179').replace(/\/$/, '');
 
 const catalog = readFileSync(resolve(root, 'vue-site/lib/nav.generated.ts'), 'utf8');
 const slugs = [...catalog.matchAll(/"slug": "([^"]+)"/g)].map((m) => m[1]);
+
+/** `lib/site.ts` is TypeScript with a generated import; bundle it to read it. */
+async function loadSite() {
+  const bundle = await build({
+    entryPoints: [resolve(root, 'vue-site/lib/site.ts')],
+    bundle: true,
+    write: false,
+    format: 'esm',
+    platform: 'node',
+    logLevel: 'silent',
+  });
+  return import(
+    `data:text/javascript;base64,${Buffer.from(bundle.outputFiles[0].text).toString('base64')}`
+  );
+}
+const site = await loadSite();
 
 async function launch() {
   try {
@@ -113,11 +134,32 @@ async function check(route, theme, viewport) {
     return stage ? stage.children.length > 0 && !stage.querySelector('.site-empty') : false;
   });
 
+  /*
+   * A route that renders no text is a broken route, not a quiet one. Only for
+   * the non-component pages: a component page's own copy varies, and its
+   * demo-mount check above is the stronger assertion.
+   */
+  if (!isComponent) {
+    const text = await page.evaluate(() => document.body.innerText.trim().length);
+    if (text < 200) problems.push(`${route} [${theme} ${viewport.width}px] rendered ${text} chars`);
+  }
+
   await page.close();
   return mounted;
 }
 
-const routes = ['/', '/components', ...slugs.map((s) => `/components/${s}`)];
+const routes = [
+  '/',
+  '/components',
+  '/templates',
+  ...slugs.map((s) => `/components/${s}`),
+  ...site.foundations.map((f) => f.to),
+  ...site.patterns.map((p) => p.to),
+  ...site.templates.map((t) => t.to),
+  ...site.resources.map((r) => r.to),
+  // The chrome-free template view is a route of its own; it must also fit.
+  '/templates/homepage?view=full',
+];
 const desktop = { width: 1440, height: 900 };
 let demosMounted = 0;
 

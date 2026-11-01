@@ -1340,17 +1340,6 @@
     height: 380px;
   }
 
-  .home-head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .home-head__note {
-    flex: none;
-    max-width: 62ch;
-  }
-
   .swatch-band {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -1400,13 +1389,6 @@
   .hero__specs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     row-gap: 14px;
-  }
-  .split {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 40px;
-  }
-  .index-list {
-    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -1525,6 +1507,40 @@
   grid-template-columns: 1fr 1fr;
   gap: 56px;
   align-items: start;
+}
+
+/*
+ * These overrides have to sit *after* the rules they override. They used to
+ * live in the responsive block near the top of this file, which put them
+ * before `.home-head`, `.split` and `.index-list` were even defined — so at
+ * equal specificity the base rule won at every width. `.index-list` stayed
+ * two columns at 390px and a row whose name and category did not fit pushed
+ * the home page 15px wide.
+ *
+ * Keep any new override for a selector defined in this section down here.
+ */
+@media (max-width: 960px) {
+  .home-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .home-head__note {
+    flex: none;
+    max-width: 62ch;
+  }
+}
+
+@media (max-width: 620px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .index-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .principle-list {
@@ -2209,68 +2225,6 @@
   .globe-ping {
     animation: none;
     opacity: 0.35;
-  }
-}
-
-/* --- motion primitives demo ------------------------------------------ */
-
-.motion-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-.motion-sample {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding: 14px;
-  border: 1px solid var(--cs-border-subtle);
-  border-radius: 8px;
-  background: var(--cs-bg-surface);
-  box-shadow: var(--cs-shadow-inset);
-}
-
-.motion-sample__stage {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  height: 26px;
-  margin-bottom: 2px;
-}
-
-.motion-sample__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--cs-accent);
-  flex: none;
-}
-
-.motion-sample__bar {
-  flex: 1 1 auto;
-  height: 6px;
-  border-radius: 3px;
-  background: var(--cs-bg-inset);
-  border: 1px solid var(--cs-border-subtle);
-}
-
-.motion-sample__name {
-  font-family: var(--cs-font-mono);
-  font-size: 10px;
-  letter-spacing: 0.02em;
-  color: var(--cs-text-primary);
-}
-
-.motion-sample__note {
-  font-size: 11.5px;
-  line-height: 1.45;
-  color: var(--cs-text-tertiary);
-}
-
-@media (max-width: 760px) {
-  .motion-grid {
-    grid-template-columns: 1fr;
   }
 }
 

@@ -35,7 +35,7 @@
 }
 
 .cs-btn:active:not(:disabled):not([aria-disabled='true']) {
-  transform: translateY(0.5px);
+  transform: translateY(0.5px) scale(0.985);
 }
 
 .cs-btn:focus-visible {
@@ -69,33 +69,43 @@
  * in light. A page full of accent-filled buttons is a page with no signal left
  * for state — the accent stays for links, selection and focus. */
 .cs-btn--primary {
-  background: var(--cs-solid);
+  background: linear-gradient(180deg, var(--cs-solid) 0%, color-mix(in srgb, var(--cs-solid) 92%, var(--cs-bg-base)) 100%);
   color: var(--cs-solid-contrast);
-  /* A 1px inner ring in the contrast colour: a dark seam inside the white key,
-     a light seam inside the black one. Same rule, right on both themes. */
   box-shadow: var(--cs-shadow-xs),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
     inset 0 0 0 1px color-mix(in srgb, var(--cs-solid-contrast) 8%, transparent);
 }
 
 .cs-btn--primary:hover {
   background: var(--cs-solid-hover);
+  box-shadow: var(--cs-shadow-sm),
+    0 0 16px -4px var(--cs-solid),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
 .cs-btn--primary:active:not(:disabled) {
   background: var(--cs-solid-active);
+  transform: scale(0.985) translateY(0.5px);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cs-solid-contrast) 12%, transparent);
 }
 
 .cs-btn--secondary {
-  background: var(--cs-bg-surface);
+  background: color-mix(in srgb, var(--cs-bg-surface) 90%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-color: var(--cs-border);
   color: var(--cs-text-primary);
-  box-shadow: var(--cs-shadow-xs);
+  box-shadow: var(--cs-shadow-xs), inset 0 1px 0 rgba(255, 255, 255, 0.07);
 }
 
 .cs-btn--secondary:hover {
   background: var(--cs-bg-raised);
   border-color: var(--cs-border-strong);
+  box-shadow: var(--cs-shadow-sm), 0 0 14px -4px var(--cs-accent-soft);
+}
+
+.cs-btn--secondary:active:not(:disabled) {
+  transform: scale(0.985) translateY(0.5px);
 }
 
 .cs-btn--ghost {
@@ -108,36 +118,52 @@
   color: var(--cs-text-primary);
 }
 
+.cs-btn--ghost:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
 .cs-btn--subtle {
   background: var(--cs-accent-soft);
   border-color: var(--cs-accent-line);
   color: var(--cs-accent);
+  box-shadow: 0 0 12px -4px var(--cs-accent-soft);
 }
 
 .cs-btn--subtle:hover {
-  background: color-mix(in srgb, var(--cs-accent) 18%, transparent);
+  background: color-mix(in srgb, var(--cs-accent) 22%, transparent);
   border-color: var(--cs-accent);
+  box-shadow: 0 0 16px -2px var(--cs-accent-soft);
+}
+
+.cs-btn--subtle:active:not(:disabled) {
+  transform: scale(0.985);
 }
 
 .cs-btn--danger {
-  background: var(--cs-danger);
+  background: linear-gradient(180deg, var(--cs-danger) 0%, color-mix(in srgb, var(--cs-danger) 88%, var(--cs-bg-base)) 100%);
   color: var(--cs-danger-contrast);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 2px 8px -2px var(--cs-danger-soft);
 }
 
 .cs-btn--danger:hover {
-  background: color-mix(in srgb, var(--cs-danger) 86%, var(--cs-bg-base));
+  background: color-mix(in srgb, var(--cs-danger) 90%, var(--cs-bg-base));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.32), 0 0 16px -2px var(--cs-danger);
+}
+
+.cs-btn--danger:active:not(:disabled) {
+  transform: scale(0.985);
 }
 
 .cs-btn--danger-ghost {
   background: var(--cs-danger-soft);
-  border-color: color-mix(in srgb, var(--cs-danger) 30%, transparent);
+  border-color: color-mix(in srgb, var(--cs-danger) 32%, transparent);
   color: var(--cs-danger);
 }
 
 .cs-btn--danger-ghost:hover {
-  background: color-mix(in srgb, var(--cs-danger) 18%, transparent);
-  border-color: color-mix(in srgb, var(--cs-danger) 50%, transparent);
+  background: color-mix(in srgb, var(--cs-danger) 22%, transparent);
+  border-color: color-mix(in srgb, var(--cs-danger) 60%, transparent);
+  box-shadow: 0 0 14px -3px var(--cs-danger-soft);
 }
 
 /* --- sizes --------------------------------------------------------- */

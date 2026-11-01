@@ -20,11 +20,15 @@
   width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--cs-bg-inset) 58%, transparent);
+  background: radial-gradient(
+    circle at 50% 50%,
+    color-mix(in srgb, var(--cs-accent-soft) 35%, var(--cs-bg-inset)) 0%,
+    color-mix(in srgb, var(--cs-bg-inset) 75%, transparent) 100%
+  );
   border: 1px solid var(--cs-border);
-  box-shadow: var(--cs-shadow-sm), inset 0 0 24px -12px var(--cs-accent);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--cs-shadow-md), 0 0 22px -6px var(--cs-accent-soft), inset 0 0 22px -8px var(--cs-accent);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
 }
 
 .cs-compass__svg {
@@ -38,6 +42,7 @@
   transform-box: view-box;
   transform-origin: 36px 36px;
   transition: transform var(--cs-dur-slow) var(--cs-ease-out);
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.6));
 }
 
 .cs-compass__ring {
@@ -66,6 +71,7 @@
 
 .cs-compass__needle-n {
   fill: var(--cs-danger);
+  filter: drop-shadow(0 0 3px var(--cs-danger-soft));
 }
 
 .cs-compass__needle-s {
@@ -94,7 +100,8 @@
   padding: 1px 6px;
   background: var(--cs-bg-raised);
   border: 1px solid var(--cs-border-subtle);
-  border-radius: 2px;
+  border-radius: var(--cs-radius-xs);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   font-family: var(--cs-font-mono);
   font-size: 9px;
   line-height: 1.35;
@@ -130,6 +137,7 @@
   border: 1px solid var(--cs-text-tertiary);
   border-top: 0;
   opacity: 0.9;
+  filter: drop-shadow(0 0 1px var(--cs-accent-soft));
 }
 
 .cs-scalebar__track::before,
@@ -166,10 +174,11 @@
   overflow: hidden;
   border: 1px solid var(--cs-border);
   border-radius: var(--cs-radius-md);
+  box-shadow: var(--cs-shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   background-color: var(--cs-bg-base);
   background-image: radial-gradient(
       110% 80% at 50% 110%,
-      color-mix(in srgb, var(--cs-accent) 14%, transparent) 0%,
+      color-mix(in srgb, var(--cs-accent) 18%, transparent) 0%,
       transparent 60%
     ),
     linear-gradient(to right, var(--cs-grid-line) 1px, transparent 1px),
@@ -181,36 +190,37 @@
   position: absolute;
   width: 10px;
   height: 10px;
-  border-color: var(--cs-accent-line);
+  border-color: var(--cs-accent);
   border-style: solid;
   border-width: 0;
-  opacity: 0.8;
+  opacity: 0.9;
+  filter: drop-shadow(0 0 3px var(--cs-accent));
 }
 
 .cs-hud__corner--tl {
   top: 8px;
   left: 8px;
-  border-top-width: 1px;
-  border-left-width: 1px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
 }
 
 .cs-hud__corner--tr {
   top: 8px;
   right: 8px;
-  border-top-width: 1px;
-  border-right-width: 1px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
 }
 
 .cs-hud__corner--bl {
   bottom: 8px;
   left: 8px;
-  border-bottom-width: 1px;
-  border-left-width: 1px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
 }
 
 .cs-hud__corner--br {
   bottom: 8px;
   right: 8px;
-  border-bottom-width: 1px;
-  border-right-width: 1px;
+  border-bottom-width: 1.5px;
+  border-right-width: 1.5px;
 }
