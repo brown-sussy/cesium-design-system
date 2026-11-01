@@ -219,6 +219,57 @@
   color: var(--cs-text-tertiary);
 }
 
+/* Foundations: type families ------------------------------------------ */
+
+.family-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 30px;
+}
+
+.family-name {
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: var(--cs-fw-medium);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--cs-text-primary);
+}
+
+.family-name--display {
+  font-family: var(--cs-font-display);
+}
+
+.family-name--sans {
+  font-family: var(--cs-font-sans);
+  letter-spacing: -0.018em;
+}
+
+.family-name--mono {
+  font-family: var(--cs-font-mono);
+  letter-spacing: -0.03em;
+}
+
+.family-meta {
+  margin-top: 2px;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--cs-text-tertiary);
+}
+
+.family-meta--display {
+  font-family: var(--cs-font-display);
+  font-style: italic;
+}
+
+.family-meta--sans {
+  font-family: var(--cs-font-sans);
+}
+
+.family-meta--mono {
+  font-family: var(--cs-font-mono);
+}
+
 /* Templates ---------------------------------------------------------- */
 
 /* A template is a whole page: it fills whatever frame it is given and draws
