@@ -108,8 +108,9 @@ onBeforeUnmount(() => window.removeEventListener('keydown', onKey));
 </script>
 
 <template>
-  <!-- Full page template view without docs chrome -->
-  <div v-if="isFullTemplate">
+  <!-- Full page template view without docs chrome. `tpl-full` is docs.css's
+       viewport-height wrapper; the template is its only flex child. -->
+  <div v-if="isFullTemplate" class="tpl-full">
     <component :is="page" v-if="page" v-bind="pageProps" />
   </div>
 

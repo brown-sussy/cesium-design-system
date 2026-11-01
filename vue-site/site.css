@@ -218,3 +218,753 @@
   font-size: 13px;
   color: var(--cs-text-tertiary);
 }
+
+/* Templates ---------------------------------------------------------- */
+
+/* A template is a whole page: it fills whatever frame it is given and draws
+ * its own ground, so the same file reads correctly standalone and inside the
+ * docs stage. */
+.tpl {
+  min-height: 100%;
+  font-family: var(--cs-font-sans);
+  color: var(--cs-text-primary);
+}
+
+.tpl--centred {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--cs-bg-base);
+  background-image:
+    radial-gradient(70% 50% at 50% 40%, color-mix(in srgb, var(--cs-accent) 9%, transparent) 0%, transparent 70%),
+    linear-gradient(to right, var(--cs-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cs-grid-line) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+}
+
+.tpl-notfound__reticle {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.tpl-notfound__body {
+  position: relative;
+  display: grid;
+  justify-items: center;
+}
+
+.tpl-notfound__code {
+  letter-spacing: 0.22em;
+}
+
+.tpl-notfound__numeral {
+  font-size: clamp(72px, 12vw, 120px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-top: 18px;
+}
+
+.tpl-notfound__title {
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: clamp(26px, 3.4vw, 36px);
+  line-height: 1.12;
+  letter-spacing: var(--cs-tracking-display);
+  margin-top: 18px;
+}
+
+.tpl-notfound__title em {
+  font-style: italic;
+  color: var(--cs-accent);
+}
+
+.tpl-notfound__lede {
+  color: var(--cs-text-secondary);
+  margin-top: 14px;
+  max-width: 420px;
+  line-height: 22px;
+}
+
+.tpl-notfound__actions {
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tpl-notfound__request {
+  gap: 10px;
+  margin-top: 34px;
+  padding: 7px 12px;
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-pill);
+  background: color-mix(in srgb, var(--cs-bg-surface) 60%, transparent);
+}
+
+.tpl-notfound__path {
+  color: var(--cs-text-secondary);
+}
+
+.tpl-notfound__status {
+  color: var(--cs-danger);
+}
+
+/* The stage a template is shown in on its docs page is `.tpl-frame`, and the
+   full-screen route is `.tpl-full` — both live in docs.css, which this site
+   imports for its chrome. Do not redefine them here: a second copy is how the
+   frame ended up 780px tall with a 778px header. */
+
+/* Sign in ------------------------------------------------------------ */
+
+.tpl-signin {
+  gap: 22px;
+  padding: 56px 24px;
+  background-image:
+    radial-gradient(90% 60% at 50% 0%, color-mix(in srgb, var(--cs-accent) 10%, transparent) 0%, transparent 60%),
+    linear-gradient(to right, var(--cs-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cs-grid-line) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+}
+
+.tpl-signin__card {
+  width: 100%;
+  max-width: 384px;
+  padding: 28px;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-lg);
+  background: var(--cs-bg-surface);
+  box-shadow: var(--cs-shadow-lg);
+  text-align: left;
+}
+
+.tpl-signin__brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 26px;
+  font-size: 15px;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: -0.014em;
+}
+
+.tpl-signin__mark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--cs-accent);
+  border-radius: 50%;
+  color: var(--cs-accent);
+}
+
+.tpl-signin__title {
+  margin: 0;
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: var(--cs-tracking-tight);
+}
+
+.tpl-signin__lede {
+  margin: 8px 0 24px;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-signin__form {
+  display: grid;
+  gap: 16px;
+}
+
+.tpl-signin__label-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.tpl-signin__link {
+  color: var(--cs-accent);
+  text-decoration: none;
+}
+
+.tpl-signin__link--muted {
+  color: var(--cs-text-secondary);
+  text-decoration: underline;
+}
+
+.tpl-signin__rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.tpl-signin__rule-line {
+  flex: 1;
+  height: 1px;
+  background: var(--cs-border-subtle);
+}
+
+.tpl-signin__or {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.tpl-signin__foot {
+  margin: 22px 0 0;
+  text-align: center;
+}
+
+.tpl-signin__compliance {
+  margin: 0;
+  text-align: center;
+}
+
+/* Homepage ----------------------------------------------------------- */
+
+.tpl-wrap {
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.tpl-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.tpl-brand__mark {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--cs-accent);
+  border-radius: 50%;
+  color: var(--cs-accent);
+}
+
+.tpl-brand__name {
+  font-size: 15px;
+  font-weight: var(--cs-fw-medium);
+  letter-spacing: -0.014em;
+}
+
+.tpl-home {
+  display: flex;
+  flex-direction: column;
+  background: var(--cs-bg-base);
+}
+
+.tpl-home__main {
+  flex: 1;
+}
+
+.tpl-home__nav {
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.tpl-home__nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  min-height: 64px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.tpl-home__links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+}
+
+.tpl-home__link {
+  font-size: 13px;
+  color: var(--cs-text-secondary);
+  text-decoration: none;
+}
+
+.tpl-home__link:hover {
+  color: var(--cs-text-primary);
+}
+
+.tpl-home__nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+/* Below ~520px the brand, the links and the two buttons cannot share a line.
+   Left to `flex-wrap` they break in DOM order — brand alone, links alone, then
+   the actions pushed to a third line by their own `margin-left: auto`. Placing
+   them explicitly puts the buttons up beside the brand and gives the links the
+   full second row, which is the shape a phone header actually wants. */
+@media (max-width: 520px) {
+  .tpl-home__nav-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 14px 12px;
+  }
+
+  .tpl-home__nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+    margin-left: 0;
+  }
+
+  .tpl-home__links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 18px;
+  }
+}
+
+.tpl-home__hero {
+  padding-top: 84px;
+  padding-bottom: 76px;
+}
+
+.tpl-home__hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 56px;
+  align-items: center;
+}
+
+.tpl-home__title {
+  margin: 22px 0 0;
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: clamp(40px, 5.4vw, 62px);
+  line-height: 1.02;
+  letter-spacing: var(--cs-tracking-display);
+}
+
+.tpl-home__title em {
+  font-style: italic;
+  color: var(--cs-accent);
+}
+
+.tpl-home__lede {
+  margin: 20px 0 0;
+  max-width: 440px;
+  font-size: 16px;
+  line-height: 26px;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-home__cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.tpl-home__note {
+  margin: 18px 0 0;
+}
+
+/* The scene card — drawn, not screenshotted. */
+.tpl-scene {
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-lg);
+  background: var(--cs-bg-base);
+  overflow: hidden;
+  box-shadow: var(--cs-shadow-lg);
+}
+
+.tpl-scene__stage {
+  position: relative;
+  height: 296px;
+  background-image:
+    radial-gradient(120% 90% at 50% 118%, color-mix(in srgb, var(--cs-accent) 16%, transparent) 0%, transparent 58%),
+    linear-gradient(to right, var(--cs-grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--cs-grid-line) 1px, transparent 1px);
+  background-size: 100% 100%, 28px 28px, 28px 28px;
+}
+
+.tpl-scene__tl,
+.tpl-scene__tr,
+.tpl-scene__bl,
+.tpl-scene__br {
+  position: absolute;
+}
+
+.tpl-scene__tl {
+  top: 12px;
+  left: 14px;
+}
+
+.tpl-scene__tr {
+  top: 12px;
+  right: 14px;
+}
+
+.tpl-scene__bl {
+  bottom: 12px;
+  left: 14px;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-scene__br {
+  bottom: 12px;
+  right: 14px;
+}
+
+.tpl-scene__horizon {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.tpl-scene__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--cs-border-subtle);
+  background: var(--cs-bg-surface);
+}
+
+.tpl-scene__readout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Metrics — the 1px gaps are the dividers, so any column count works. */
+.tpl-home__metrics {
+  border-top: 1px solid var(--cs-border-subtle);
+  border-bottom: 1px solid var(--cs-border-subtle);
+}
+
+.tpl-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1px;
+  background: var(--cs-border-subtle);
+}
+
+.tpl-metrics__cell {
+  padding: 22px 20px;
+  background: var(--cs-bg-base);
+}
+
+.tpl-metrics__value {
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.tpl-metrics__label {
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.tpl-home__features {
+  padding: 76px 28px;
+}
+
+.tpl-home__h2 {
+  margin: 0;
+  max-width: 560px;
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 38px;
+  letter-spacing: var(--cs-tracking-tight);
+}
+
+.tpl-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 36px;
+}
+
+.tpl-feature {
+  padding: 20px;
+  border: 1px solid var(--cs-border-subtle);
+  border-radius: var(--cs-radius-lg);
+  background: var(--cs-bg-surface);
+}
+
+.tpl-feature__icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-md);
+  color: var(--cs-text-secondary);
+}
+
+.tpl-feature__title {
+  margin: 16px 0 6px;
+  font-size: 14px;
+  font-weight: var(--cs-fw-medium);
+}
+
+.tpl-feature__text {
+  margin: 0;
+  line-height: 19px;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-home__closing {
+  padding-bottom: 84px;
+}
+
+.tpl-home__cta-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 28px 30px;
+  border: 1px solid var(--cs-border);
+  border-radius: var(--cs-radius-lg);
+  background: var(--cs-bg-surface);
+}
+
+.tpl-home__cta-title {
+  margin: 0;
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.tpl-home__cta-text {
+  margin: 6px 0 0;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-home__cta-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tpl-home__footer {
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+.tpl-home__footer-inner {
+  padding-top: 40px;
+  padding-bottom: 32px;
+}
+
+.tpl-home__footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 24px;
+}
+
+.tpl-home__blurb {
+  margin: 12px 0 0;
+  max-width: 200px;
+  line-height: 17px;
+}
+
+.tpl-home__footer-head {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.tpl-home__footer-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.tpl-home__footer-link {
+  color: var(--cs-text-secondary);
+  text-decoration: none;
+}
+
+.tpl-home__footer-link:hover {
+  color: var(--cs-text-primary);
+}
+
+.tpl-home__footer-rule {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+/* Settings ----------------------------------------------------------- */
+
+/* `height`, not `min-height`: the sidebar sizes itself from its parent, so the
+   shell needs a definite height for the rail to reach the floor. */
+.tpl-settings {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  background: var(--cs-bg-canvas);
+}
+
+.tpl-settings__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+/* One row, always. The header is a fixed 56px, so letting it wrap does not
+   grow it — it spills the actions over the eyebrow above. The title gives way
+   instead, which is what `min-width: 0` buys. */
+.tpl-settings__bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 56px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--cs-border-subtle);
+  background: var(--cs-bg-base);
+}
+
+.tpl-settings__bar-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.tpl-settings__bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tpl-settings__body {
+  padding: 26px 24px 40px;
+  max-width: 760px;
+}
+
+.tpl-settings__h1 {
+  margin: 0;
+  font-family: var(--cs-font-display);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: var(--cs-tracking-tight);
+}
+
+.tpl-settings__lede {
+  margin: 8px 0 22px;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-settings__panels {
+  display: grid;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.tpl-settings__identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.tpl-settings__identity-copy {
+  flex: 1;
+  min-width: 180px;
+}
+
+.tpl-settings__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.tpl-settings__row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid var(--cs-border-subtle);
+}
+
+.tpl-settings__row-hint {
+  margin-top: 2px;
+}
+
+.tpl-settings__row-control {
+  justify-self: start;
+}
+
+.tpl-settings__danger-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tpl-settings__danger-text {
+  margin: 0 0 14px;
+  color: var(--cs-text-secondary);
+}
+
+.tpl-settings__danger-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tpl-settings__who {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 12px;
+}
+
+.tpl-settings__who-copy {
+  min-width: 0;
+}
+
+.tpl-settings__who-name {
+  display: block;
+}
+
+.tpl-settings__rail-avatar {
+  display: grid;
+  place-items: center;
+  padding: 14px 0;
+}
+
+.tpl-settings__foot {
+  padding: 10px 12px;
+  text-align: center;
+}
+
+/* Template page chrome ----------------------------------------------- */
+
+/* `.tpl-toolbar` and `.tpl-full` come from docs.css — see the note above the
+   sign-in block. Nothing site-specific is needed for the chrome itself. */
