@@ -6,14 +6,14 @@ import Radio from './Radio.vue';
 withDefaults(
   defineProps<{
     name: string;
-    modelValue?: string;
     options: RadioOption[];
     direction?: 'row' | 'column';
   }>(),
   { direction: 'column' },
 );
 
-const emit = defineEmits<{ 'update:modelValue': [string] }>();
+/** The group owns the value; each `Radio` only reports its own. */
+const selected = defineModel<string>();
 </script>
 
 <template>
@@ -29,8 +29,7 @@ const emit = defineEmits<{ 'update:modelValue': [string] }>();
       :value="opt.value"
       :label="opt.label"
       :disabled="opt.disabled"
-      :model-value="modelValue"
-      @update:model-value="emit('update:modelValue', $event)"
+      v-model="selected"
     />
   </div>
 </template>

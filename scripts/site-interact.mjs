@@ -207,6 +207,51 @@ const landed = await slow
 check('a slow chunk shows the skeleton', sawSkeleton && landed, `skeleton=${sawSkeleton} content=${landed}`);
 await slowContext.close();
 
+/* 9 — the bound controls actually bind.
+ *
+ * `v-model` on the Vue side is `defineModel`, and a rewrite of that declaration
+ * can leave a control that renders perfectly and never updates. Mounting is
+ * not proof; the value has to move. */
+const controls = await context.newPage();
+await controls.setViewportSize({ width: 1440, height: 900 });
+
+async function openControl(route, selector) {
+  await controls.goto(`${base}/#/components/${route}`, { waitUntil: 'load' });
+  await controls.waitForSelector(`.preview__stage ${selector}`, { timeout: 10000, state: 'attached' });
+  return controls.locator(`.preview__stage ${selector}`).first();
+}
+
+const box = await openControl('checkbox', '.cs-check__input');
+const boxBefore = await box.isChecked();
+await box.click({ force: true });
+check('checkbox toggles', (await box.isChecked()) !== boxBefore, `${boxBefore} → ${await box.isChecked()}`);
+
+const toggle = await openControl('switch', '.cs-switch__input');
+const toggleBefore = await toggle.isChecked();
+await toggle.click({ force: true });
+check('switch toggles', (await toggle.isChecked()) !== toggleBefore, `${toggleBefore} → ${await toggle.isChecked()}`);
+
+const field = await openControl('textarea', '.cs-textarea');
+await field.fill('');
+await field.type('hello');
+check('textarea takes input', (await field.inputValue()) === 'hello', await field.inputValue());
+
+const tabButtons = controls.locator('.preview__stage .cs-tabs__tab');
+await controls.goto(`${base}/#/components/tabs`, { waitUntil: 'load' });
+await controls.waitForSelector('.preview__stage .cs-tabs__tab', { timeout: 10000, state: 'attached' });
+const tabBefore = await controls
+  .locator('.preview__stage .cs-tabs__tab[data-active="true"]')
+  .first()
+  .innerText();
+await tabButtons.nth(2).click();
+await controls.waitForTimeout(250);
+const tabAfter = await controls
+  .locator('.preview__stage .cs-tabs__tab[data-active="true"]')
+  .first()
+  .innerText();
+check('tabs select on click', tabBefore !== tabAfter, `${tabBefore.split('\n')[0]} → ${tabAfter.split('\n')[0]}`);
+await controls.close();
+
 await browser.close();
 
 for (const r of results) {

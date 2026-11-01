@@ -5,21 +5,18 @@ import { classOf, styleOf, withoutClassStyle } from '../lib/attrs';
 
 defineOptions({ inheritAttrs: false });
 
-const props = withDefaults(
-  defineProps<{
-    /** The group's current value. */
-    modelValue?: string;
-    value: string;
-    name?: string;
-    label?: string;
-    disabled?: boolean;
-  }>(),
-  {},
-);
+const props = defineProps<{
+  /** This radio's own value; the group's value arrives through the model. */
+  value: string;
+  name?: string;
+  label?: string;
+  disabled?: boolean;
+}>();
 
-const emit = defineEmits<{ 'update:modelValue': [string] }>();
+/** The group's current value. */
+const selected = defineModel<string>();
 
-const checked = computed(() => props.modelValue === props.value);
+const checked = computed(() => selected.value === props.value);
 </script>
 
 <template>
@@ -32,7 +29,7 @@ const checked = computed(() => props.modelValue === props.value);
       :checked="checked"
       :disabled="disabled"
       v-bind="withoutClassStyle($attrs)"
-      @change="emit('update:modelValue', value)"
+      @change="selected = value"
     />
     <span class="cs-check__box cs-radio__box" aria-hidden="true" />
     <span v-if="label" class="cs-check__label">{{ label }}</span>

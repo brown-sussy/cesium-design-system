@@ -4,21 +4,16 @@ import { classOf, styleOf, withoutClassStyle } from '../lib/attrs';
 
 defineOptions({ inheritAttrs: false });
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
-    modelValue?: boolean;
     label?: string;
     size?: 'sm' | 'md';
     disabled?: boolean;
   }>(),
-  { size: 'md', modelValue: false },
+  { size: 'md' },
 );
 
-const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
-
-function onChange(e: Event) {
-  emit('update:modelValue', (e.target as HTMLInputElement).checked);
-}
+const on = defineModel<boolean>({ default: false });
 </script>
 
 <template>
@@ -27,10 +22,10 @@ function onChange(e: Event) {
       type="checkbox"
       role="switch"
       class="cs-switch__input"
-      :checked="modelValue"
+      :checked="on"
       :disabled="disabled"
       v-bind="withoutClassStyle($attrs)"
-      @change="onChange"
+      @change="on = ($event.target as HTMLInputElement).checked"
     />
     <span class="cs-switch__track" aria-hidden="true">
       <span class="cs-switch__thumb" />

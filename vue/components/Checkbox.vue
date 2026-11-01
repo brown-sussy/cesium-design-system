@@ -7,15 +7,15 @@ defineOptions({ inheritAttrs: false });
 
 const props = withDefaults(
   defineProps<{
-    modelValue?: boolean;
     label?: string;
     indeterminate?: boolean;
     disabled?: boolean;
   }>(),
-  { modelValue: false, indeterminate: false },
+  { indeterminate: false },
 );
 
-const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
+/** One declaration for the prop and its `update:` emit, with the default. */
+const checked = defineModel<boolean>({ default: false });
 
 const inputRef = ref<HTMLInputElement | null>(null);
 
@@ -29,7 +29,7 @@ onMounted(syncIndeterminate);
 watch(() => props.indeterminate, syncIndeterminate, { flush: 'post' });
 
 function onChange(e: Event) {
-  emit('update:modelValue', (e.target as HTMLInputElement).checked);
+  checked.value = (e.target as HTMLInputElement).checked;
 }
 </script>
 
@@ -39,7 +39,7 @@ function onChange(e: Event) {
       ref="inputRef"
       type="checkbox"
       class="cs-check__input"
-      :checked="modelValue"
+      :checked="checked"
       :disabled="disabled"
       v-bind="withoutClassStyle($attrs)"
       @change="onChange"
