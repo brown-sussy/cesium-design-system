@@ -347,7 +347,12 @@ a.cs-breadcrumb__item:hover {
   display: flex;
   align-items: center;
   gap: 9px;
-  width: 100%;
+  /* The row hugs its label instead of filling the rail: the selected row then
+     reads as a pill around the word, not a band across the whole column.
+     `max-content` plus a `max-width` keeps a long label inside the rail and
+     lets it ellipsize rather than push the row wider than the sidebar. */
+  width: max-content;
+  max-width: 100%;
   height: 30px;
   padding: 0 8px;
   border: 0;
@@ -449,7 +454,10 @@ a.cs-breadcrumb__item:hover {
   padding-inline: 6px;
 }
 
+/* The rail is a column of squares: the label is gone, so hugging would leave a
+   16px pill floating in a 44px rail. Full width restores the square. */
 .cs-sidebar[data-collapsed] .cs-sidebar__item {
+  width: 100%;
   height: 34px;
   justify-content: center;
   padding: 0;

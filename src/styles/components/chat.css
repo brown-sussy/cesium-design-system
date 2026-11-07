@@ -309,6 +309,11 @@
 
 .cs-threads__item {
   display: grid;
+  /* A button shrinks to its content by default, which left the rows ragged —
+     four conversations, four widths, and the active background ending wherever
+     its title happened to stop. A thread list is a column, so every row is the
+     column's width. */
+  width: 100%;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1px 10px;
   padding: 8px 10px 9px;

@@ -100,7 +100,7 @@ npm login                     # once per machine
 npm whoami                    # must print your npm username
 
 npm run typecheck             # never publish a red build
-npm publish --dry-run         # 106 files, ~106 kB — read the list before shipping
+npm publish --dry-run         # prints the file list — read it before shipping
 npm publish                   # prepublishOnly rebuilds dist/ first
 ```
 
